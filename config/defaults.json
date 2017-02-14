@@ -1,5 +1,5 @@
 {
-  "port": 6000,
+  "port": 3100,
   "redis": {
     "host": "localhost",
     "port": 6379
