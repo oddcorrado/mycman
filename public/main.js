@@ -38,6 +38,7 @@ var $messages = $('ul#messages')
 //socket.on('add-card', addCard)
 //socket.on('remove-card', removeCard)
 socket.on('players', updatePlayers)
+socket.on('mp', logMp)
 
 // Test login
 $.get('/login')
@@ -84,7 +85,6 @@ function enableCards (username) {
   $('#checkSubmit').on('submit', function (e) {
     e.preventDefault()
     //socket.emit('game-start')
-    console.log($('#checkName').val(), $('#checkIndex').val())
     socket.emit('card-check', playerName, $('#checkName').val(), $('#checkIndex').val(), (result) => {
       var out = $('#checkName').val() + " " + $('#checkIndex').val()
       if(result) {
@@ -92,9 +92,13 @@ function enableCards (username) {
       } else {
         out += " INTOX"
       }
-      console.log(out)
       $('#checkResult').prepend('<div>'+out+'</div>')
     })
+  })
+  $('#mpSubmit').on('submit', function (e) {
+    e.preventDefault()
+    //socket.emit('game-start')
+    socket.emit('mp', playerName, $('#mpName').val(), $('#mpMessage').val())
   })
   $('#dashboard').show()
   $('#login').hide()
@@ -139,4 +143,12 @@ function updatePlayers (players) {
   playerOptions = '<option value="none">none</option>'
   players.forEach(p => playerOptions+= '<option value="' + p + '">' + p + '</option>' )
   $('#checkName').html(playerOptions)
+  $('#mpName').html(playerOptions)
+}
+
+function logMp (player, message) {
+  $('#mpResult').prepend('<div>'
+  + $('<b>').text(player + ": ").html()
+  + $('<span>').text(message).html()
+  + '</div>')
 }
