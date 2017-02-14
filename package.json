@@ -1,0 +1,35 @@
+{
+  "name": "mycman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.16.0",
+    "express": "^4.14.1",
+    "express-session": "^1.15.0",
+    "jquery": "^3.1.1",
+    "lodash": "^4.17.4",
+    "moment": "^2.17.1",
+    "socket-io": "^1.0.0",
+    "socket.io": "^1.7.2",
+    "socket.io-client": "^1.7.2"
+  },
+  "devDependencies": {
+    "browserify": "^14.0.0",
+    "nodemon": "^1.11.0",
+    "watchify": "^3.9.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "watch": "npm-run-all -p watch-*",
+    "watch-server": "nodemon server.js -i public",
+    "watch-server-cluster": "nodemon server-cluster.js -i public",
+    "watch-test": "mocha --watch",
+    "watch-test-growl": "mocha --watch --growl",
+    "build": "browserify public/main.js > public/build.js",
+    "watch-client": "watchify -v --debug public/main.js -o public/build.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

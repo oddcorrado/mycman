@@ -1,0 +1,2 @@
+#ignore all node modules installed to be installed
+node_modules/
