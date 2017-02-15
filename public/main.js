@@ -140,7 +140,7 @@ function removeCard (card) {
 
 
 function updatePlayers (players) {
-  playerOptions = '<option value="none">none</option>'
+  playerOptions = '' //'<option value="none">'+playerName+'</option>'
   players.forEach(p => playerOptions+= '<option value="' + p + '">' + p + '</option>' )
   $('#checkName').html(playerOptions)
   $('#mpName').html(playerOptions)
