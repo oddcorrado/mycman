@@ -1,6 +1,7 @@
 const $ = require('jquery')
 const moment = require('moment')
 const io = require('socket.io-client')
+const _ = require('lodash')
 
 require('moment/locale/fr')
 moment.locale('fr')
@@ -39,6 +40,10 @@ var $messages = $('ul#messages')
 //socket.on('remove-card', removeCard)
 socket.on('players', updatePlayers)
 socket.on('mp', logMp)
+socket.on('decision-start', decisionStart)
+socket.on('decision-move', decisionMove)
+socket.on('decision-stop', decisionStop)
+socket.on('decision-tick', decisionTick)
 
 // Test login
 $.get('/login')
@@ -81,6 +86,10 @@ function enableCards (username) {
         $('#start').hide()
       }
     )
+  })
+  $('#startDecision').on('submit', function (e) {
+    e.preventDefault()
+    socket.emit('decision-start')
   })
   $('#checkSubmit').on('submit', function (e) {
     e.preventDefault()
@@ -152,3 +161,81 @@ function logMp (player, message) {
   + $('<span>').text(message).html()
   + '</div>')
 }
+
+var users = []
+
+draw()
+
+function draw () {
+  var canvas = document.getElementById("canvas")
+  var ctx = canvas.getContext("2d")
+  ctx.fillStyle = "white"
+  ctx.fillRect (0, 0, 300, 300)
+  ctx.fillStyle = "grey"
+  ctx.fillRect (0, 0, 300, 50)
+
+  ctx.globalAlpha = 0.5
+  for(var i=0; i < users.length; i++) {
+    ctx.fillStyle = users[i].color
+    ctx.fillRect (0, 50 + i * 50, 300, 50)
+  }
+  ctx.globalAlpha = 1
+  users.forEach( u => {
+    ctx.fillStyle = u.color
+    ctx.fillRect (u.x-15, u.y-15, 30, 30)
+  })
+  setTimeout(draw, 50)
+}
+
+function decisionStart () {
+  var el = document.getElementsByTagName("canvas")[0]
+  el.addEventListener("touchmove", touchMove, false)
+  el.addEventListener("mousemove", mouseMove, false)
+  $('#dashboard').hide()
+  $('#decision').show()
+  $('#decision-quit').hide()
+}
+
+function decisionStop () {
+  var el = document.getElementsByTagName("canvas")[0]
+  el.removeEventListener("touchmove", touchMove)
+  el.removeEventListener("touchmove", mouseMove)
+  $('#decision-quit').show()
+}
+
+function decisionQuit () {
+  $('#dashboard').show()
+  $('#decision').hide()
+}
+
+function decisionTick (timeLeft) {
+  $('#decision-tick').html(timeLeft)
+}
+
+function touchMove (evt) {
+  evt.preventDefault()
+  var touches = evt.changedTouches
+
+  if(touches[0]) {
+    socket.emit('decision-move', touches[0].clientX, touches[0].clientY)
+  }
+}
+
+function mouseMove (evt) {
+  evt.preventDefault()
+  socket.emit('decision-move', evt.clientX, evt.clientY)
+
+}
+
+function decisionMove (x, y, color) {
+  var u = _.find(users, {color})
+  if(!u) {
+    u = {x, y, color}
+    users.push(u)
+  } else {
+    u.x = x
+    u.y = y
+  }
+}
+
+draw(150, 150)

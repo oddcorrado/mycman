@@ -1,10 +1,18 @@
 <!doctype html>
-<html>
+<html style="width:320px;">
 <head>
   <meta charset="utf-8">
-  <title>MYCMAN</title>
+  <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>MYCMAN4</title>
 </head>
-<body>
+<body style="width:320px;">
+  <div id="decision" style="display:none">
+    <canvas id="canvas" width="300" height="300"></canvas>
+    <div id="decision-tick">3.0</div>
+    <form id="decision-quit" style="display:none">
+      <input type="submit" value="QUIT">
+    </form>
+  </div>
   <form id="login" style="display:none">
     <input type="text" name="author" placeholder="your name">
     <input type="submit" value="Log In">
@@ -23,6 +31,7 @@
   <form id="logout" style="display:none">
     <input type="submit" value="Log out">
   </form>
+
   <div id="dashboard" style="display:none">
     <form id="checkSubmit">
       <select id="checkName"><option value="none">none</option></select>
@@ -37,10 +46,13 @@
       <div id="checkResult"></div>
     </form>
     <form id="mpSubmit">
-      <input id="mpMessage" type="text" placeholder="mp" maxlength="16"/>
+      <input id="mpMessage" type="text" placeholder="mp" maxlength="20"/>
       <select id="mpName"><option value="none">none</option></select>
       <input type="submit" value="MP">
       <div id="mpResult"></div>
+    </form>
+    <form id="startDecision">
+      <input type="submit" value="DECISION">
     </form>
   </div>
 
