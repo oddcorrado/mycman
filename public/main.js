@@ -189,7 +189,7 @@ function draw () {
   ctx.globalAlpha = 1
   users.forEach( u => {
     ctx.fillStyle = u.color
-    ctx.fillRect (u.x-15, u.y-15, 30, 30)
+    ctx.fillRect (u.x-15, u.y-45, 30, 30)
   })
   setTimeout(draw, 50)
 }
