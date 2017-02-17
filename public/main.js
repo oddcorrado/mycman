@@ -217,7 +217,7 @@ function decisionQuit () {
 }
 
 function decisionTick (timeLeft) {
-  $('#decision-tick').html(timeLeft)
+  $('#decision-tick').html(timeLeft/1000)
 }
 
 function touchMove (evt) {
