@@ -109,6 +109,13 @@ function enableCards (username) {
     //socket.emit('game-start')
     socket.emit('mp', playerName, $('#mpName').val(), $('#mpMessage').val())
   })
+  $('#decision-quit').on('submit', function (e) {
+    e.preventDefault()
+    $('#dashboard').show()
+    $('#decision').hide()
+  })
+
+
   $('#dashboard').show()
   $('#login').hide()
   /*$('#chatbox .username').text(username)
@@ -188,6 +195,7 @@ function draw () {
 }
 
 function decisionStart () {
+  console.log(users)
   var el = document.getElementsByTagName("canvas")[0]
   el.addEventListener("touchmove", touchMove, false)
   el.addEventListener("mousemove", mouseMove, false)
