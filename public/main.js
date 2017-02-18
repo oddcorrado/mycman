@@ -19,6 +19,19 @@ socket.on('bisous', () => {
 
 socket.on('game-start', () => {
   $('#start').hide()
+  socket.emit('game-get-data', ['player', playerName], self => {
+    console.log(self)
+    var selfSecrets = ''
+    self.secrets.forEach(secret => {
+      selfSecrets += '<div>' + secret + '</div>'
+      console.log(secret, selfSecrets)
+    })
+
+    $('#dashboard-self').html(
+      '<div>' + self.team + '</div>'
+      + selfSecrets
+    )
+  })
 })
 
 $('#coucou').on('submit', function (e) {
@@ -80,22 +93,7 @@ function enableCards (username) {
   $('#start').on('submit', function (e) {
     e.preventDefault()
     socket.emit('game-start')
-    socket.emit('game-get-data', ['player', playerName], self => {
-      console.log(self)
-      var selfSecrets = ''
-      self.secrets.forEach(secret => {
-        selfSecrets += '<div>' + secret + '</div>'
-        console.log(secret, selfSecrets)
-      })
 
-      $('#dashboard-self').html(
-        '<div>' + self.team + '</div>'
-        + selfSecrets
-        //+ self.secrets.forEach(secret => $('<div>').text(secret))
-        //+ $('<div>').text(self.team).html()
-//        + self.secrets.forEach(secret => $('<div>').text(secret).html())
-      )
-    })
     /*$.get('/start')
       .then(
       () => {
