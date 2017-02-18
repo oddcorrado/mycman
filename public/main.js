@@ -80,12 +80,28 @@ function enableCards (username) {
   $('#start').on('submit', function (e) {
     e.preventDefault()
     socket.emit('game-start')
-    $.get('/start')
+    socket.emit('game-get-data', ['player', playerName], self => {
+      console.log(self)
+      var selfSecrets = ''
+      self.secrets.forEach(secret => {
+        selfSecrets += '<div>' + secret + '</div>'
+        console.log(secret, selfSecrets)
+      })
+
+      $('#dashboard-self').html(
+        '<div>' + self.team + '</div>'
+        + selfSecrets
+        //+ self.secrets.forEach(secret => $('<div>').text(secret))
+        //+ $('<div>').text(self.team).html()
+//        + self.secrets.forEach(secret => $('<div>').text(secret).html())
+      )
+    })
+    /*$.get('/start')
       .then(
       () => {
         $('#start').hide()
       }
-    )
+    )*/
   })
   $('#startDecision').on('submit', function (e) {
     e.preventDefault()
@@ -94,13 +110,9 @@ function enableCards (username) {
   $('#checkSubmit').on('submit', function (e) {
     e.preventDefault()
     //socket.emit('game-start')
-    socket.emit('card-check', playerName, $('#checkName').val(), $('#checkIndex').val(), (result) => {
-      var out = $('#checkName').val() + " " + $('#checkIndex').val()
-      if(result) {
-        out += " INFO"
-      } else {
-        out += " INTOX"
-      }
+    socket.emit('game-get-data', ['card', $('#checkName').val(), Number($('#checkIndex').val()) - 1], (result) => {
+      var out = $('#checkName').val() + "[" + $('#checkIndex').val() + "]=>"+ result
+      console.log(out)
       $('#checkResult').prepend('<div>'+out+'</div>')
     })
   })
