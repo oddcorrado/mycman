@@ -3,11 +3,9 @@ const moment = require('moment')
 const io = require('socket.io-client')
 const _ = require('lodash')
 
+
 require('moment/locale/fr')
 moment.locale('fr')
-
-
-
 
 var socket = io()
 var playerOptions = []
@@ -17,19 +15,40 @@ socket.on('bisous', () => {
   console.log('bisous')
 })
 
+socket.on('game-reset', () => {
+  $('#self').html('')
+  $('#checkResult').html('')
+  $('#mpResult').html('')
+  $('#start').show()
+  /* $.get('/logout')
+    .then(
+    () => {
+      enableLogin()
+      $('#logout').hide()
+    }
+  )*/
+})
+
 socket.on('game-start', () => {
   $('#start').hide()
   socket.emit('game-get-data', ['player', playerName], self => {
-    console.log(self)
     var selfSecrets = ''
+    var allSecrets = ''
+    console.log(self)
     self.secrets.forEach(secret => {
       selfSecrets += '<div>' + secret + '</div>'
-      console.log(secret, selfSecrets)
     })
 
-    $('#dashboard-self').html(
-      '<div>' + self.team + '</div>'
+    self.allSecrets.forEach(secret => {
+      allSecrets += '<div>' + secret + '</div>'
+    })
+
+    $('#self').html('<h2>TEAM</h2>'
+      + '<div>' + self.team + '</div>'
+      + '<h2>SECRETS</h2>'
       + selfSecrets
+      + '<h2>FLUX</h2>'
+      + allSecrets
     )
   })
 })
@@ -37,6 +56,36 @@ socket.on('game-start', () => {
 $('#coucou').on('submit', function (e) {
   e.preventDefault()
   socket.emit('coucou')
+})
+
+function hideAll () {
+  $('#self').hide()
+  $('#check').hide()
+  $('#mp').hide()
+  $('#game').hide()
+}
+$('#nav-self').on('click', function (e) {
+  e.preventDefault()
+  hideAll()
+  $('#self').show()
+})
+
+$('#nav-mp').on('click', function (e) {
+  e.preventDefault()
+  hideAll()
+  $('#mp').show()
+})
+
+$('#nav-check').on('click', function (e) {
+  e.preventDefault()
+  hideAll()
+  $('#check').show()
+})
+
+$('#nav-game').on('click', function (e) {
+  e.preventDefault()
+  hideAll()
+  $('#game').show()
 })
 
 // ACK
@@ -89,6 +138,10 @@ function enableCards (username) {
       }
     )
   })
+  $('#reset').on('submit', function (e) {
+    e.preventDefault()
+    socket.emit('game-reset')
+  })
   $('#start').show()
   $('#start').on('submit', function (e) {
     e.preventDefault()
@@ -114,6 +167,17 @@ function enableCards (username) {
       $('#checkResult').prepend('<div>'+out+'</div>')
     })
   })
+  $('#status').on('submit', function (e) {
+    e.preventDefault()
+    $('#statusResult').html('')
+    socket.emit('players-status', (result) => {
+      var out = ''
+      Object.keys(result).forEach(k => {
+        out += '<div>['+k+']=>'+result[k]+'secs</div>'
+      })
+      $('#statusResult').html(out)
+    })
+  })
   $('#mpSubmit').on('submit', function (e) {
     e.preventDefault()
     //socket.emit('game-start')
@@ -128,6 +192,8 @@ function enableCards (username) {
 
   $('#dashboard').show()
   $('#login').hide()
+
+  heartbit()
   /*$('#chatbox .username').text(username)
   $('#chatbox input[name=text]').focus()
 
@@ -144,6 +210,10 @@ function enableCards (username) {
   //socket.emit('list', 0, 10, onMessages)
 }
 
+function heartbit() {
+  socket.emit('players-heartbit')
+  setTimeout(heartbit, 1000)
+}
 /* function onMessages (messages) {
   messages.forEach(addMessage)
 }*/

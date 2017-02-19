@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-  <title>MYCMAN4</title>
+  <title>MYCMAN</title>
 </head>
 <body style="width:320px;">
   <div id="decision" style="display:none">
@@ -17,44 +17,58 @@
     <input type="text" name="author" placeholder="your name">
     <input type="submit" value="Log In">
   </form>
-  <form id="chatbox" style="display:none">
-    @<span class="username"></span>
-    <input type="text" name="text">
-    <input type="submit" value="Talk">
-  </form>
-  <form id="start" style="display:none">
-    <input type="submit" value="Start">
-  </form>
-  <form id="coucou" style="display:none">
-    <input type="submit" value="Coucou">
-  </form>
-  <form id="logout" style="display:none">
-    <input type="submit" value="Log out">
-  </form>
 
   <div id="dashboard" style="display:none">
-    <div id="dashboard-self"></div>
-    <form id="checkSubmit">
-      <select id="checkName"><option value="none">none</option></select>
-      <select id="checkIndex">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
-      <input type="submit" value="CHECK">
-      <div id="checkResult"></div>
-    </form>
-    <form id="mpSubmit">
-      <input id="mpMessage" type="text" placeholder="mp" maxlength="20"/>
-      <select id="mpName"><option value="none">none</option></select>
-      <input type="submit" value="MP">
-      <div id="mpResult"></div>
-    </form>
-    <form id="startDecision">
-      <input type="submit" value="DECISION">
-    </form>
+    <div id="nav">
+      <button id="nav-self">INFOS</button>
+      <button id="nav-mp">MESSAGES</button>
+      <button id="nav-check">CHECKS</button>
+      <button id="nav-game">GAME</button>
+    </div>
+    <div id="game" style="display:none">
+      <h2>GAME</h2>
+      <form id="start" style="display:none">
+        <input type="submit" value="START">
+      </form>
+      <form id="startDecision">
+        <input type="submit" value="DECISION">
+      </form>
+      <form id="auction">
+        <input type="submit" value="ENCHERES">
+      </form>
+      <form id="reset">
+        <input type="submit" value="RESET">
+      </form>
+      <form id="status">
+        <input type="submit" value="STATUS">
+      </form>
+      <div id="statusResult"></div>
+    </div>
+    <div id="self" style="display:none"><h2>INFOS</h2></div>
+    <div id="check">
+      <h2>CHECK</h2>
+      <form id="checkSubmit">
+        <select id="checkName"><option value="none">none</option></select>
+        <select id="checkIndex">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <input type="submit" value="CHECK">
+        <div id="checkResult"></div>
+      </form>
+    </div>
+    <div id="mp" style="display:none">
+      <h2>MESSAGES</h2>
+      <form id="mpSubmit">
+        <input id="mpMessage" type="text" placeholder="mp" maxlength="20"/>
+        <select id="mpName"><option value="none">none</option></select>
+        <input type="submit" value="MP">
+        <div id="mpResult"></div>
+      </form>
+    </div>
   </div>
 
   <script src="/build.js"></script>
