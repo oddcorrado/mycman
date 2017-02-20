@@ -82,7 +82,7 @@ app.get('/logout', (req, res) => {
 app.post('/login', (req, res) => {
   if (req.body.user) {
     players.addPlayer(req.body.user)
-    /*players.addPlayer(req.body.user + '-1')
+    /* players.addPlayer(req.body.user + '-1')
     players.addPlayer(req.body.user + '-2')
     players.addPlayer(req.body.user + '-3')
     players.addPlayer(req.body.user + '-4')
