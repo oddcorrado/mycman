@@ -9,7 +9,7 @@ moment.locale('fr')
 
 var socket = io()
 var playerOptions = []
-var playerName = "anonymous"
+var playerName = 'anonymous'
 socket.emit('coucou')
 socket.on('bisous', () => {
   console.log('bisous')
@@ -96,7 +96,6 @@ $('#nav-game').on('click', function (e) {
 
 
 
-var $messages = $('ul#messages')
 
 //socket.on('add-card', addCard)
 //socket.on('remove-card', removeCard)
@@ -126,7 +125,7 @@ function enableLogin () {
   })
 }
 
-function enableCards (username) {
+function enableCards () {
   $('#logout').show()
   $('#logout').on('submit', function (e) {
     e.preventDefault()
@@ -162,7 +161,7 @@ function enableCards (username) {
     e.preventDefault()
     //socket.emit('game-start')
     socket.emit('game-get-data', ['card', $('#checkName').val(), Number($('#checkIndex').val()) - 1], (result) => {
-      var out = $('#checkName').val() + "[" + $('#checkIndex').val() + "]=>"+ result
+      var out = $('#checkName').val() + '[' + $('#checkIndex').val() + ']=>'+ result
       console.log(out)
       $('#checkResult').prepend('<div>'+out+'</div>')
     })
@@ -244,7 +243,7 @@ function updatePlayers (players) {
 
 function logMp (player, message) {
   $('#mpResult').prepend('<div>'
-  + $('<b>').text(player + ": ").html()
+  + $('<b>').text(player + ': ').html()
   + $('<span>').text(message).html()
   + '</div>')
 }
@@ -254,11 +253,11 @@ var users = []
 draw()
 
 function draw () {
-  var canvas = document.getElementById("canvas")
-  var ctx = canvas.getContext("2d")
-  ctx.fillStyle = "white"
+  var canvas = document.getElementById('canvas')
+  var ctx = canvas.getContext('2d')
+  ctx.fillStyle = 'white'
   ctx.fillRect (0, 0, 300, 400)
-  ctx.fillStyle = "grey"
+  ctx.fillStyle = 'grey'
   ctx.fillRect (0, 0, 300, 50)
 
   ctx.globalAlpha = 0.5
@@ -276,25 +275,25 @@ function draw () {
 
 function decisionStart () {
   console.log(users)
-  var el = document.getElementsByTagName("canvas")[0]
-  el.addEventListener("touchmove", touchMove, false)
-  el.addEventListener("mousemove", mouseMove, false)
+  var el = document.getElementsByTagName('canvas')[0]
+  el.addEventListener('touchmove', touchMove, false)
+  el.addEventListener('mousemove', mouseMove, false)
   $('#dashboard').hide()
   $('#decision').show()
   $('#decision-quit').hide()
 }
 
 function decisionStop () {
-  var el = document.getElementsByTagName("canvas")[0]
-  el.removeEventListener("touchmove", touchMove)
-  el.removeEventListener("touchmove", mouseMove)
+  var el = document.getElementsByTagName('canvas')[0]
+  el.removeEventListener('touchmove', touchMove)
+  el.removeEventListener('touchmove', mouseMove)
   $('#decision-quit').show()
 }
 
-function decisionQuit () {
+/* function decisionQuit () {
   $('#dashboard').show()
   $('#decision').hide()
-}
+}*/
 
 function decisionTick (timeLeft) {
   $('#decision-tick').html(timeLeft/1000)
