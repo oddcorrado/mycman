@@ -257,13 +257,30 @@ function draw () {
   var ctx = canvas.getContext('2d')
   ctx.fillStyle = 'white'
   ctx.fillRect (0, 0, 300, 400)
+
   ctx.fillStyle = 'grey'
   ctx.fillRect (0, 0, 300, 50)
+  ctx.fillStyle = "white"
+  ctx.font = "30px Arial"
+  ctx.fillText("BANQUE",10,40)
 
-  ctx.globalAlpha = 0.5
+
+  ctx.fillStyle = 'grey'
+  ctx.fillRect (0, 350, 300, 50)
+  ctx.fillStyle = "white"
+  ctx.font = "30px Arial"
+  ctx.fillText("REVELATIONS",10,390)
+
+
   for(var i=0; i < users.length; i++) {
+    ctx.globalAlpha = 0.5
     ctx.fillStyle = users[i].color
     ctx.fillRect (0, 50 + i * 50, 300, 50)
+    ctx.globalAlpha = 1
+    ctx.fillStyle = "white"
+    ctx.font = "30px Arial"
+    ctx.fillText(users[i].name,10, 80 + i * 50)
+
   }
   ctx.globalAlpha = 1
   users.forEach( u => {
@@ -311,13 +328,12 @@ function touchMove (evt) {
 function mouseMove (evt) {
   evt.preventDefault()
   socket.emit('decision-move', evt.clientX, evt.clientY)
-
 }
 
-function decisionMove (x, y, color) {
-  var u = _.find(users, {color})
+function decisionMove (x, y, name, color) {
+  var u = _.find(users, {name})
   if(!u) {
-    u = {x, y, color}
+    u = {x, y, name:name, color}
     users.push(u)
   } else {
     u.x = x
