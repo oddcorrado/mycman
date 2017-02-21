@@ -76,7 +76,9 @@ app.get('/logout', (req, res) => {
   users.remove(req.session.user + '-3')
   users.remove(req.session.user + '-4')
   users.remove(req.session.user + '-5')*/
-  req.session.destroy(()=>res.send('bye bye'))
+  //req.session.destroy(()=>res.send('bye bye'))
+  req.session = null
+  res.send('bye bye')
 })
 
 app.post('/login', (req, res) => {
@@ -86,7 +88,7 @@ app.post('/login', (req, res) => {
     players.addPlayer(req.body.user + '-2')
     players.addPlayer(req.body.user + '-3')
     players.addPlayer(req.body.user + '-4')
-    players.addPlayer(req.body.user + '-5')*/
+    players.addPlayer(req.body.user + '-5') */
     req.session.user = req.body.user
     res.send({ user: req.session.user })
   } else {

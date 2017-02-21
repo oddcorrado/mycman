@@ -20,37 +20,76 @@ socket.on('game-reset', () => {
   $('#checkResult').html('')
   $('#mpResult').html('')
   $('#start').show()
-  /* $.get('/logout')
+  $.get('/logout')
     .then(
     () => {
       enableLogin()
       $('#logout').hide()
     }
-  )*/
+  )
 })
 
-socket.on('game-start', () => {
-  $('#start').hide()
+function updateInfos () {
   socket.emit('game-get-data', ['player', playerName], self => {
     var selfSecrets = ''
     var allSecrets = ''
-    console.log(self)
-    self.secrets.forEach(secret => {
-      selfSecrets += '<div>' + secret + '</div>'
-    })
-
-    self.allSecrets.forEach(secret => {
-      allSecrets += '<div>' + secret + '</div>'
-    })
-
-    $('#self').html('<h2>TEAM</h2>'
-      + '<div>' + self.team + '</div>'
-      + '<h2>SECRETS</h2>'
-      + selfSecrets
-      + '<h2>FLUX</h2>'
-      + allSecrets
-    )
+    if(self.secrets && self.allSecrets && self.team) {
+      self.secrets.forEach(secret => {
+        selfSecrets += '<div>' + secret + '</div>'
+      })
+      self.allSecrets.forEach(secret => {
+        allSecrets += '<div>' + secret + '</div>'
+      })
+      $('#self').html('<h2>TEAM</h2>'
+        + '<div>' + self.team + '</div>'
+        + '<h2>SECRETS</h2>'
+        + selfSecrets
+        + '<h2>FLUX</h2>'
+        + allSecrets
+      )
+    }
   })
+}
+
+function updateChecks () {
+  socket.emit('game-get-history', 'card', history => {
+    if(history) {
+      history.forEach(item=>addCheck(item.name, item.card + 1, item.data))
+    }
+  })
+}
+
+function updateMps () {
+  socket.emit('game-get-history', 'mp', history => {
+    if(history) {
+      console.log(history)
+      history.forEach(item=>addMp(item.target, item.message, item.isEcho))
+    }
+  })
+}
+
+function addCheck(name, index, result) {
+  var out = name + '[' + index + '] => '+ result
+  $('#checkResult').prepend('<div>'+out+'</div>')
+}
+
+function addMp(player, message, isEcho) {
+  if(isEcho) {
+    $('#mpResult').prepend('<div>'
+    + $('<b>').text("=>" + player + ': ').html()
+    + $('<span>').text(message).html()
+    + '</div>')
+  } else {
+    $('#mpResult').prepend('<div>'
+    + $('<b>').text(player + ': ').html()
+    + $('<span>').text(message).html()
+    + '</div>')
+  }
+}
+
+socket.on('game-start', () => {
+  $('#start').hide()
+  updateInfos()
 })
 
 $('#coucou').on('submit', function (e) {
@@ -72,6 +111,7 @@ $('#nav-self').on('click', function (e) {
 
 $('#nav-mp').on('click', function (e) {
   e.preventDefault()
+  $('#nav-mp').html('MESSAGES')
   hideAll()
   $('#mp').show()
 })
@@ -87,6 +127,7 @@ $('#nav-game').on('click', function (e) {
   hideAll()
   $('#game').show()
 })
+
 
 // ACK
 /* socket.emit('sum', 2, 3, (result) => {
@@ -109,7 +150,13 @@ socket.on('decision-tick', decisionTick)
 // Test login
 $.get('/login')
   .then(
-  o => {playerName = o.user; enableCards(o.user)},
+  o => {
+    playerName = o.user
+    enableCards(o.user)
+    updateInfos()
+    updateChecks()
+    updateMps()
+  },
   () => enableLogin()
 )
 
@@ -161,9 +208,17 @@ function enableCards () {
     e.preventDefault()
     //socket.emit('game-start')
     socket.emit('game-get-data', ['card', $('#checkName').val(), Number($('#checkIndex').val()) - 1], (result) => {
-      var out = $('#checkName').val() + '[' + $('#checkIndex').val() + ']=>'+ result
-      console.log(out)
-      $('#checkResult').prepend('<div>'+out+'</div>')
+      addCheck($('#checkName').val(), $('#checkIndex').val(), result)
+      /* var out = $('#checkName').val() + '[' + $('#checkIndex').val() + ']=>'+ result
+      $('#checkResult').prepend('<div>'+out+'</div>') */
+    })
+  })
+  $('#dbSubmit').on('submit', function (e) {
+    e.preventDefault()
+    //socket.emit('game-start')
+    socket.emit('game-get-data', ['word', $('#dbWord').val()], (result) => {
+      var out = result
+      $('#dbResult').prepend('<div>'+out+'</div>')
     })
   })
   $('#status').on('submit', function (e) {
@@ -180,7 +235,9 @@ function enableCards () {
   $('#mpSubmit').on('submit', function (e) {
     e.preventDefault()
     //socket.emit('game-start')
-    socket.emit('mp', playerName, $('#mpName').val(), $('#mpMessage').val())
+    socket.emit('mp', playerName, $('#mpName').val(), $('#mpMessage').val(), (target, message) => {
+      addMp(target, message, true)
+    })
   })
   $('#decision-quit').on('submit', function (e) {
     e.preventDefault()
@@ -242,10 +299,8 @@ function updatePlayers (players) {
 }
 
 function logMp (player, message) {
-  $('#mpResult').prepend('<div>'
-  + $('<b>').text(player + ': ').html()
-  + $('<span>').text(message).html()
-  + '</div>')
+  $('#nav-mp').html('*MESSAGES*')
+  addMp(player, message, false)
 }
 
 var users = []
