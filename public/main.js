@@ -29,16 +29,23 @@ socket.on('game-reset', () => {
   )
 })
 
+function highlightShared(secret) {
+  if(secret.isShared) {
+    return '*>'+secret.secret
+  } else {
+    return secret.secret
+  }
+}
 function updateInfos () {
   socket.emit('game-get-data', ['player', playerName], self => {
     var selfSecrets = ''
     var allSecrets = ''
     if(self.secrets && self.allSecrets && self.team) {
       self.secrets.forEach(secret => {
-        selfSecrets += '<div>' + secret + '</div>'
+        selfSecrets += '<div>' + highlightShared(secret) + '</div>'
       })
       self.allSecrets.forEach(secret => {
-        allSecrets += '<div>' + secret + '</div>'
+        allSecrets += '<div>' + highlightShared(secret) + '</div>'
       })
       $('#self').html('<h2>TEAM</h2>'
         + '<div>' + self.team + '</div>'
@@ -146,7 +153,10 @@ socket.on('decision-start', decisionStart)
 socket.on('decision-move', decisionMove)
 socket.on('decision-stop', decisionStop)
 socket.on('decision-tick', decisionTick)
-
+socket.on('auction-start', (users, user2color) => auctionStart(users,user2color))
+socket.on('auction-tick', auctionTick)
+socket.on('auction-bid', auctionBid)
+socket.on('auction-stop', auctionStop)
 // Test login
 $.get('/login')
   .then(
@@ -203,6 +213,10 @@ function enableCards () {
   $('#startDecision').on('submit', function (e) {
     e.preventDefault()
     socket.emit('decision-start')
+  })
+  $('#startAuction').on('submit', function (e) {
+    e.preventDefault()
+    socket.emit('auction-start')
   })
   $('#checkSubmit').on('submit', function (e) {
     e.preventDefault()
@@ -305,11 +319,10 @@ function logMp (player, message) {
 
 var users = []
 
-draw()
-
-function draw () {
-  var canvas = document.getElementById('canvas')
-  var ctx = canvas.getContext('2d')
+drawDecisions()
+function drawDecisions () {
+  var decisionCanvas = document.getElementById('decisionCanvas')
+  var ctx = decisionCanvas.getContext('2d')
   ctx.fillStyle = 'white'
   ctx.fillRect (0, 0, 300, 400)
 
@@ -342,12 +355,91 @@ function draw () {
     ctx.fillStyle = u.color
     ctx.fillRect (u.x-15, u.y-45, 30, 30)
   })
-  setTimeout(draw, 50)
+  setTimeout(drawDecisions, 50)
+}
+
+var auctions = []
+var user2color = {}
+drawAuctions()
+function drawAuctions () {
+  let w = 50
+  let yo = 20
+  var decisionCanvas = document.getElementById('auctionCanvas')
+  var ctx = decisionCanvas.getContext('2d')
+  ctx.fillStyle = 'white'
+  ctx.fillRect (0, 0, 300, 400)
+
+  auctions.forEach((bids, i) => {
+    var cost = _.find(bids.bids, {player:playerName}).value
+    console.log(bids.player, cost)
+    ctx.fillStyle = user2color[bids.player]
+    ctx.fillRect (i * w, yo , w, bids.value * 5)
+    ctx.fillStyle = "black"
+    ctx.font = "15px Arial"
+    ctx.fillText(cost+"/"+bids.value, 15 + i * w, 15)
+    ctx.save()
+    ctx.translate(15 + i * w, 30)
+    ctx.rotate(Math.PI/2)
+    ctx.font = "25px Arial"
+    ctx.fillText(bids.player, 0, 0)
+    ctx.restore()
+    //console.log(bids)
+  })
+
+  /* for(var i=0; i < auctions.length; i++) {
+    ctx.globalAlpha = 0.5
+    ctx.fillStyle = users[i].color
+    ctx.fillRect (0, 50 + i * 50, 300, 50)
+    ctx.globalAlpha = 1
+    ctx.fillStyle = "white"
+    ctx.font = "30px Arial"
+    ctx.fillText(users[i].name,10, 80 + i * 50)
+
+  }
+  ctx.globalAlpha = 1
+  users.forEach( u => {
+    ctx.fillStyle = u.color
+    ctx.fillRect (u.x-15, u.y-45, 30, 30)
+  }) */
+  setTimeout(drawAuctions, 50)
+}
+
+function auctionStart (users, user2colorIn) {
+  user2color = user2colorIn
+  $('#auction-buttons').html('')
+  var h = ''
+  users.forEach((u)=>{
+    h += '<div class="auction-bid" data-player="' + u + '"style="float:left;width:50%;height:50px;background-color:' + user2color[u] + '">' + u +'</div>'
+  })
+
+  $('#auction-buttons').html(h)
+  $('.auction-bid').on('click', function() {
+    socket.emit('auction-bid', playerName, $(this).data("player"))
+  })
+  $('#dashboard').hide()
+  $('#auction').show()
+  $('#auction-quit').hide()
+}
+
+function auctionStop () {
+  $('#auction-quit').show()
+}
+
+/* function decisionQuit () {
+  $('#dashboard').show()
+  $('#decision').hide()
+}*/
+
+function auctionBid (auctionsIn, user2color) {
+  auctions = auctionsIn
+}
+
+function auctionTick (timeLeft) {
+  $('#auction-tick').html(timeLeft/1000)
 }
 
 function decisionStart () {
-  console.log(users)
-  var el = document.getElementsByTagName('canvas')[0]
+  var el = document.getElementById('decisionCanvas')
   el.addEventListener('touchmove', touchMove, false)
   el.addEventListener('mousemove', mouseMove, false)
   $('#dashboard').hide()
@@ -356,7 +448,7 @@ function decisionStart () {
 }
 
 function decisionStop () {
-  var el = document.getElementsByTagName('canvas')[0]
+  var el = document.getElementById('decisionCanvas')
   el.removeEventListener('touchmove', touchMove)
   el.removeEventListener('touchmove', mouseMove)
   $('#decision-quit').show()
@@ -396,4 +488,4 @@ function decisionMove (x, y, name, color) {
   }
 }
 
-draw(150, 150)
+//drawDecisions(150, 150)
