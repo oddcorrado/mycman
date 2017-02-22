@@ -10,24 +10,7 @@ moment.locale('fr')
 var socket = io()
 var playerOptions = []
 var playerName = 'anonymous'
-socket.emit('coucou')
-socket.on('bisous', () => {
-  console.log('bisous')
-})
 
-socket.on('game-reset', () => {
-  $('#self').html('')
-  $('#checkResult').html('')
-  $('#mpResult').html('')
-  $('#start').show()
-  $.get('/logout')
-    .then(
-    () => {
-      enableLogin()
-      $('#logout').hide()
-    }
-  )
-})
 
 function highlightShared(secret) {
   if(secret.isShared) {
@@ -38,6 +21,8 @@ function highlightShared(secret) {
 }
 function updateInfos () {
   socket.emit('game-get-data', ['player', playerName], self => {
+    updatePlayerMoney(self.money)
+    updateBank(self.bank)
     var selfSecrets = ''
     var allSecrets = ''
     if(self.secrets && self.allSecrets && self.team) {
@@ -63,6 +48,12 @@ function updateChecks () {
     if(history) {
       history.forEach(item=>addCheck(item.name, item.card + 1, item.data))
     }
+  })
+}
+
+function updateMoney () {
+  socket.emit('game-get-data', ['money', playerName], money => {
+    updatePlayerMoney(money)
   })
 }
 
@@ -94,10 +85,7 @@ function addMp(player, message, isEcho) {
   }
 }
 
-socket.on('game-start', () => {
-  $('#start').hide()
-  updateInfos()
-})
+
 
 $('#coucou').on('submit', function (e) {
   e.preventDefault()
@@ -148,6 +136,8 @@ $('#nav-game').on('click', function (e) {
 //socket.on('add-card', addCard)
 //socket.on('remove-card', removeCard)
 socket.on('players', updatePlayers)
+socket.on('players-bank', updateBank)
+socket.on('player-money', updatePlayerMoney)
 socket.on('mp', logMp)
 socket.on('decision-start', decisionStart)
 socket.on('decision-move', decisionMove)
@@ -157,6 +147,27 @@ socket.on('auction-start', (users, user2color) => auctionStart(users,user2color)
 socket.on('auction-tick', auctionTick)
 socket.on('auction-bid', auctionBid)
 socket.on('auction-stop', auctionStop)
+
+socket.on('game-reset', () => {
+  $('#self').html('')
+  $('#checkResult').html('')
+  $('#mpResult').html('')
+  $('#start').show()
+  $('#dashboard').hide()
+  $.get('/logout')
+    .then(
+    () => {
+      enableLogin()
+      $('#logout').hide()
+    }
+  )
+})
+
+socket.on('game-start', () => {
+  $('#start').hide()
+  updateInfos()
+})
+
 // Test login
 $.get('/login')
   .then(
@@ -253,12 +264,28 @@ function enableCards () {
       addMp(target, message, true)
     })
   })
+
   $('#decision-quit').on('submit', function (e) {
     e.preventDefault()
     $('#dashboard').show()
     $('#decision').hide()
   })
 
+  $('#auction-quit').on('submit', function (e) {
+    e.preventDefault()
+    $('#dashboard').show()
+    $('#auction').hide()
+  })
+
+  $('#money').on('click', e => {
+    e.preventDefault()
+    socket.emit('player-money-transfer', 'bank', -1)
+  })
+
+  $('#bank').on('click', e => {
+    e.preventDefault()
+    socket.emit('player-money-transfer', 'bank', 1)
+  })
 
   $('#dashboard').show()
   $('#login').hide()
@@ -371,7 +398,6 @@ function drawAuctions () {
 
   auctions.forEach((bids, i) => {
     var cost = _.find(bids.bids, {player:playerName}).value
-    console.log(bids.player, cost)
     ctx.fillStyle = user2color[bids.player]
     ctx.fillRect (i * w, yo , w, bids.value * 5)
     ctx.fillStyle = "black"
@@ -487,5 +513,15 @@ function decisionMove (x, y, name, color) {
     u.y = y
   }
 }
+
+function updatePlayerMoney(money) {
+  money = money || 'press start'
+  $('#money').html('ARGENT:' + money)
+}
+
+function updateBank(money) {
+  $('#bank').html('BANQUE:' + money)
+}
+
 
 //drawDecisions(150, 150)
