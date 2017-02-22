@@ -76,7 +76,7 @@ function updateMps () {
 }
 
 function addCheck(name, index, result) {
-  var out = name + '[' + index + '] => '+ result
+  var out = name + '[' + index + '] => '+ result.secret
   $('#checkResult').prepend('<div>'+out+'</div>')
 }
 
