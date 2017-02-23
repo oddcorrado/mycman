@@ -51,16 +51,9 @@ function updateChecks () {
   })
 }
 
-function updateMoney () {
-  socket.emit('game-get-data', ['money', playerName], money => {
-    updatePlayerMoney(money)
-  })
-}
-
 function updateMps () {
   socket.emit('game-get-history', 'mp', history => {
     if(history) {
-      console.log(history)
       history.forEach(item=>addMp(item.target, item.message, item.isEcho))
     }
   })
@@ -456,7 +449,7 @@ function auctionStop () {
   $('#decision').hide()
 }*/
 
-function auctionBid (auctionsIn, user2color) {
+function auctionBid (auctionsIn) {
   auctions = auctionsIn
 }
 
