@@ -32,13 +32,16 @@
       <span id="money" style="margin-right:40px" >ARGENT:</span>
       <span id="bank">BANQUE:</span>
     </div>
+    <div style="height:3px;background-color:grey;margin: 10px;">
+    </div>
     <div id="nav">
-      <button id="nav-self">INFOS</button>
-      <button id="nav-mp">MESSAGES</button>
-      <button id="nav-check">CHECKS</button>
+      <button id="nav-self">MOI</button>
+      <button id="nav-hack">HACK</button>
+      <button id="nav-mp">MPS</button>
+      <button id="nav-check">CHECK</button>
       <button id="nav-game">GAME</button>
     </div>
-    <div id="game" style="display:none">
+    <div id="game">
       <h2>GAME</h2>
       <form id="start" style="display:none">
         <input type="submit" value="START">
@@ -58,7 +61,7 @@
       <div id="statusResult"></div>
     </div>
     <div id="self" style="display:none"><h2>INFOS</h2></div>
-    <div id="check">
+    <div id="check" style="display:none">
       <h2>CHECK</h2>
       <form id="checkSubmit">
         <select id="checkName"><option value="none">none</option></select>
@@ -78,6 +81,23 @@
         <input type="submit" value="DB">
       </form>
       <div id="dbResult"></div>
+    </div>
+    <div id="hack" style="display:none">
+      <h2>BUY HACK</h2>
+      <form id="hack-jam-submit">
+        <select id="hack-jam-name"><option value="none">none</option></select>
+        <input type="submit" value="JAM">
+      </form>
+      <form id="hack-spy-submit">
+        <select id="hack-spy-name"><option value="none">none</option></select>
+        <input type="submit" value="SPY">
+      </form>
+      <form id="hack-usurp-submit">
+        <select id="hack-usurp-name"><option value="none">none</option></select>
+        <input type="submit" value="USURP">
+      </form>
+      <h2>ACTIVE HACKS</h2>
+      <div id="hack-list"></div>
     </div>
     <div id="mp" style="display:none">
       <h2>MESSAGES</h2>

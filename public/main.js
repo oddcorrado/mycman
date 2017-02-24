@@ -90,7 +90,9 @@ function hideAll () {
   $('#check').hide()
   $('#mp').hide()
   $('#game').hide()
+  $('#hack').hide()
 }
+
 $('#nav-self').on('click', function (e) {
   e.preventDefault()
   hideAll()
@@ -114,6 +116,12 @@ $('#nav-game').on('click', function (e) {
   e.preventDefault()
   hideAll()
   $('#game').show()
+})
+
+$('#nav-hack').on('click', function (e) {
+  e.preventDefault()
+  hideAll()
+  $('#hack').show()
 })
 
 
@@ -231,6 +239,27 @@ function enableCards () {
       $('#checkResult').prepend('<div>'+out+'</div>') */
     })
   })
+  $('#hack-jam-submit').on('submit', function (e) {
+    e.preventDefault()
+    //socket.emit('game-start')
+    socket.emit('game-action', ['hack-jam', $('#hack-jam-name').val()], (result) => {
+      console.log(result)
+    })
+  })
+  $('#hack-spy-submit').on('submit', function (e) {
+    e.preventDefault()
+    //socket.emit('game-start')
+    socket.emit('game-action', ['hack-spy', $('#hack-spy-name').val()], (result) => {
+      console.log(result)
+    })
+  })
+  $('#hack-usurp-submit').on('submit', function (e) {
+    e.preventDefault()
+    //socket.emit('game-start')
+    socket.emit('game-action', ['hack-usurp', $('#hack-usurp-name').val()], (result) => {
+      console.log(result)
+    })
+  })
   $('#dbSubmit').on('submit', function (e) {
     e.preventDefault()
     //socket.emit('game-start')
@@ -330,6 +359,9 @@ function updatePlayers (players) {
   players.forEach(p => playerOptions+= '<option value="' + p + '">' + p + '</option>' )
   $('#checkName').html(playerOptions)
   $('#mpName').html(playerOptions)
+  $('#hack-jam-name').html(playerOptions)
+  $('#hack-spy-name').html(playerOptions)
+  $('#hack-usurp-name').html(playerOptions)
 }
 
 function logMp (player, message) {
@@ -404,22 +436,6 @@ function drawAuctions () {
     ctx.restore()
     //console.log(bids)
   })
-
-  /* for(var i=0; i < auctions.length; i++) {
-    ctx.globalAlpha = 0.5
-    ctx.fillStyle = users[i].color
-    ctx.fillRect (0, 50 + i * 50, 300, 50)
-    ctx.globalAlpha = 1
-    ctx.fillStyle = "white"
-    ctx.font = "30px Arial"
-    ctx.fillText(users[i].name,10, 80 + i * 50)
-
-  }
-  ctx.globalAlpha = 1
-  users.forEach( u => {
-    ctx.fillStyle = u.color
-    ctx.fillRect (u.x-15, u.y-45, 30, 30)
-  }) */
   setTimeout(drawAuctions, 50)
 }
 
