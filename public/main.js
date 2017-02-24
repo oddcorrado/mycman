@@ -10,6 +10,7 @@ moment.locale('fr')
 var socket = io()
 var playerOptions = []
 var playerName = 'anonymous'
+var hacks = []
 
 
 function highlightShared(secret) {
@@ -148,6 +149,8 @@ socket.on('auction-start', (users, user2color) => auctionStart(users,user2color)
 socket.on('auction-tick', auctionTick)
 socket.on('auction-bid', auctionBid)
 socket.on('auction-stop', auctionStop)
+socket.on('hack-start', (type, target) => hackStart(type, target))
+socket.on('hack-stop', (type, target) => hackStop(type, target))
 
 socket.on('game-reset', () => {
   $('#self').html('')
@@ -365,7 +368,7 @@ function updatePlayers (players) {
 }
 
 function logMp (player, message) {
-  $('#nav-mp').html('*MESSAGES*')
+  $('#nav-mp').html('*MPS*')
   addMp(player, message, false)
 }
 
@@ -532,5 +535,23 @@ function updateBank(money) {
   $('#bank').html('BANQUE:' + money)
 }
 
+function updateHacks() {
+  let translate = {jammers:'JAM',spies:'SPY',usurpators:'USURP'}
+  console.log(hacks)
+  var hackList = hacks.reduce((acc, cur) => acc += '<div>' + translate[cur.type] + ":" + cur.target + '</div>', '')
+  $('#hack-list').html(hackList)
+}
+
+function hackStart(type, target) {
+  hacks.push({type, target})
+  updateHacks()
+}
+
+function hackStop(type, target) {
+  _.remove(hacks, function(item) {
+    return item.type === type && item.target === target ? true : false
+  })
+  updateHacks()
+}
 
 //drawDecisions(150, 150)
