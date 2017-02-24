@@ -102,7 +102,7 @@ $('#nav-self').on('click', function (e) {
 
 $('#nav-mp').on('click', function (e) {
   e.preventDefault()
-  $('#nav-mp').html('MESSAGES')
+  $('#nav-mp').html('MPS')
   hideAll()
   $('#mp').show()
 })
