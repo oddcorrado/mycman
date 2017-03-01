@@ -543,11 +543,13 @@ function updateHacks() {
 }
 
 function hackStart(type, target) {
+  console.log('hack-start', type, target)
   hacks.push({type, target})
   updateHacks()
 }
 
 function hackStop(type, target) {
+  console.log('hack-stop', type, target)
   _.remove(hacks, function(item) {
     return item.type === type && item.target === target ? true : false
   })
