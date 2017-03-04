@@ -4,6 +4,8 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "babel-preset-es2015": "^6.22.0",
+    "babelify": "^7.3.0",
     "body-parser": "^1.16.0",
     "bootstrap": "^3.3.7",
     "cookie-session": "^2.0.0-beta.1",
@@ -33,7 +35,7 @@
     "watch-test": "mocha --watch",
     "watch-test-growl": "mocha --watch --growl",
     "build": "browserify public/main.js > public/build.js",
-    "watch-client": "watchify -v --debug public/main.js -o public/build.js"
+    "watch-client": "watchify -t babelify -v --debug ./public/main.js -o public/build.js"
   },
   "author": "",
   "license": "ISC"
