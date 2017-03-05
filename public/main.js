@@ -11,6 +11,8 @@ var socket = io()
 var playerOptions = []
 var playerName = 'anonymous'
 var hacks = []
+var users = []
+var checkee = ''
 
 
 function highlightShared(secret) {
@@ -151,6 +153,7 @@ socket.on('auction-bid', auctionBid)
 socket.on('auction-stop', auctionStop)
 socket.on('hack-start', (type, target) => hackStart(type, target))
 socket.on('hack-stop', (type, target) => hackStop(type, target))
+socket.on('check', (checkee) => check(checkee))
 
 socket.on('game-reset', () => {
   $('#self').html('')
@@ -236,8 +239,11 @@ function enableCards () {
   $('#checkSubmit').on('submit', function (e) {
     e.preventDefault()
     //socket.emit('game-start')
-    socket.emit('game-get-data', ['card', $('#checkName').val(), Number($('#checkIndex').val()) - 1], (result) => {
-      addCheck($('#checkName').val(), $('#checkIndex').val(), result)
+    /* checkee = $('#checkName').val() */
+console.log('checking', checkee)
+    socket.emit('game-get-data', ['card', checkee, Number($('#checkIndex').val()) - 1], (result) => {
+      addCheck(checkee, $('#checkIndex').val(), result)
+      $('#checkSubmit').hide()
       /* var out = $('#checkName').val() + '[' + $('#checkIndex').val() + ']=>'+ result
       $('#checkResult').prepend('<div>'+out+'</div>') */
     })
@@ -315,7 +321,7 @@ function enableCards () {
   $('#dashboard').show()
   $('#login').hide()
 
-  heartbit()
+  //heartbit()
   /*$('#chatbox .username').text(username)
   $('#chatbox input[name=text]').focus()
 
@@ -358,6 +364,7 @@ function removeCard (card) {
 
 
 function updatePlayers (players) {
+  users = players.map(name=>({name}))
   playerOptions = '' //'<option value="none">'+playerName+'</option>'
   players.forEach(p => playerOptions+= '<option value="' + p + '">' + p + '</option>' )
   $('#checkName').html(playerOptions)
@@ -372,7 +379,7 @@ function logMp (player, message) {
   addMp(player, message, false)
 }
 
-var users = []
+//var users = []
 
 drawDecisions()
 function drawDecisions () {
@@ -521,6 +528,7 @@ function decisionMove (x, y, name, color) {
     u = {x, y, name:name, color}
     users.push(u)
   } else {
+    u.color = color
     u.x = x
     u.y = y
   }
@@ -556,4 +564,8 @@ function hackStop(type, target) {
   updateHacks()
 }
 
+function check(name) {
+  $('#checkSubmit').show()
+  checkee = name
+}
 //drawDecisions(150, 150)
