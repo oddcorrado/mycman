@@ -7,6 +7,7 @@ const _ = require('lodash')
 require('moment/locale/fr')
 moment.locale('fr')
 
+
 var socket = io()
 var playerOptions = []
 var playerName = 'anonymous'
