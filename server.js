@@ -23,7 +23,7 @@ server.on('error', (err) => {
 
 
 // Detect blocked event loop
-const timeout = 1000
+const timeout = 100
 function detectBlocking () {
   const start = Date.now() // TODO process.hrtime()
   setTimeout(() => {
