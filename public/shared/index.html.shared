@@ -28,6 +28,12 @@
   </form>
 
   <div id="dashboard" style="display:none">
+    <div>
+      <span id="money" style="margin-right:40px" >ARGENT:</span>
+      <span id="bank">BANQUE:</span>
+    </div>
+    <div style="height:3px;background-color:grey;margin: 10px;">
+    </div>
     <div id="nav">
       <button id="nav-self">MOI</button>
       <button id="nav-hack">HACK</button>

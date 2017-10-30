@@ -11,6 +11,7 @@ const game = require('./lib/game')
 
 const app = express()
 
+const testMulti = false
 module.exports = app
 
 app.disable('x-powered-by')
@@ -71,11 +72,14 @@ app.get('/login', restricted, (req, res) => {
 app.get('/logout', (req, res) => {
   console.log('exit')
   players.removePlayer(req.session.user)
-/*users.remove(req.session.user + '-1')
-  users.remove(req.session.user + '-2')
-  users.remove(req.session.user + '-3')
-  users.remove(req.session.user + '-4')
-  users.remove(req.session.user + '-5')*/
+  if(testMulti) {
+    players.removePlayer(req.session.user + '-1')
+    players.removePlayer(req.session.user + '-2')
+    players.removePlayer(req.session.user + '-3')
+    players.removePlayer(req.session.user + '-4')
+    players.removePlayer(req.session.user + '-5')
+  }
+
   //req.session.destroy(()=>res.send('bye bye'))
   req.session = null
   res.send('bye bye')
@@ -84,11 +88,14 @@ app.get('/logout', (req, res) => {
 app.post('/login', (req, res) => {
   if (req.body.user) {
     players.addPlayer(req.body.user)
-    /*players.addPlayer(req.body.user + '-1')
-    players.addPlayer(req.body.user + '-2')
-    players.addPlayer(req.body.user + '-3')
-    players.addPlayer(req.body.user + '-4')
-    players.addPlayer(req.body.user + '-5') */
+    if(testMulti) {
+      players.addPlayer(req.body.user + '-1')
+      players.addPlayer(req.body.user + '-2')
+      players.addPlayer(req.body.user + '-3')
+      players.addPlayer(req.body.user + '-4')
+      players.addPlayer(req.body.user + '-5')
+    }
+
     req.session.user = req.body.user
     res.send({ user: req.session.user })
   } else {

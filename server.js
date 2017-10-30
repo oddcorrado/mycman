@@ -30,7 +30,7 @@ function detectBlocking () {
     const delay = Date.now() - start
     if (delay > timeout * 1.1) {
       // late? event-loop was blocked more than "timeout" ms
-      console.error('BLOCKING EVENT LOOP!', delay)
+      //console.error('BLOCKING EVENT LOOP!', delay)
     }
     detectBlocking()
   }, timeout)

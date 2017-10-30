@@ -23,27 +23,25 @@ function highlightShared(secret) {
     return secret.secret
   }
 }
-
 function updateInfos () {
   socket.emit('game-get-data', ['player', playerName], self => {
     updatePlayerMoney(self.money)
     updateBank(self.bank)
     var selfSecrets = ''
     var allSecrets = ''
-    var selfKnowledges = ''
-    if(self.secrets && self.knowledges && self.team) {
+    if(self.secrets && self.allSecrets && self.team) {
       self.secrets.forEach(secret => {
         selfSecrets += '<div>' + highlightShared(secret) + '</div>'
       })
-      self.knowledges.forEach(secret => {
-        selfKnowledges += '<div>' + highlightShared(secret) + '</div>'
+      self.allSecrets.forEach(secret => {
+        allSecrets += '<div>' + highlightShared(secret) + '</div>'
       })
       $('#self').html('<h2>TEAM</h2>'
         + '<div>' + self.team + '</div>'
         + '<h2>SECRETS</h2>'
         + selfSecrets
-        + '<h2>CONNAISSANCES</h2>'
-        + selfKnowledges
+        + '<h2>FLUX</h2>'
+        + allSecrets
       )
     }
   })
