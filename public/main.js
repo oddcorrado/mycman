@@ -177,6 +177,7 @@ socket.on('auction-start', (users, user2color) => auctionStart(users,user2color)
 socket.on('auction-tick', auctionTick)
 socket.on('auction-bid', auctionBid)
 socket.on('auction-stop', auctionStop)
+socket.on('gameOver', data => gameOver(data))
 socket.on('hack-start', (type, target) => hackStart(type, target))
 socket.on('hack-stop', (type, target) => hackStop(type, target))
 socket.on('check', (checkee) => check(checkee))
@@ -426,7 +427,7 @@ function drawDecisions () {
   ctx.fillStyle = 'white'
   ctx.fillRect (0, 0, 300, 400)
 
-  ctx.fillStyle = 'grey'
+  /* ctx.fillStyle = 'grey'
   ctx.fillRect (0, 0, 300, 50)
   ctx.fillStyle = "white"
   ctx.font = "30px Arial"
@@ -437,17 +438,17 @@ function drawDecisions () {
   ctx.fillRect (0, 350, 300, 50)
   ctx.fillStyle = "white"
   ctx.font = "30px Arial"
-  ctx.fillText("REVELATIONS",10,390)
+  ctx.fillText("REVELATIONS",10,390) */
 
 
   for(var i=0; i < users.length; i++) {
     ctx.globalAlpha = 0.5
     ctx.fillStyle = users[i].color
-    ctx.fillRect (0, 50 + i * 50, 300, 50)
+    ctx.fillRect (0, /* 50 + */ i * 50, 300, 50)
     ctx.globalAlpha = 1
     ctx.fillStyle = "white"
     ctx.font = "30px Arial"
-    ctx.fillText(users[i].name,10, 80 + i * 50)
+    ctx.fillText(users[i].name,10, /* 80 + */ 30 + i * 50)
 
   }
   ctx.globalAlpha = 1
@@ -679,5 +680,17 @@ function hackStop(type, target) {
 function check(name) {
   $('#checkSubmit').show()
   checkee = name
+}
+
+function gameOver(data) {
+  $('#gameOver').show()
+  $('#gameOver-winner').html('<h3>' + 'Les ' + data.winnerTeams + 's ont gagné</h3>')
+  data.winners.forEach(name => $('#gameOver-winner').append('<div>' + name + ' a gagné' + '</div>'))
+  $('#gameOver-messages').html('')
+  data.messages.forEach(message => $('#gameOver-messages')
+    .append('<div>' + message.from + '=>' + message.to + ':' + message.message + '</div>'))
+  $('#gameOver-votes').html('')
+  data.votes.forEach(vote => $('#gameOver-votes')
+    .append('<div>' + vote.name + '=>' + vote.voted + ':' + vote.count + '</div>'))
 }
 //drawDecisions(150, 150)
