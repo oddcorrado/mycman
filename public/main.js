@@ -57,6 +57,15 @@ function updateChecks () {
   })
 }
 
+function updateRevelations () {
+  cleanRevelations()
+  socket.emit('game-get-revelations', revelations => {
+    if(revelations) {
+      revelations.forEach(item=>addRevelation(item.name, item.card, item.secret))
+    }
+  })
+}
+
 function updateMps () {
   socket.emit('game-get-history', 'mp', history => {
     if(history) {
@@ -68,6 +77,15 @@ function updateMps () {
 function addCheck(name, index, result) {
   var out = name + '[' + index + '] => '+ result.secret
   $('#checkResult').prepend('<div>'+out+'</div>')
+}
+
+function cleanRevelations() {
+  $('#revelationResult').html('')
+}
+
+function addRevelation(name, index, result) {
+  var out = name + '[' + index + '] => '+ result.secret
+  $('#revelationResult').prepend('<div>'+out+'</div>')
 }
 
 function addMp(player, message, isEcho) {
@@ -154,6 +172,7 @@ socket.on('vote-start', voteStart)
 socket.on('vote-move', voteMove)
 socket.on('vote-stop', voteStop)
 socket.on('vote-tick', voteTick)
+socket.on('revelation-update', updateRevelations)
 socket.on('auction-start', (users, user2color) => auctionStart(users,user2color))
 socket.on('auction-tick', auctionTick)
 socket.on('auction-bid', auctionBid)
@@ -165,6 +184,7 @@ socket.on('check', (checkee) => check(checkee))
 socket.on('game-reset', () => {
   $('#self').html('')
   $('#checkResult').html('')
+  $('#revelationResult').html('')
   $('#mpResult').html('')
   $('#start').show()
   $('#dashboard').hide()
@@ -190,6 +210,7 @@ $.get('/login')
     enableCards(o.user)
     updateInfos()
     updateChecks()
+    updateRevelations()
     updateMps()
   },
   () => enableLogin()
