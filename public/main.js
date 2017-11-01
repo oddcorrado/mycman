@@ -29,7 +29,7 @@ function updateInfos () {
     updatePlayerMoney(self.money)
     updateBank(self.bank)
     var selfSecrets = ''
-    var allSecrets = ''
+    // var allSecrets = ''
     var selfKnowledges = ''
     if(self.secrets && self.knowledges && self.team) {
       self.secrets.forEach(secret => {
@@ -150,6 +150,10 @@ socket.on('decision-start', decisionStart)
 socket.on('decision-move', decisionMove)
 socket.on('decision-stop', decisionStop)
 socket.on('decision-tick', decisionTick)
+socket.on('vote-start', voteStart)
+socket.on('vote-move', voteMove)
+socket.on('vote-stop', voteStop)
+socket.on('vote-tick', voteTick)
 socket.on('auction-start', (users, user2color) => auctionStart(users,user2color))
 socket.on('auction-tick', auctionTick)
 socket.on('auction-bid', auctionBid)
@@ -235,6 +239,10 @@ function enableCards () {
     e.preventDefault()
     socket.emit('decision-start')
   })
+  $('#startVote').on('submit', function (e) {
+    e.preventDefault()
+    socket.emit('vote-start')
+  })
   $('#startAuction').on('submit', function (e) {
     e.preventDefault()
     socket.emit('auction-start')
@@ -243,7 +251,7 @@ function enableCards () {
     e.preventDefault()
     //socket.emit('game-start')
     /* checkee = $('#checkName').val() */
-console.log('checking', checkee)
+    console.log('checking', checkee)
     socket.emit('game-get-data', ['card', checkee, Number($('#checkIndex').val()) - 1], (result) => {
       addCheck(checkee, $('#checkIndex').val(), result)
       $('#checkSubmit').hide()
@@ -303,6 +311,12 @@ console.log('checking', checkee)
     e.preventDefault()
     $('#dashboard').show()
     $('#decision').hide()
+  })
+
+  $('#vote-quit').on('submit', function (e) {
+    e.preventDefault()
+    $('#dashboard').show()
+    $('#vote').hide()
   })
 
   $('#auction-quit').on('submit', function (e) {
@@ -423,6 +437,32 @@ function drawDecisions () {
   setTimeout(drawDecisions, 50)
 }
 
+drawVote ()
+function drawVote () {
+  var voteCanvas = document.getElementById('voteCanvas')
+  var ctx = voteCanvas.getContext('2d')
+  ctx.fillStyle = 'white'
+  ctx.fillRect (0, 0, 300, 400)
+
+  for(var i=0; i < users.length; i++) {
+    ctx.globalAlpha = 0.5
+    ctx.fillStyle = users[i].color
+    ctx.fillRect (0, i * 50, 300, 50)
+    ctx.globalAlpha = 1
+    ctx.fillStyle = "white"
+    ctx.font = "30px Arial"
+    ctx.fillText(users[i].name,10, 30 + i * 50)
+
+  }
+  ctx.globalAlpha = 1
+  users.forEach( u => {
+    ctx.fillStyle = u.color
+    ctx.fillRect (u.x-15, u.y-45, 30, 30)
+  })
+  setTimeout(drawVote, 50)
+}
+
+
 var auctions = []
 var user2color = {}
 drawAuctions()
@@ -502,14 +542,74 @@ function decisionStop () {
   $('#decision-quit').show()
 }
 
+function decisionMove (x, y, name, color) {
+  var u = _.find(users, {name})
+  if(!u) {
+    u = {x, y, name:name, color}
+    users.push(u)
+  } else {
+    u.color = color
+    u.x = x
+    u.y = y
+  }
+}
+
+function decisionTick (timeLeft) {
+  $('#decision-tick').html(timeLeft/1000)
+}
+
+
+function voteStart () {
+  var el = document.getElementById('voteCanvas')
+  el.addEventListener('touchmove', voteTouchMove, false)
+  el.addEventListener('mousemove', voteMouseMove, false)
+  $('#dashboard').hide()
+  $('#vote').show()
+  $('#vote-quit').hide()
+}
+
+function voteStop () {
+  var el = document.getElementById('voteCanvas')
+  el.removeEventListener('touchmove', voteTouchMove)
+  el.removeEventListener('touchmove', voteMouseMove)
+  $('#vote-quit').show()
+}
+
+function voteMove (x, y, name, color) {
+  var u = _.find(users, {name})
+  if(!u) {
+    u = {x, y, name:name, color}
+    users.push(u)
+  } else {
+    u.color = color
+    u.x = x
+    u.y = y
+  }
+}
+
+function voteTick (timeLeft) {
+  $('#vote-tick').html(timeLeft/1000)
+}
+
+function voteTouchMove (evt) {
+  evt.preventDefault()
+  var touches = evt.changedTouches
+
+  if(touches[0]) {
+    socket.emit('vote-move', touches[0].clientX, touches[0].clientY)
+  }
+}
+
+function voteMouseMove (evt) {
+  evt.preventDefault()
+  socket.emit('vote-move', evt.clientX, evt.clientY)
+}
+
 /* function decisionQuit () {
   $('#dashboard').show()
   $('#decision').hide()
 }*/
 
-function decisionTick (timeLeft) {
-  $('#decision-tick').html(timeLeft/1000)
-}
 
 function touchMove (evt) {
   evt.preventDefault()
@@ -523,18 +623,6 @@ function touchMove (evt) {
 function mouseMove (evt) {
   evt.preventDefault()
   socket.emit('decision-move', evt.clientX, evt.clientY)
-}
-
-function decisionMove (x, y, name, color) {
-  var u = _.find(users, {name})
-  if(!u) {
-    u = {x, y, name:name, color}
-    users.push(u)
-  } else {
-    u.color = color
-    u.x = x
-    u.y = y
-  }
 }
 
 function updatePlayerMoney(money) {

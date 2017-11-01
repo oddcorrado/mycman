@@ -13,6 +13,13 @@
       <input type="submit" value="QUIT">
     </form>
   </div>
+  <div id="vote" style="display:none">
+    <div id="vote-tick">3.0</div>
+    <canvas id="voteCanvas" width="300" height="400"></canvas>
+    <form id="vote-quit" style="display:none">
+      <input type="submit" value="QUIT">
+    </form>
+  </div>
   <div id="auction" style="display:none">
     <div id="auction-tick">3.0</div>
     <canvas id="auctionCanvas" width="300" height="200"></canvas>
@@ -41,10 +48,10 @@
         <input type="submit" value="START">
       </form>
       <form id="startDecision">
-        <input type="submit" value="DECISION">
+        <input type="submit" value="ENQUETE">
       </form>
-      <form id="startAuction">
-        <input type="submit" value="ENCHERES">
+      <form id="startVote">
+        <input type="submit" value="VOTES">
       </form>
       <form id="reset">
         <input type="submit" value="RESET">
