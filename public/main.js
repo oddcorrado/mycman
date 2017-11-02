@@ -49,6 +49,10 @@ function updateInfos () {
   })
 }
 
+function updatePendings() {
+  socket.emit('game-get-pendings')
+}
+
 function updateChecks () {
   socket.emit('game-get-history', 'card', history => {
     if(history) {
@@ -213,6 +217,7 @@ $.get('/login')
     updateChecks()
     updateRevelations()
     updateMps()
+    updatePendings()
   },
   () => enableLogin()
 )
@@ -275,8 +280,11 @@ function enableCards () {
     /* checkee = $('#checkName').val() */
     console.log('checking', checkee)
     socket.emit('game-get-data', ['card', checkee, Number($('#checkIndex').val()) - 1], (result) => {
-      addCheck(checkee, $('#checkIndex').val(), result)
-      $('#checkSubmit').hide()
+      addCheck(result.checkee, result.index + 1, result)
+      if (result.doHide) {
+        $('#checkSubmit').hide()
+      }
+
       /* var out = $('#checkName').val() + '[' + $('#checkIndex').val() + ']=>'+ result
       $('#checkResult').prepend('<div>'+out+'</div>') */
     })
@@ -406,7 +414,7 @@ function updatePlayers (players) {
   users = players.map(name=>({name}))
   playerOptions = '' //'<option value="none">'+playerName+'</option>'
   players.forEach(p => playerOptions+= '<option value="' + p + '">' + p + '</option>' )
-  $('#checkName').html(playerOptions)
+  $('#checkName').html('')
   $('#mpName').html(playerOptions)
   $('#hack-jam-name').html(playerOptions)
   $('#hack-spy-name').html(playerOptions)
@@ -679,6 +687,7 @@ function hackStop(type, target) {
 
 function check(name) {
   $('#checkSubmit').show()
+  $('#checkName').html(name)
   checkee = name
 }
 
