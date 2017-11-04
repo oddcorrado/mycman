@@ -15,6 +15,51 @@ var hacks = []
 var users = []
 var checkee = ''
 
+//socket.on('add-card', addCard)
+//socket.on('remove-card', removeCard)
+socket.on('players', updatePlayers)
+socket.on('players-bank', updateBank)
+socket.on('player-money', updatePlayerMoney)
+socket.on('mp', logMp)
+socket.on('decision-start', decisionStart)
+socket.on('decision-move', decisionMove)
+socket.on('decision-stop', decisionStop)
+socket.on('decision-tick', decisionTick)
+socket.on('vote-start', (users, user2color) => voteStart(users,user2color))
+//socket.on('vote-move', voteMove)
+socket.on('vote-stop', voteStop)
+socket.on('vote-select', voteSelect)
+socket.on('vote-tick', voteTick)
+socket.on('revelation-update', updateRevelations)
+socket.on('auction-start', (users, user2color) => auctionStart(users,user2color))
+socket.on('auction-tick', auctionTick)
+socket.on('auction-bid', auctionBid)
+socket.on('auction-stop', auctionStop)
+socket.on('gameOver', data => gameOver(data))
+socket.on('hack-start', (type, target) => hackStart(type, target))
+socket.on('hack-stop', (type, target) => hackStop(type, target))
+socket.on('check', (checkee) => check(checkee))
+
+socket.on('game-reset', () => {
+  $('#self').html('')
+  $('#checkResult').html('')
+  $('#revelationResult').html('')
+  $('#mpResult').html('')
+  $('#start').show()
+  $('#dashboard').hide()
+  $.get('/logout')
+    .then(
+    () => {
+      enableLogin()
+      $('#logout').hide()
+    }
+  )
+})
+
+socket.on('game-start', () => {
+  $('#start').hide()
+  updateInfos()
+})
 
 function highlightShared(secret) {
   if(secret.isShared) {
@@ -161,51 +206,6 @@ $('#nav-hack').on('click', function (e) {
 
 
 
-
-//socket.on('add-card', addCard)
-//socket.on('remove-card', removeCard)
-socket.on('players', updatePlayers)
-socket.on('players-bank', updateBank)
-socket.on('player-money', updatePlayerMoney)
-socket.on('mp', logMp)
-socket.on('decision-start', decisionStart)
-socket.on('decision-move', decisionMove)
-socket.on('decision-stop', decisionStop)
-socket.on('decision-tick', decisionTick)
-socket.on('vote-start', voteStart)
-socket.on('vote-move', voteMove)
-socket.on('vote-stop', voteStop)
-socket.on('vote-tick', voteTick)
-socket.on('revelation-update', updateRevelations)
-socket.on('auction-start', (users, user2color) => auctionStart(users,user2color))
-socket.on('auction-tick', auctionTick)
-socket.on('auction-bid', auctionBid)
-socket.on('auction-stop', auctionStop)
-socket.on('gameOver', data => gameOver(data))
-socket.on('hack-start', (type, target) => hackStart(type, target))
-socket.on('hack-stop', (type, target) => hackStop(type, target))
-socket.on('check', (checkee) => check(checkee))
-
-socket.on('game-reset', () => {
-  $('#self').html('')
-  $('#checkResult').html('')
-  $('#revelationResult').html('')
-  $('#mpResult').html('')
-  $('#start').show()
-  $('#dashboard').hide()
-  $.get('/logout')
-    .then(
-    () => {
-      enableLogin()
-      $('#logout').hide()
-    }
-  )
-})
-
-socket.on('game-start', () => {
-  $('#start').hide()
-  updateInfos()
-})
 
 // Test login
 $.get('/login')
@@ -588,8 +588,59 @@ function decisionTick (timeLeft) {
   $('#decision-tick').html(timeLeft/1000)
 }
 
+function voteStart (users, user2colorIn) {
+  user2color = user2colorIn
+  $('#vote-buttons').html('')
+  var h = ''
+  users.forEach((u)=>{
+    h += '<div class="vote-button" data-player="' + u +'"'
+    h += ' id="vote-button-' + u + '"'
+    h += ' style="float:left;width:50%;height:50px;background-color:' + user2color[u] + '">'
+    h += '<div style="text-align:center">' + u + '</div>'
+    h += '<div style="text-align:center" id="vote-count-' + u + '">' + 0 + '</div>'
+    h += '</div>'
+  })
 
-function voteStart () {
+  $('#vote-buttons').html(h)
+  $('.vote-button').on('click', function() {
+    console.log(playerName, $(this).data("player"))
+    socket.emit('vote-select', $(this).data("player"))
+  })
+  $('#dashboard').hide()
+  $('#vote').show()
+  $('#vote-quit').hide()
+}
+
+function voteCount(votes) {
+  var counts = users.map(user => {
+    var count = votes.reduce((a,v) => v.target === user.name ? a + 1 : a, 0)
+    return {name:user.name, count}
+  })
+  return counts
+}
+
+function voteSelect (votes) {
+  let myVote = (votes.find(vote => vote.voter === playerName) || {}).target
+  console.log(myVote)
+  voteCount(votes).forEach(vote => {
+    console.log(vote)
+    if(vote.name === myVote) {
+      $('#vote-count-' + vote.name).html('<' + vote.count + '>')
+    } else {
+      $('#vote-count-' + vote.name).html(vote.count)
+    }
+  })
+}
+
+function voteStop () {
+  $('#vote-quit').show()
+}
+
+function voteTick (timeLeft) {
+  $('#vote-tick').html(timeLeft/1000)
+}
+
+/* function voteStart () {
   var el = document.getElementById('voteCanvas')
   el.addEventListener('touchmove', voteTouchMove, false)
   el.addEventListener('mousemove', voteMouseMove, false)
@@ -617,9 +668,7 @@ function voteMove (x, y, name, color) {
   }
 }
 
-function voteTick (timeLeft) {
-  $('#vote-tick').html(timeLeft/1000)
-}
+
 
 function voteTouchMove (evt) {
   evt.preventDefault()
@@ -633,7 +682,7 @@ function voteTouchMove (evt) {
 function voteMouseMove (evt) {
   evt.preventDefault()
   socket.emit('vote-move', evt.clientX, evt.clientY)
-}
+} */
 
 /* function decisionQuit () {
   $('#dashboard').show()
