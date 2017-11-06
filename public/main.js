@@ -78,17 +78,16 @@ function updateInfos () {
     var selfKnowledges = ''
     if(self.secrets && self.knowledges && self.team) {
       self.secrets.forEach(secret => {
-        selfSecrets += '<div>' + highlightShared(secret) + '</div>'
+        selfSecrets += '<div class="self-secret">' + highlightShared(secret) + '</div>'
       })
       self.knowledges.forEach(secret => {
-        selfKnowledges += '<div>' + highlightShared(secret) + '</div>'
+        selfKnowledges += '<div class="self-hint">' + highlightShared(secret) + '</div>'
       })
-      $('#self').html('<h2>TEAM</h2>'
-        + '<div>' + self.team + '</div>'
-        + '<h2>SECRETS</h2>'
-        + selfSecrets
-        + '<h2>CONNAISSANCES</h2>'
+      $('#self').html('<div class="self-team">' + self.team + '</div>'
+        + '<h3>CONNAISSANCES</h2>'
         + selfKnowledges
+        + '<h3>SECRETS</h2>'
+        + selfSecrets
       )
     }
   })
@@ -124,8 +123,13 @@ function updateMps () {
 }
 
 function addCheck(name, index, result) {
-  var out = name + '[' + index + '] => '+ result.secret
-  $('#checkResult').prepend('<div>'+out+'</div>')
+  $('#checkResult').prepend('<div class="check-card">'
+    + '<div class="clearfix">'
+      + '<div class="check-card-index">' + index + '</div>'
+      + '<div class="check-card-name">' + name + '</div>'
+    + '</div>'
+    + '<div class="check-card-secret">' + result.secret + '</div>'
+    +'</div>')
 }
 
 function cleanRevelations() {
@@ -133,21 +137,25 @@ function cleanRevelations() {
 }
 
 function addRevelation(name, index, result) {
-  var out = name + '[' + index + '] => '+ result.secret
-  $('#revelationResult').prepend('<div>'+out+'</div>')
+  $('#revelationResult').prepend('<div class="revelation-card">'
+    + '<div class="clearfix">'
+      + '<div class="revelation-card-index">' + index + '</div>'
+      + '<div class="revelation-card-name">' + name + '</div>'
+    + '</div>'
+    + '<div class="revelation-card-secret">' + result.secret + '</div>'
+    +'</div>')
 }
 
 function addMp(player, message, isEcho) {
   if(isEcho) {
-    $('#mpResult').prepend('<div>'
-    + $('<b>').text("=>" + player + ': ').html()
+    $('#mpResult').prepend('<div class="message-card-self clearfix">'
     + $('<span>').text(message).html()
     + '</div>')
   } else {
-    $('#mpResult').prepend('<div>'
-    + $('<b>').text(player + ': ').html()
+    $('#mpResult').prepend('<div class="clearfix"><div class="message-card-other">'
+    + $('<span>').text(player + ': ').html()
     + $('<span>').text(message).html()
-    + '</div>')
+    + '</div></div>')
   }
 }
 
@@ -226,10 +234,10 @@ function enableLogin () {
   $('#login').show()
   $('#chatbox').hide()
   $('#login input[name=author]').focus()
-  $('#login').on('submit', function (e) {
+  $('#login').on('click', function (e) {
     e.preventDefault()
     $.post('/login', {
-      user: this.elements.author.value
+      user: this.elements.author.value.slice(0,12)
     }).then(() => document.location.reload())
   })
 }
@@ -274,7 +282,7 @@ function enableCards () {
     e.preventDefault()
     socket.emit('auction-start')
   })
-  $('#checkSubmit').on('click', function (e) {
+  $('#check-button').on('click', function (e) {
     e.preventDefault()
     //socket.emit('game-start')
     /* checkee = $('#checkName').val() */

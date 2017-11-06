@@ -1,11 +1,94 @@
+#content {
+  font-family: sans-serif;
+  padding: 5px;
+  width:320px;
+  height:600px;
+  background-color: #eeeeee;
+  overflow: auto;
+}
+
 body {
   font-family: sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+  width:320px;
+  background-color: #333333;
+}
+
+#login {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top:100px;
+}
+
+#login-field {
+  margin: 4px;
+  padding: 8px;
+  margin-left: 50px;
+  margin-right: 50px;
+  background: #cccccc;
+}
+
+#login-button {
+  margin: 4px;
+  padding: 8px;
+  margin-left: 50px;
+  margin-right: 50px;
+  background: #cccccc;
+}
+
+#check-button {
+  margin: 4px;
+  padding: 8px;
+  margin-left: 50px;
+  margin-right: 50px;
+  background: #cccccc;
+}
+
+h2 {
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+  margin: 0.5 em;
+}
+
+.self-team {
+  margin: 2px;
+  padding: 6px;
+  background: #666666;
+  color: #ffffff;
+}
+
+.self-team {
+  text-align: center;
+  margin: 2px;
+  padding: 6px;
+  background: #cccccc;
+  color: #000000;
+  font-size: 1.5em;
+}
+
+.self-hint {
+  margin: 2px;
+  padding: 6px;
+  background: #666666;
+  color: #ffffff;
+}
+
+.self-secret {
+  margin: 2px;
+  padding: 6px;
+  background: #666666;
+  color: #ffffff;
 }
 
 .nav-button {
   float: left;
-  margin: 4px;
-  padding: 8px;
+  margin: 2px;
+  padding: 6px;
   background: #cccccc;
 }
 
@@ -22,4 +105,78 @@ body {
   content:"";
   display:table;
   clear:both;
+}
+
+.message-card-self {
+  width:70%;
+  margin: 4px;
+  padding: 6px;
+  background: #cccccc;
+  color: #000000;
+  font-size: 1em;
+}
+
+.message-card-other {
+  float:right;
+  width:70%;
+  text-align:right;
+  margin: 4px;
+  padding: 6px;
+  background: #ccccff;
+  color: #000000;
+  font-size: 1em;
+}
+
+.check-card {
+  margin: 4px;
+  padding: 6px;
+  background: #cccccc;
+  color: #000000;
+  font-size: 1em;
+}
+
+.check-card-name {
+  margin: 4px;
+  padding: 6px;
+  background: #666666;
+  color: #ffffff;
+  float:left;
+}
+
+.check-card-index {
+  margin: 4px;
+  padding: 6px;
+  background: #990099;
+  color: #ffffff;
+  float:left;
+}
+
+.check-card-secret {
+}
+
+.revelation-card {
+  margin: 4px;
+  padding: 6px;
+  background: #cccccc;
+  color: #000000;
+  font-size: 1em;
+}
+
+.revelation-card-name {
+  margin: 4px;
+  padding: 6px;
+  background: #666666;
+  color: #ffffff;
+  float:left;
+}
+
+.revelation-card-index {
+  margin: 4px;
+  padding: 6px;
+  background: #990099;
+  color: #ffffff;
+  float:left;
+}
+
+.revelation-card-secret {
 }
