@@ -246,12 +246,12 @@ function enableCards () {
       }
     )
   })
-  $('#reset').on('submit', function (e) {
+  $('#reset').on('click', function (e) {
     e.preventDefault()
     socket.emit('game-reset')
   })
   $('#start').show()
-  $('#start').on('submit', function (e) {
+  $('#start').on('click', function (e) {
     e.preventDefault()
     socket.emit('game-start')
 
@@ -262,19 +262,19 @@ function enableCards () {
       }
     )*/
   })
-  $('#startDecision').on('submit', function (e) {
+  $('#startDecision').on('click', function (e) {
     e.preventDefault()
     socket.emit('decision-start')
   })
-  $('#startVote').on('submit', function (e) {
+  $('#startVote').on('click', function (e) {
     e.preventDefault()
     socket.emit('vote-start')
   })
-  $('#startAuction').on('submit', function (e) {
+  $('#startAuction').on('click', function (e) {
     e.preventDefault()
     socket.emit('auction-start')
   })
-  $('#checkSubmit').on('submit', function (e) {
+  $('#checkSubmit').on('click', function (e) {
     e.preventDefault()
     //socket.emit('game-start')
     /* checkee = $('#checkName').val() */

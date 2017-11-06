@@ -3,9 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <link rel="stylesheet" href="/styles.css">
   <title>MYCMAN</title>
 </head>
-<body style="width:320px;">
+<body style="width:400px;">
   <div id="decision" style="display:none">
     <div id="decision-tick">3.0</div>
     <canvas id="decisionCanvas" width="300" height="400"></canvas>
@@ -36,30 +37,30 @@
   </form>
 
   <div id="dashboard" style="display:none">
-    <div id="nav">
-      <button id="nav-self">MOI</button>
-      <button id="nav-hack">HACK</button>
-      <button id="nav-mp">MPS</button>
-      <button id="nav-check">CHECK</button>
-      <button id="nav-game">GAME</button>
+    <div id="nav" class="clearfix">
+      <div id="nav-self" class="nav-button">MOI</div>
+      <div id="nav-hack" class="nav-button">HACK</div>
+      <div id="nav-mp" class="nav-button">MPS</div>
+      <div id="nav-check" class="nav-button">CHECK</div>
+      <div id="nav-game" class="nav-button">GAME</div>
     </div>
     <div id="game">
       <h2>GAME</h2>
-      <form id="start" style="display:none">
-        <input type="submit" value="START">
-      </form>
-      <form id="startDecision">
-        <input type="submit" value="ENQUETE">
-      </form>
-      <form id="startVote">
-        <input type="submit" value="VOTES">
-      </form>
-      <form id="reset">
-        <input type="submit" value="RESET">
-      </form>
-      <form id="status" style="display:none">
-        <input type="submit" value="STATUS">
-      </form>
+      <div id="start" style="display:none" class="game-button">
+        START
+      </div>
+      <div id="startDecision" class="game-button">
+        ENQUETE
+      </div>
+      <div id="startVote" class="game-button">
+        VOTES
+      </div>
+      <div id="reset" class="game-button">
+        RESET
+      </div>
+      <div id="status" style="display:none" class="game-button">
+        STATUS
+      </div>
       <div id="statusResult"></div>
     </div>
     <div id="self" style="display:none"><h2>INFOS</h2></div>
