@@ -14,6 +14,7 @@ var playerName = 'anonymous'
 var hacks = []
 var users = []
 var checkee = ''
+var mpSelected = null
 
 //socket.on('add-card', addCard)
 //socket.on('remove-card', removeCard)
@@ -44,7 +45,7 @@ socket.on('game-reset', () => {
   $('#self').html('')
   $('#checkResult').html('')
   $('#revelationResult').html('')
-  $('#mpResult').html('')
+  $('#mp-result').html('')
   $('#start').show()
   $('#dashboard').hide()
   $.get('/logout')
@@ -148,12 +149,11 @@ function addRevelation(name, index, result) {
 
 function addMp(player, message, isEcho) {
   if(isEcho) {
-    $('#mpResult').prepend('<div class="message-card-self clearfix">'
+    $('#mp-result-' + player).prepend('<div class="message-card-self clearfix">'
     + $('<span>').text(message).html()
     + '</div>')
   } else {
-    $('#mpResult').prepend('<div class="clearfix"><div class="message-card-other">'
-    + $('<span>').text(player + ': ').html()
+    $('#mp-result-' + player).prepend('<div class="clearfix"><div class="message-card-other">'
     + $('<span>').text(message).html()
     + '</div></div>')
   }
@@ -337,12 +337,14 @@ function enableCards () {
       $('#statusResult').html(out)
     })
   })
-  $('#mpSubmit').on('submit', function (e) {
+  $('#mp-message-send').on('click', function (e) {
     e.preventDefault()
     //socket.emit('game-start')
-    socket.emit('mp', playerName, $('#mpName').val(), $('#mpMessage').val(), (target, message) => {
-      addMp(target, message, true)
-    })
+    if(mpSelected !== null &&  $('#mp-message-text').val() !== '') {
+      socket.emit('mp', playerName, mpSelected, $('#mp-message-text').val(), (target, message) => {
+        addMp(target, message, true)})
+      $('#mp-message-text').val('')
+    }
   })
 
   $('#decision-quit').on('submit', function (e) {
@@ -417,11 +419,36 @@ function removeCard (card) {
   $('#card'+card.id).detach()
 }*/
 
+function mpHideAll() {
+  users.forEach(u => $('#mp-result-' + u.name).hide())
+  users.forEach(u => $('#mp-select-' + u.name).removeClass('mp-select-button-selected'))
+}
 
 function updatePlayers (players) {
   users = players.map(name=>({name}))
   playerOptions = '' //'<option value="none">'+playerName+'</option>'
   players.forEach(p => playerOptions+= '<option value="' + p + '">' + p + '</option>' )
+  players.forEach(p => {
+    if($('#mp-result-' + p).length === 0) {
+      $('#mp-result').append('<div class="mp-player" id="mp-result-' + p + '"></div>')
+    }
+  })
+  players.forEach(p => {
+    if($('#mp-select-' + p).length === 0) {
+      $('#mp-select').append('<div class="mp-select-button" id="mp-select-' + p + '">' + p + '</div>')
+    }
+  })
+  players.forEach(p => $('#mp-select-' + p).on('click', function (e) {
+    e.preventDefault()
+    mpHideAll()
+    $('#mp-result-' + p).show()
+    mpSelected = p
+    $('#mp-select-' + p).addClass('mp-select-button-selected')
+  }))
+  if(mpSelected === null) {
+    mpHideAll()
+  }
+
   $('#checkName').html('')
   $('#mpName').html(playerOptions)
   $('#hack-jam-name').html(playerOptions)
@@ -629,9 +656,7 @@ function voteCount(votes) {
 
 function voteSelect (votes) {
   let myVote = (votes.find(vote => vote.voter === playerName) || {}).target
-  console.log(myVote)
   voteCount(votes).forEach(vote => {
-    console.log(vote)
     if(vote.name === myVote) {
       $('#vote-count-' + vote.name).html('<' + vote.count + '>')
     } else {

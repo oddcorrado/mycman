@@ -5,6 +5,7 @@
   height:600px;
   background-color: #eeeeee;
   overflow: auto;
+  margin: 0px;
 }
 
 body {
@@ -179,4 +180,45 @@ h3 {
 }
 
 .revelation-card-secret {
+}
+
+#mp-select {
+  margin: 4px;
+  padding: 4px;
+  background: #999999;
+}
+
+.mp-select-button {
+  float: left;
+  margin: 4px;
+  padding: 6px;
+  background: #cccccc;
+}
+
+.mp-select-button-selected {
+  float: left;
+  margin: 4px;
+  padding: 6px;
+  background: #ffffff;
+}
+
+#mp-message {
+  margin: 4px;
+  padding: 6px;
+  background: #cccccc;
+}
+
+#mp-message-text {
+  margin: 2px;
+  padding: 6px;
+  width:75%;
+  background: #ffffff;
+  font-size: 1em;
+}
+
+#mp-message-send {
+  float: right;
+  margin: 4px;
+  padding: 6px;
+  background: #ffffff;
 }

@@ -104,13 +104,13 @@
         <div id="hack-list"></div>
       </div>
       <div id="mp" style="display:none">
-        <h2>MESSAGES</h2>
-        <form id="mpSubmit">
-          <input id="mpMessage" type="text" placeholder="mp" maxlength="32"/>
-          <select id="mpName"><option value="none">none</option></select>
-          <input type="submit" value="MP">
-          <div id="mpResult"></div>
-        </form>
+        <div id="mp-select" class="clearfix"></div>
+        <div id="mp-message" class="clearfix">
+          <input id="mp-message-text" type="text" placeholder="mp" maxlength="64"/>
+          <div id="mp-message-send">MP</div>
+        </div>
+        <div id="mp-result">
+        </div>
       </div>
       <div id="gameOver" style="display:none">
         <h2>GAME OVER</h2>
