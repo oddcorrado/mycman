@@ -1,11 +1,13 @@
 #content {
   font-family: sans-serif;
   padding: 5px;
-  width:320px;
-  height:600px;
-  background-color: #eeeeee;
   overflow: auto;
   margin: 0px;
+}
+
+.pure-menu-item {
+  padding: 0.6em;
+  color: #ffffff;
 }
 
 body {
@@ -13,8 +15,6 @@ body {
   margin-left: auto;
   margin-right: auto;
   margin-top: 0px;
-  width:320px;
-  background-color: #333333;
 }
 
 #login {
@@ -206,6 +206,10 @@ h3 {
   margin: 4px;
   padding: 6px;
   background: #cccccc;
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
 }
 
 #mp-message-text {

@@ -149,11 +149,11 @@ function addRevelation(name, index, result) {
 
 function addMp(player, message, isEcho) {
   if(isEcho) {
-    $('#mp-result-' + player).prepend('<div class="message-card-self clearfix">'
+    $('#mp-result-' + player).append('<div class="message-card-self clearfix">'
     + $('<span>').text(message).html()
     + '</div>')
   } else {
-    $('#mp-result-' + player).prepend('<div class="clearfix"><div class="message-card-other">'
+    $('#mp-result-' + player).append('<div class="clearfix"><div class="message-card-other">'
     + $('<span>').text(message).html()
     + '</div></div>')
   }
@@ -173,6 +173,11 @@ function hideAll () {
   $('#game').hide()
   $('#hack').hide()
 }
+
+$('.pure-menu-item').on('click', function() {
+  $('.pure-menu-selected').removeClass('pure-menu-selected')
+  $(this).addClass('pure-menu-selected')
+})
 
 $('#nav-self').on('click', function (e) {
   e.preventDefault()
@@ -237,7 +242,7 @@ function enableLogin () {
   $('#login').on('click', function (e) {
     e.preventDefault()
     $.post('/login', {
-      user: this.elements.author.value.slice(0,12)
+      user: this.elements.author.value.slice(0,30)
     }).then(() => document.location.reload())
   })
 }
@@ -421,7 +426,7 @@ function removeCard (card) {
 
 function mpHideAll() {
   users.forEach(u => $('#mp-result-' + u.name).hide())
-  users.forEach(u => $('#mp-select-' + u.name).removeClass('mp-select-button-selected'))
+  $('.pure-menu-selected').removeClass('pure-menu-selected')
 }
 
 function updatePlayers (players) {
@@ -435,15 +440,18 @@ function updatePlayers (players) {
   })
   players.forEach(p => {
     if($('#mp-select-' + p).length === 0) {
-      $('#mp-select').append('<div class="mp-select-button" id="mp-select-' + p + '">' + p + '</div>')
+      $('#menu-list').append(
+        '<li class="pure-menu-item" id="mp-select-' + p + '">' + ' \>' + p + '</li>')
     }
   })
   players.forEach(p => $('#mp-select-' + p).on('click', function (e) {
     e.preventDefault()
     mpHideAll()
+    hideAll()
+    $('#mp').show()
     $('#mp-result-' + p).show()
     mpSelected = p
-    $('#mp-select-' + p).addClass('mp-select-button-selected')
+    $('#mp-select-' + p).addClass('pure-menu-selected')
   }))
   if(mpSelected === null) {
     mpHideAll()

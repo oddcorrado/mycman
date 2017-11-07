@@ -3,128 +3,144 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+  <link rel="stylesheet" href="/side-menu.css">
   <link rel="stylesheet" href="/styles.css">
   <title>MYCMAN</title>
 </head>
 <body>
-  <div id="content">
-    <div id="decision" style="display:none">
-      <div id="decision-tick">3.0</div>
-      <canvas id="decisionCanvas" width="300" height="320"></canvas>
-      <form id="decision-quit" style="display:none">
-        <input type="submit" value="QUIT">
-      </form>
-    </div>
-    <div id="vote" style="display:none">
-      <div id="vote-tick">3.0</div>
-      <canvas id="voteCanvas" width="300" height="0"></canvas>
-      <div id="vote-buttons"></div>
-      <form id="vote-quit" style="display:none">
-        <input type="submit" value="QUIT">
-      </form>
-    </div>
-    <div id="auction" style="display:none">
-      <div id="auction-tick">3.0</div>
-      <canvas id="auctionCanvas" width="300" height="200"></canvas>
-      <div id="auction-buttons">
-      </div>
-      <form id="auction-quit" style="display:none">
-        <input type="submit" value="QUIT">
-      </form>
-    </div>
-    <form id="login" style="display:block">
-      <input type="text" name="author" placeholder="your name">
-      <div id="login-button">LOGIN</div>
-    </form>
+  <div id="layout">
+    <a href="#menu" id="menuLink" class="menu-link">
+      <!-- Hamburger icon -->
+      <span></span>
+    </a>
+    <div id="menu">
+      <div class="pure-menu">
+        <a class="pure-menu-heading" href="#">Company</a>
 
-    <div id="dashboard" style="display:none">
-      <div id="nav" class="clearfix">
-        <div id="nav-self" class="nav-button">MOI</div>
-        <div id="nav-hack" class="nav-button">HACK</div>
-        <div id="nav-mp" class="nav-button">MPS</div>
-        <div id="nav-check" class="nav-button">CHECK</div>
-        <div id="nav-game" class="nav-button">GAME</div>
+        <ul id="menu-list" class="pure-menu-list">
+          <li id="nav-self" class="pure-menu-item menu-item-divided pure-menu-selected">MOI</li>
+          <li id="nav-hack" class="pure-menu-item">HACK</li>
+          <li id="nav-mp" class="pure-menu-item">MPS</li>
+          <li id="nav-check" class="pure-menu-item">CHECK</li>
+          <li id="nav-game" class="pure-menu-item">GAME</li>
+        </ul>
       </div>
-      <div id="game">
-        <h2>GAME</h2>
-        <div id="start" style="display:none" class="game-button">
-          START
-        </div>
-        <div id="startDecision" class="game-button">
-          ENQUETE
-        </div>
-        <div id="startVote" class="game-button">
-          VOTES
-        </div>
-        <div id="reset" class="game-button">
-          RESET
-        </div>
-        <div id="status" style="display:none" class="game-button">
-          STATUS
-        </div>
-        <div id="statusResult"></div>
-      </div>
-      <div id="self" style="display:none"><h2>INFOS</h2></div>
-      <div id="check" style="display:none">
-        <h3>ENQUETE</h3>
-        <form id="checkSubmit" style="display:none">
-          <div id="checkName" style="display:inline"></div>
-          <select id="checkIndex">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-          <div id="check-button">CHECK</div>
-        </form>
-        <div id="checkResult"></div>
-        <h3>REVELATIONS</h3>
-        <form id="dbSubmit" style="display:none">
-          <input id="dbWord" type="text">
-          <input type="submit" value="DB">
-        </form>
-        <div id="revelationResult"></div>
-      </div>
-      <div id="hack" style="display:none">
-        <h2>BUY HACK</h2>
-        <form id="hack-jam-submit">
-          <select id="hack-jam-name"><option value="none">none</option></select>
-          <input type="submit" value="JAM">
-        </form>
-        <form id="hack-spy-submit">
-          <select id="hack-spy-name"><option value="none">none</option></select>
-          <input type="submit" value="SPY">
-        </form>
-        <form id="hack-usurp-submit">
-          <select id="hack-usurp-name"><option value="none">none</option></select>
-          <input type="submit" value="USURP">
-        </form>
-        <h2>ACTIVE HACKS</h2>
-        <div id="hack-list"></div>
-      </div>
-      <div id="mp" style="display:none">
-        <div id="mp-select" class="clearfix"></div>
-        <div id="mp-message" class="clearfix">
-          <input id="mp-message-text" type="text" placeholder="mp" maxlength="64"/>
-          <div id="mp-message-send">MP</div>
-        </div>
-        <div id="mp-result">
-        </div>
-      </div>
-      <div id="gameOver" style="display:none">
-        <h2>GAME OVER</h2>
-        <h2>GAGNANT</h2>
-        <div id="gameOver-winner"></div>
-        <h2>VOTES</h2>
-        <div id="gameOver-votes"></div>
-        <h2>MESSAGES</h2>
-        <div id="gameOver-messages"></div>
-      </div>
+    </div>
 
+    <div id="main">
+      <div id="content">
+        <div id="decision" style="display:none">
+          <div id="decision-tick">3.0</div>
+          <canvas id="decisionCanvas" width="300" height="320"></canvas>
+          <form id="decision-quit" style="display:none">
+            <input type="submit" value="QUIT">
+          </form>
+        </div>
+        <div id="vote" style="display:none">
+          <div id="vote-tick">3.0</div>
+          <canvas id="voteCanvas" width="300" height="0"></canvas>
+          <div id="vote-buttons"></div>
+          <form id="vote-quit" style="display:none">
+            <input type="submit" value="QUIT">
+          </form>
+        </div>
+        <div id="auction" style="display:none">
+          <div id="auction-tick">3.0</div>
+          <canvas id="auctionCanvas" width="300" height="200"></canvas>
+          <div id="auction-buttons">
+          </div>
+          <form id="auction-quit" style="display:none">
+            <input type="submit" value="QUIT">
+          </form>
+        </div>
+        <form id="login" style="display:block">
+          <input type="text" name="author" placeholder="your name">
+          <div id="login-button">LOGIN</div>
+        </form>
+
+        <div id="dashboard" style="display:none">
+          <div id="game">
+            <h2>GAME</h2>
+            <div id="start" style="display:none" class="game-button">
+              START
+            </div>
+            <div id="startDecision" class="game-button">
+              ENQUETE
+            </div>
+            <div id="startVote" class="game-button">
+              VOTES
+            </div>
+            <div id="reset" class="game-button">
+              RESET
+            </div>
+            <div id="status" style="display:none" class="game-button">
+              STATUS
+            </div>
+            <div id="statusResult"></div>
+          </div>
+          <div id="self" style="display:none"><h2>INFOS</h2></div>
+          <div id="check" style="display:none">
+            <h3>ENQUETE</h3>
+            <form id="checkSubmit" style="display:none">
+              <div id="checkName" style="display:inline"></div>
+              <select id="checkIndex">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+              <div id="check-button">CHECK</div>
+            </form>
+            <div id="checkResult"></div>
+            <h3>REVELATIONS</h3>
+            <form id="dbSubmit" style="display:none">
+              <input id="dbWord" type="text">
+              <input type="submit" value="DB">
+            </form>
+            <div id="revelationResult"></div>
+          </div>
+          <div id="hack" style="display:none">
+            <h2>BUY HACK</h2>
+            <form id="hack-jam-submit">
+              <select id="hack-jam-name"><option value="none">none</option></select>
+              <input type="submit" value="JAM">
+            </form>
+            <form id="hack-spy-submit">
+              <select id="hack-spy-name"><option value="none">none</option></select>
+              <input type="submit" value="SPY">
+            </form>
+            <form id="hack-usurp-submit">
+              <select id="hack-usurp-name"><option value="none">none</option></select>
+              <input type="submit" value="USURP">
+            </form>
+            <h2>ACTIVE HACKS</h2>
+            <div id="hack-list"></div>
+          </div>
+          <div id="mp" style="display:none">
+            <div id="mp-result"></div>
+            <div id="mp-message" class="clearfix">
+              <input id="mp-message-text" type="text" placeholder="mp" maxlength="64"/>
+              <div id="mp-message-send">MP</div>
+            </div>
+          </div>
+          <div id="gameOver" style="display:none">
+            <h2>GAME OVER</h2>
+            <h2>GAGNANT</h2>
+            <div id="gameOver-winner"></div>
+            <h2>VOTES</h2>
+            <div id="gameOver-votes"></div>
+            <h2>MESSAGES</h2>
+            <div id="gameOver-messages"></div>
+          </div>
+
+        </div>
+      </div>
     </div>
   </div>
 
   <script src="/build.js"></script>
+  <script src="/ui.js"></script>
 </body>
 </html>
