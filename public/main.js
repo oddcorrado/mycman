@@ -453,6 +453,7 @@ function updatePlayers (players) {
     mpSelected = p
     $('#mp-select-' + p).addClass('pure-menu-selected')
     $('#mp-select-'+ p ).html('> '+ p)
+    $('#mp-result').scrollTop( document.getElementById("mp-result").scrollHeight)
   }))
   if(mpSelected === null) {
     mpHideAll()
