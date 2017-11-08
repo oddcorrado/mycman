@@ -441,7 +441,7 @@ function updatePlayers (players) {
   players.forEach(p => {
     if($('#mp-select-' + p).length === 0) {
       $('#menu-list').append(
-        '<li class="pure-menu-item" id="mp-select-' + p + '">' + ' \>' + p + '</li>')
+        '<li class="pure-menu-item" id="mp-select-' + p + '">' + '\> ' + p + '</li>')
     }
   })
   players.forEach(p => $('#mp-select-' + p).on('click', function (e) {
@@ -452,6 +452,7 @@ function updatePlayers (players) {
     $('#mp-result-' + p).show()
     mpSelected = p
     $('#mp-select-' + p).addClass('pure-menu-selected')
+    $('#mp-select-'+ p ).html('> '+ p)
   }))
   if(mpSelected === null) {
     mpHideAll()
@@ -465,7 +466,7 @@ function updatePlayers (players) {
 }
 
 function logMp (player, message) {
-  $('#nav-mp').html('*MPS*')
+  $('#mp-select-'+player).html('*> '+player)
   addMp(player, message, false)
 }
 
