@@ -292,7 +292,7 @@ function enableCards () {
     //socket.emit('game-start')
     /* checkee = $('#checkName').val() */
     console.log('checking', checkee)
-    socket.emit('game-get-data', ['card', checkee, Number($('#checkIndex').val()) - 1], (result) => {
+    socket.emit('game-get-data', ['card', $('#checkName').val(), Number($('#checkIndex').val()) - 1], (result) => {
       addCheck(result.checkee, result.index + 1, result)
       if (result.doHide) {
         $('#checkSubmit').hide()
@@ -431,8 +431,9 @@ function mpHideAll() {
 
 function updatePlayers (players) {
   users = players.map(name=>({name}))
-  playerOptions = '' //'<option value="none">'+playerName+'</option>'
+  playerOptions = ''
   players.forEach(p => playerOptions+= '<option value="' + p + '">' + p + '</option>' )
+  $('#checkName').html(playerOptions)
   players.forEach(p => {
     if($('#mp-result-' + p).length === 0) {
       $('#mp-result').append('<div class="mp-player" id="mp-result-' + p + '"></div>')
@@ -459,7 +460,7 @@ function updatePlayers (players) {
     mpHideAll()
   }
 
-  $('#checkName').html('')
+  //$('#checkName').html('')
   $('#mpName').html(playerOptions)
   $('#hack-jam-name').html(playerOptions)
   $('#hack-spy-name').html(playerOptions)
@@ -779,8 +780,9 @@ function hackStop(type, target) {
 
 function check(name) {
   $('#checkSubmit').show()
-  $('#checkName').html(name)
-  checkee = name
+  //$('#checkName').html(name)
+  //checkee = name
+  checkee = $('#checkName').val()
 }
 
 function gameOver(data) {
