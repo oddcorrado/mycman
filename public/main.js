@@ -79,13 +79,13 @@ function updateInfos () {
     var selfKnowledges = ''
     if(self.secrets && self.knowledges && self.team) {
       self.secrets.forEach(secret => {
-        selfSecrets += '<div class="self-secret">' + highlightShared(secret) + '</div>'
+        selfSecrets += '<div class="self-secret">' + highlightShared(secret.secret) + '</div>'
       })
-      self.knowledges.forEach(secret => {
-        selfKnowledges += '<div class="self-hint">' + highlightShared(secret) + '</div>'
+      self.knowledges.forEach(hint => {
+        selfKnowledges += '<div class="self-hint">' + hint + '</div>'
       })
       $('#self').html('<div class="self-team">' + self.team + '</div>'
-        + '<h3>CONNAISSANCES</h2>'
+        + '<h3>INDICES</h2>'
         + selfKnowledges
         + '<h3>SECRETS</h2>'
         + selfSecrets
@@ -778,7 +778,7 @@ function hackStop(type, target) {
   updateHacks()
 }
 
-function check(name) {
+function check() {
   $('#checkSubmit').show()
   //$('#checkName').html(name)
   //checkee = name
