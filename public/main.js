@@ -439,11 +439,12 @@ function updatePlayers (players) {
       $('#mp-result').append('<div class="mp-player" id="mp-result-' + p + '"></div>')
     }
   })
+  $(".mp-messenger").remove()
   players.forEach(p => {
-    if($('#mp-select-' + p).length === 0) {
-      $('#menu-list').append(
-        '<li class="pure-menu-item" id="mp-select-' + p + '">' + '\> ' + p + '</li>')
-    }
+  /*  if($('#mp-select-' + p).length === 0)  { */
+    $('#menu-list').append(
+        '<li class="pure-menu-item mp-messenger" id="mp-select-' + p + '">' + '\> ' + p + '</li>')
+//    }
   })
   players.forEach(p => $('#mp-select-' + p).on('click', function (e) {
     e.preventDefault()
