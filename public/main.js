@@ -129,7 +129,7 @@ function addCheck(name, index, result) {
       + '<div class="check-card-index">' + index + '</div>'
       + '<div class="check-card-name">' + name + '</div>'
     + '</div>'
-    + '<div class="check-card-secret">' + result.secret + '</div>'
+    + '<div class="check-card-secret">' + result.secret.secret + '</div>'
     +'</div>')
 }
 
