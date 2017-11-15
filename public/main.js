@@ -62,6 +62,10 @@ socket.on('game-start', () => {
   updateInfos()
 })
 
+function skipSpaces(s) {
+  return s.replace(/ /g, '_')
+}
+
 function highlightShared(secret) {
   if(secret.isShared) {
     return '*>'+secret.secret
@@ -143,7 +147,7 @@ function addRevelation(name, index, result) {
       + '<div class="revelation-card-index">' + index + '</div>'
       + '<div class="revelation-card-name">' + name + '</div>'
     + '</div>'
-    + '<div class="revelation-card-secret">' + result.secret + '</div>'
+    + '<div class="revelation-card-secret">' + result.secret.secret + '</div>'
     +'</div>')
 }
 
@@ -441,20 +445,20 @@ function updatePlayers (players) {
   })
   $(".mp-messenger").remove()
   players.forEach(p => {
-  /*  if($('#mp-select-' + p).length === 0)  { */
+  /*  if($('#mp-select-' + skipSpaces(p)).length === 0)  { */
     $('#menu-list').append(
-        '<li class="pure-menu-item mp-messenger" id="mp-select-' + p + '">' + '\> ' + p + '</li>')
+        '<li class="pure-menu-item mp-messenger" id="mp-select-' + skipSpaces(p) + '">' + '\> ' + p + '</li>')
 //    }
   })
-  players.forEach(p => $('#mp-select-' + p).on('click', function (e) {
+  players.forEach(p => $('#mp-select-' + skipSpaces(p)).on('click', function (e) {
     e.preventDefault()
     mpHideAll()
     hideAll()
     $('#mp').show()
     $('#mp-result-' + p).show()
     mpSelected = p
-    $('#mp-select-' + p).addClass('pure-menu-selected')
-    $('#mp-select-'+ p ).html('> '+ p)
+    $('#mp-select-' + skipSpaces(p)).addClass('pure-menu-selected')
+    $('#mp-select-'+ skipSpaces(p)).html('> '+ p)
     $('html').scrollTop(document.getElementById("mp").scrollHeight)
   }))
   if(mpSelected === null) {
@@ -469,7 +473,7 @@ function updatePlayers (players) {
 }
 
 function logMp (player, message) {
-  $('#mp-select-'+player).html('*> '+player)
+  $('#mp-select-' + skipSpaces(player)).html('*> '+player)
   addMp(player, message, false)
 }
 
@@ -644,7 +648,7 @@ function voteStart (users, user2colorIn) {
     h += ' id="vote-button-' + u + '"'
     h += ' style="float:left;width:50%;height:50px;background-color:' + user2color[u] + '">'
     h += '<div style="text-align:center">' + u + '</div>'
-    h += '<div style="text-align:center" id="vote-count-' + u + '">' + 0 + '</div>'
+    h += '<div style="text-align:center" id="vote-count-' + skipSpaces(u) + '">' + 0 + '</div>'
     h += '</div>'
   })
 
@@ -670,9 +674,9 @@ function voteSelect (votes) {
   let myVote = (votes.find(vote => vote.voter === playerName) || {}).target
   voteCount(votes).forEach(vote => {
     if(vote.name === myVote) {
-      $('#vote-count-' + vote.name).html('<' + vote.count + '>')
+      $('#vote-count-' + skipSpaces(vote.name)).html('<' + vote.count + '>')
     } else {
-      $('#vote-count-' + vote.name).html(vote.count)
+      $('#vote-count-' + skipSpaces(vote.name)).html(vote.count)
     }
   })
 }
