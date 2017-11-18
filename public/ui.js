@@ -37,7 +37,7 @@
     toggleAll(e)
   }
 
-  content.onclick = function(e) {
+  menu.onclick = function(e) {
     if (menu.className.indexOf('active') !== -1) {
       toggleAll(e)
     }

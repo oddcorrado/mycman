@@ -206,6 +206,36 @@ h3 {
   height:50px;
 }
 
+#mp-recipients {
+  position:fixed;
+  top:0;
+  left:55px;
+  right:0;
+  height: 200px;;
+
+}
+
+.mp-recipient {
+  float: left;
+  margin: 4px;
+  padding: 6px;
+  background: #000000;
+  height:30px;
+  width:30px;
+  border-radius:50%;
+  color:#ffffff;
+  text-align:center;
+  font-size:1.5em;
+  border-color:#000000;
+  border-style:none;
+}
+
+.mp-recipient-selected {
+  border-color:#ff0000;
+  border-style:inset;
+  border-width:5px;
+}
+
 #mp-message {
   margin: 4px;
   padding: 6px;

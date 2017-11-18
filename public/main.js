@@ -214,6 +214,13 @@ $('#nav-hack').on('click', function (e) {
   $('#hack').show()
 })
 
+$('#mp-message-text').on('focus', function() {
+  $('#mp-recipients').hide()
+})
+
+$('#mp-message-text').on('blur', function() {
+  $('#mp-recipients').show()
+})
 
 // ACK
 /* socket.emit('sum', 2, 3, (result) => {
@@ -445,11 +452,19 @@ function updatePlayers (players) {
   })
   $(".mp-messenger").remove()
   players.forEach(p => {
-  /*  if($('#mp-select-' + skipSpaces(p)).length === 0)  { */
-    $('#menu-list').append(
-        '<li class="pure-menu-item mp-messenger" id="mp-select-' + skipSpaces(p) + '">' + '\> ' + p + '</li>')
-//    }
+    if(p !== playerName) {
+      $('#menu-list').append( // FIXME
+          '<li class="pure-menu-item mp-messenger" id="mp-select-' + skipSpaces(p) + '">' + '\> ' + p + '</li>')
+    }
   })
+  $("#mp-recipients").html('')
+  players.forEach(p => {
+    if(p !== playerName) { // FIXME
+      $('#mp-recipients').append(
+      '<div class="mp-recipient" id="mp-recipient-' + skipSpaces(p) + '">' + p.slice(0,2) + '</div>')
+    }
+  })
+
   players.forEach(p => $('#mp-select-' + skipSpaces(p)).on('click', function (e) {
     e.preventDefault()
     mpHideAll()
@@ -457,10 +472,27 @@ function updatePlayers (players) {
     $('#mp').show()
     $('#mp-result-' + p).show()
     mpSelected = p
+    $('.mp-recipient').removeClass('mp-recipient-selected')
+    $('#mp-recipient-' + skipSpaces(p)).addClass('mp-recipient-selected')
     $('#mp-select-' + skipSpaces(p)).addClass('pure-menu-selected')
     $('#mp-select-'+ skipSpaces(p)).html('> '+ p)
     $('html').scrollTop(document.getElementById("mp").scrollHeight)
   }))
+
+  players.forEach(p => $('#mp-recipient-' + skipSpaces(p)).on('click', function (e) {
+    e.preventDefault()
+    mpHideAll()
+    hideAll()
+    $('#mp').show()
+    $('#mp-result-' + p).show()
+    mpSelected = p
+    $('.mp-recipient').removeClass('mp-recipient-selected')
+    $('#mp-recipient-' + skipSpaces(p)).addClass('mp-recipient-selected')
+    $('#mp-select-' + skipSpaces(p)).addClass('pure-menu-selected')
+    $('#mp-select-'+ skipSpaces(p)).html('> '+ p)
+    $('html').scrollTop(document.getElementById("mp").scrollHeight)
+  }))
+
   if(mpSelected === null) {
     mpHideAll()
   }
