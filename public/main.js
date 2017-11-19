@@ -477,6 +477,7 @@ function updatePlayers (players) {
     $('#mp-select-' + skipSpaces(p)).addClass('pure-menu-selected')
     $('#mp-select-'+ skipSpaces(p)).html('> '+ p)
     $('html').scrollTop(document.getElementById("mp").scrollHeight)
+    $('#mp-recipient-' + skipSpaces(p)).removeClass('mp-recipient-unread')
   }))
 
   players.forEach(p => $('#mp-recipient-' + skipSpaces(p)).on('click', function (e) {
@@ -491,6 +492,7 @@ function updatePlayers (players) {
     $('#mp-select-' + skipSpaces(p)).addClass('pure-menu-selected')
     $('#mp-select-'+ skipSpaces(p)).html('> '+ p)
     $('html').scrollTop(document.getElementById("mp").scrollHeight)
+    $('#mp-recipient-' + skipSpaces(p)).removeClass('mp-recipient-unread')
   }))
 
   if(mpSelected === null) {
@@ -506,6 +508,7 @@ function updatePlayers (players) {
 
 function logMp (player, message) {
   $('#mp-select-' + skipSpaces(player)).html('*> '+player)
+  $('#mp-recipient-' + skipSpaces(player)).addClass('mp-recipient-unread')
   addMp(player, message, false)
 }
 
