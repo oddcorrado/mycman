@@ -153,11 +153,11 @@ function addRevelation(name, index, result) {
 
 function addMp(player, message, isEcho) {
   if(isEcho) {
-    $('#mp-result-' + player).append('<div class="message-card-self clearfix">'
+    $('#mp-result-' + skipSpaces(player)).append('<div class="message-card-self clearfix">'
     + $('<span>').text(message).html()
     + '</div>')
   } else {
-    $('#mp-result-' + player).append('<div class="clearfix"><div class="message-card-other">'
+    $('#mp-result-' + skipSpaces(player)).append('<div class="clearfix"><div class="message-card-other">'
     + $('<span>').text(message).html()
     + '</div></div>')
   }
@@ -436,7 +436,7 @@ function removeCard (card) {
 }*/
 
 function mpHideAll() {
-  users.forEach(u => $('#mp-result-' + u.name).hide())
+  users.forEach(u => $('#mp-result-' + skipSpaces(u.name)).hide())
   $('.pure-menu-selected').removeClass('pure-menu-selected')
 }
 
@@ -446,8 +446,8 @@ function updatePlayers (players) {
   players.forEach(p => playerOptions+= '<option value="' + p + '">' + p + '</option>' )
   $('#checkName').html(playerOptions)
   players.forEach(p => {
-    if($('#mp-result-' + p).length === 0) {
-      $('#mp-result').append('<div class="mp-player" id="mp-result-' + p + '"></div>')
+    if($('#mp-result-' + skipSpaces(p)).length === 0) {
+      $('#mp-result').append('<div class="mp-player" id="mp-result-' + skipSpaces(p) + '"></div>')
     }
   })
   $(".mp-messenger").remove()
@@ -470,7 +470,7 @@ function updatePlayers (players) {
     mpHideAll()
     hideAll()
     $('#mp').show()
-    $('#mp-result-' + p).show()
+    $('#mp-result-' + skipSpaces(p)).show()
     mpSelected = p
     $('.mp-recipient').removeClass('mp-recipient-selected')
     $('#mp-recipient-' + skipSpaces(p)).addClass('mp-recipient-selected')
@@ -484,7 +484,7 @@ function updatePlayers (players) {
     mpHideAll()
     hideAll()
     $('#mp').show()
-    $('#mp-result-' + p).show()
+    $('#mp-result-' + skipSpaces(p)).show()
     mpSelected = p
     $('.mp-recipient').removeClass('mp-recipient-selected')
     $('#mp-recipient-' + skipSpaces(p)).addClass('mp-recipient-selected')
