@@ -1,5 +1,17 @@
 body {
-    color: #777;
+    color: #ffffff;
+}
+
+select {
+    background-color: #000000;
+}
+
+input {
+    background-color: #666666;
+}
+
+button {
+    background-color: #990099;
 }
 
 .pure-img-responsive {
@@ -87,7 +99,7 @@ appears on the left side of the page.
     left: 0;
     bottom: 0;
     z-index: 1000; /* so the menu or its navicon stays above all content */
-    background: #191818;
+    background: #401e40;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
@@ -129,7 +141,7 @@ appears on the left side of the page.
     */
     #menu .pure-menu-selected,
     #menu .pure-menu-heading {
-        background: #1f8dd6;
+        background: #990099;
     }
         /*
         This styles a link within a selected menu item `<li>`.
@@ -174,7 +186,7 @@ small screens.
 
     .menu-link:hover,
     .menu-link:focus {
-        background: #000;
+        background: #c023c0;
     }
 
     .menu-link span {

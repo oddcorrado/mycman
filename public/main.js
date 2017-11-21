@@ -681,7 +681,7 @@ function voteStart (users, user2colorIn) {
   users.forEach((u)=>{
     h += '<div class="vote-button" data-player="' + u +'"'
     h += ' id="vote-button-' + u + '"'
-    h += ' style="float:left;width:50%;height:50px;background-color:' + user2color[u] + '">'
+    h += ' style="float:left;width:50%;height:50px;color:black;background-color:' + user2color[u] + '">'
     h += '<div style="text-align:center">' + u + '</div>'
     h += '<div style="text-align:center" id="vote-count-' + skipSpaces(u) + '">' + 0 + '</div>'
     h += '</div>'
