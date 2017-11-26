@@ -153,9 +153,9 @@ function addRevelation(name, index, result) {
 
 function addMp(player, message, isEcho) {
   if(isEcho) {
-    $('#mp-result-' + skipSpaces(player)).append('<div class="message-card-self clearfix">'
+    $('#mp-result-' + skipSpaces(player)).append('<div class="clearfix"><div class="message-card-self">'
     + $('<span>').text(message).html()
-    + '</div>')
+    + '</div></div>')
   } else {
     $('#mp-result-' + skipSpaces(player)).append('<div class="clearfix"><div class="message-card-other">'
     + $('<span>').text(message).html()
