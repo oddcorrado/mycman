@@ -15,17 +15,12 @@ var hacks = []
 var users = []
 var checkee = ''
 var mpSelected = null
+var user2color = {}
 
 //socket.on('add-card', addCard)
 //socket.on('remove-card', removeCard)
 socket.on('players', updatePlayers)
-socket.on('players-bank', updateBank)
-socket.on('player-money', updatePlayerMoney)
 socket.on('mp', logMp)
-socket.on('decision-start', decisionStart)
-socket.on('decision-move', decisionMove)
-socket.on('decision-stop', decisionStop)
-socket.on('decision-tick', decisionTick)
 socket.on('vote-start', (users, user2color) => voteStart(users,user2color))
 //socket.on('vote-move', voteMove)
 socket.on('vote-stop', voteStop)
@@ -33,10 +28,6 @@ socket.on('vote-select', voteSelect)
 socket.on('vote-tick', voteTick)
 socket.on('phase-tick', phaseTick)
 socket.on('revelation-update', updateRevelations)
-socket.on('auction-start', (users, user2color) => auctionStart(users,user2color))
-socket.on('auction-tick', auctionTick)
-socket.on('auction-bid', auctionBid)
-socket.on('auction-stop', auctionStop)
 socket.on('gameOver', data => gameOver(data))
 socket.on('hack-start', (type, target) => hackStart(type, target))
 socket.on('hack-stop', (type, target) => hackStop(type, target))
@@ -77,10 +68,7 @@ function highlightShared(secret) {
 
 function updateInfos () {
   socket.emit('game-get-data', ['player', playerName], self => {
-    updatePlayerMoney(self.money)
-    updateBank(self.bank)
     var selfSecrets = ''
-    // var allSecrets = ''
     var selfKnowledges = ''
     if(self.secrets && self.knowledges && self.team) {
       self.secrets.forEach(secret => {
@@ -223,15 +211,6 @@ $('#mp-message-text').on('blur', function() {
   $('#mp-recipients').show()
 })
 
-// ACK
-/* socket.emit('sum', 2, 3, (result) => {
-  console.log('2+3 = %s', result)
-})*/
-
-
-
-
-
 // Test login
 $.get('/login')
   .then(
@@ -279,13 +258,6 @@ function enableCards () {
   $('#start').on('click', function (e) {
     e.preventDefault()
     socket.emit('game-start')
-
-    /*$.get('/start')
-      .then(
-      () => {
-        $('#start').hide()
-      }
-    )*/
   })
   $('#startDecision').on('click', function (e) {
     e.preventDefault()
@@ -301,17 +273,12 @@ function enableCards () {
   })
   $('#check-button').on('click', function (e) {
     e.preventDefault()
-    //socket.emit('game-start')
-    /* checkee = $('#checkName').val() */
     console.log('checking', checkee)
     socket.emit('game-get-data', ['card', $('#checkName').val(), Number($('#checkIndex').val()) - 1], (result) => {
       addCheck(result.checkee, result.index + 1, result)
       if (result.doHide) {
         $('#checkSubmit').hide()
       }
-
-      /* var out = $('#checkName').val() + '[' + $('#checkIndex').val() + ']=>'+ result
-      $('#checkResult').prepend('<div>'+out+'</div>') */
     })
   })
   $('#hack-jam-submit').on('submit', function (e) {
@@ -337,7 +304,6 @@ function enableCards () {
   })
   $('#dbSubmit').on('submit', function (e) {
     e.preventDefault()
-    //socket.emit('game-start')
     socket.emit('game-get-data', ['word', $('#dbWord').val()], (result) => {
       var out = result
       $('#dbResult').prepend('<div>'+out+'</div>')
@@ -395,47 +361,7 @@ function enableCards () {
 
   $('#dashboard').show()
   $('#login').hide()
-
-  //heartbit()
-  /*$('#chatbox .username').text(username)
-  $('#chatbox input[name=text]').focus()
-
-  $('#chatbox').on('submit', function (e) {
-    e.preventDefault()
-    socket.emit('add', this.elements.text.value, message => {
-      addMessage(message)
-      this.elements.text.value = ''
-      this.elements.text.focus()
-    })
-  })*/
-
-  // $.get('/messages?limit=10').then(onMessages)
-  //socket.emit('list', 0, 10, onMessages)
 }
-
-function heartbit() {
-  socket.emit('players-heartbit')
-  setTimeout(heartbit, 1000)
-}
-/* function onMessages (messages) {
-  messages.forEach(addMessage)
-}*/
-
-/*function addCard (card) {
-  $('ul#cards').prepend('<li id="card'+card.id+'">'
-    + $('<strong>').text(card.player + ">>").html()
-    + $('<span>').text(card.text).html()
-    + playerOptions
-  + '</li>')
-  $('#card'+card.id).on("change", ()=>{
-    //console.log(card.player, card.id, $('#card'+card.id+' option:selected').text())
-    socket.emit('card-exchange', $('#card'+card.id+' option:selected').text(), card.id)
-  })
-}
-
-function removeCard (card) {
-  $('#card'+card.id).detach()
-}*/
 
 function mpHideAll() {
   users.forEach(u => $('#mp-result-' + skipSpaces(u.name)).hide())
@@ -501,7 +427,6 @@ function updatePlayers (players) {
     mpHideAll()
   }
 
-  //$('#checkName').html('')
   $('#mpName').html(playerOptions)
   $('#hack-jam-name').html(playerOptions)
   $('#hack-spy-name').html(playerOptions)
@@ -512,168 +437,6 @@ function logMp (player, message) {
   $('#mp-select-' + skipSpaces(player)).html('*> '+player)
   $('#mp-recipient-' + skipSpaces(player)).addClass('mp-recipient-unread')
   addMp(player, message, false)
-}
-
-//var users = []
-
-drawDecisions()
-function drawDecisions () {
-  var decisionCanvas = document.getElementById('decisionCanvas')
-  var ctx = decisionCanvas.getContext('2d')
-  ctx.fillStyle = 'white'
-  ctx.fillRect (0, 0, 300, 400)
-
-  /* ctx.fillStyle = 'grey'
-  ctx.fillRect (0, 0, 300, 50)
-  ctx.fillStyle = "white"
-  ctx.font = "30px Arial"
-  ctx.fillText("BANQUE",10,40)
-
-
-  ctx.fillStyle = 'grey'
-  ctx.fillRect (0, 350, 300, 50)
-  ctx.fillStyle = "white"
-  ctx.font = "30px Arial"
-  ctx.fillText("REVELATIONS",10,390) */
-
-
-  for(var i=0; i < users.length; i++) {
-    ctx.globalAlpha = 0.5
-    ctx.fillStyle = users[i].color
-    ctx.fillRect (0, /* 50 + */ i * 50, 300, 50)
-    ctx.globalAlpha = 1
-    ctx.fillStyle = "white"
-    ctx.font = "30px Arial"
-    ctx.fillText(users[i].name,10, /* 80 + */ 30 + i * 50)
-
-  }
-  ctx.globalAlpha = 1
-  users.forEach( u => {
-    ctx.fillStyle = u.color
-    ctx.fillRect (u.x-15, u.y-45, 30, 30)
-  })
-  setTimeout(drawDecisions, 50)
-}
-
-drawVote ()
-function drawVote () {
-  var voteCanvas = document.getElementById('voteCanvas')
-  var ctx = voteCanvas.getContext('2d')
-  ctx.fillStyle = 'white'
-  ctx.fillRect (0, 0, 300, 400)
-
-  for(var i=0; i < users.length; i++) {
-    ctx.globalAlpha = 0.5
-    ctx.fillStyle = users[i].color
-    ctx.fillRect (0, i * 50, 300, 50)
-    ctx.globalAlpha = 1
-    ctx.fillStyle = "white"
-    ctx.font = "30px Arial"
-    ctx.fillText(users[i].name,10, 30 + i * 50)
-
-  }
-  ctx.globalAlpha = 1
-  users.forEach( u => {
-    ctx.fillStyle = u.color
-    ctx.fillRect (u.x-15, u.y-45, 30, 30)
-  })
-  setTimeout(drawVote, 50)
-}
-
-
-var auctions = []
-var user2color = {}
-drawAuctions()
-function drawAuctions () {
-  let w = 50
-  let yo = 20
-  var decisionCanvas = document.getElementById('auctionCanvas')
-  var ctx = decisionCanvas.getContext('2d')
-  ctx.fillStyle = 'white'
-  ctx.fillRect (0, 0, 300, 400)
-
-  auctions.forEach((bids, i) => {
-    var cost = _.find(bids.bids, {player:playerName}).value
-    ctx.fillStyle = user2color[bids.player]
-    ctx.fillRect (i * w, yo , w, bids.value * 5)
-    ctx.fillStyle = "black"
-    ctx.font = "15px Arial"
-    ctx.fillText(cost+"/"+bids.value, 15 + i * w, 15)
-    ctx.save()
-    ctx.translate(15 + i * w, 30)
-    ctx.rotate(Math.PI/2)
-    ctx.font = "25px Arial"
-    ctx.fillText(bids.player, 0, 0)
-    ctx.restore()
-    //console.log(bids)
-  })
-  setTimeout(drawAuctions, 50)
-}
-
-function auctionStart (users, user2colorIn) {
-  user2color = user2colorIn
-  $('#auction-buttons').html('')
-  var h = ''
-  users.forEach((u)=>{
-    h += '<div class="auction-bid" data-player="' + u + '"style="float:left;width:50%;height:50px;background-color:' + user2color[u] + '">' + u +'</div>'
-  })
-
-  $('#auction-buttons').html(h)
-  $('.auction-bid').on('click', function() {
-    socket.emit('auction-bid', playerName, $(this).data("player"))
-  })
-  $('#dashboard').hide()
-  $('#auction').show()
-  $('#auction-quit').hide()
-}
-
-function auctionStop () {
-  $('#auction-quit').show()
-}
-
-/* function decisionQuit () {
-  $('#dashboard').show()
-  $('#decision').hide()
-}*/
-
-function auctionBid (auctionsIn) {
-  auctions = auctionsIn
-}
-
-function auctionTick (timeLeft) {
-  $('#auction-tick').html(timeLeft/1000)
-}
-
-function decisionStart () {
-  var el = document.getElementById('decisionCanvas')
-  el.addEventListener('touchmove', touchMove, false)
-  el.addEventListener('mousemove', mouseMove, false)
-  $('#dashboard').hide()
-  $('#decision').show()
-  $('#decision-quit').hide()
-}
-
-function decisionStop () {
-  var el = document.getElementById('decisionCanvas')
-  el.removeEventListener('touchmove', touchMove)
-  el.removeEventListener('touchmove', mouseMove)
-  $('#decision-quit').show()
-}
-
-function decisionMove (x, y, name, color) {
-  var u = _.find(users, {name})
-  if(!u) {
-    u = {x, y, name:name, color}
-    users.push(u)
-  } else {
-    u.color = color
-    u.x = x
-    u.y = y
-  }
-}
-
-function decisionTick (timeLeft) {
-  $('#decision-tick').html(timeLeft/1000)
 }
 
 function voteStart (users, user2colorIn) {
@@ -736,79 +499,6 @@ function phaseTick (timeLeft) {
   $('#phase-tick').html(Math.trunc(timeLeft/1000))
 }
 
-/* function voteStart () {
-  var el = document.getElementById('voteCanvas')
-  el.addEventListener('touchmove', voteTouchMove, false)
-  el.addEventListener('mousemove', voteMouseMove, false)
-  $('#dashboard').hide()
-  $('#vote').show()
-  $('#vote-quit').hide()
-}
-
-function voteStop () {
-  var el = document.getElementById('voteCanvas')
-  el.removeEventListener('touchmove', voteTouchMove)
-  el.removeEventListener('touchmove', voteMouseMove)
-  $('#vote-quit').show()
-}
-
-function voteMove (x, y, name, color) {
-  var u = _.find(users, {name})
-  if(!u) {
-    u = {x, y, name:name, color}
-    users.push(u)
-  } else {
-    u.color = color
-    u.x = x
-    u.y = y
-  }
-}
-
-
-
-function voteTouchMove (evt) {
-  evt.preventDefault()
-  var touches = evt.changedTouches
-
-  if(touches[0]) {
-    socket.emit('vote-move', touches[0].clientX, touches[0].clientY)
-  }
-}
-
-function voteMouseMove (evt) {
-  evt.preventDefault()
-  socket.emit('vote-move', evt.clientX, evt.clientY)
-} */
-
-/* function decisionQuit () {
-  $('#dashboard').show()
-  $('#decision').hide()
-}*/
-
-
-function touchMove (evt) {
-  evt.preventDefault()
-  var touches = evt.changedTouches
-
-  if(touches[0]) {
-    socket.emit('decision-move', touches[0].clientX, touches[0].clientY)
-  }
-}
-
-function mouseMove (evt) {
-  evt.preventDefault()
-  socket.emit('decision-move', evt.clientX, evt.clientY)
-}
-
-function updatePlayerMoney(money) {
-  money = money || 'press start'
-  $('#money').html('ARGENT:' + money)
-}
-
-function updateBank(money) {
-  $('#bank').html('BANQUE:' + money)
-}
-
 function updateHacks() {
   let translate = {jammers:'JAM',spies:'SPY',usurpators:'USURP'}
   console.log(hacks)
@@ -848,4 +538,3 @@ function gameOver(data) {
   data.votes.forEach(vote => $('#gameOver-votes')
     .append('<div>' + vote.name + '=>' + vote.voted + ':' + vote.count + '</div>'))
 }
-//drawDecisions(150, 150)
