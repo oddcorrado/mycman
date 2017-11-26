@@ -69,10 +69,9 @@ body {
   margin: 4px;
   padding: 12px;
   font-size: 1.5em;
-  margin-left: 50px;
-  margin-right: 50px;
   background: #cccccc;
   color: #000000;
+  text-align: center;
 }
 
 h2 {
@@ -131,6 +130,7 @@ h3 {
   background: #cccccc;
   color: #000000;
   width: 150px;
+  text-align: center;
 }
 
 .clearfix::after {
@@ -314,4 +314,10 @@ h3 {
   padding: 8px;
   font-size: 1.5em;
   background-color: #990099;
+}
+
+#phase-tick {
+  text-align:center;
+  background: #990099;
+  padding:4px;
 }

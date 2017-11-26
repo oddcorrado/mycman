@@ -31,6 +31,7 @@ socket.on('vote-start', (users, user2color) => voteStart(users,user2color))
 socket.on('vote-stop', voteStop)
 socket.on('vote-select', voteSelect)
 socket.on('vote-tick', voteTick)
+socket.on('phase-tick', phaseTick)
 socket.on('revelation-update', updateRevelations)
 socket.on('auction-start', (users, user2color) => auctionStart(users,user2color))
 socket.on('auction-tick', auctionTick)
@@ -370,6 +371,7 @@ function enableCards () {
   })
 
   $('#vote-quit').on('submit', function (e) {
+    $('#phase-tick').show()
     e.preventDefault()
     $('#dashboard').show()
     $('#vote').hide()
@@ -675,6 +677,7 @@ function decisionTick (timeLeft) {
 }
 
 function voteStart (users, user2colorIn) {
+  $('#phase-tick').hide()
   user2color = user2colorIn
   $('#vote-buttons').html('')
   var h = ''
@@ -721,7 +724,16 @@ function voteStop () {
 }
 
 function voteTick (timeLeft) {
-  $('#vote-tick').html(timeLeft/1000)
+  $('#vote-tick').html(Math.trunc(timeLeft/1000))
+}
+
+function phaseTick (timeLeft) {
+  let ratio = 2 * ((timeLeft/10) % 100)
+  ratio = Math.min(ratio * 2, 400 - ratio * 2)
+  if(timeLeft < 10000) {
+    $('body').css("background-color", "rgb(" + ratio + ",0," + ratio +")")
+  }
+  $('#phase-tick').html(Math.trunc(timeLeft/1000))
 }
 
 /* function voteStart () {
