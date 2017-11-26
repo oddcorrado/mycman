@@ -304,8 +304,8 @@ h3 {
   float: right;
   margin: 4px;
   padding: 6px;
-  background: #ffffff;
-  color: #000000;
+  background: #990099;
+  color: #ffffff;
   width: 8%;
 }
 
@@ -317,7 +317,9 @@ h3 {
 }
 
 #phase-tick {
-  text-align:center;
+  text-align:right;
   background: #990099;
   padding:4px;
+  font-size: 1.5em;
+  float:right;
 }
