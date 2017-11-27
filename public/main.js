@@ -13,9 +13,9 @@ var playerOptions = []
 var playerName = 'anonymous'
 var hacks = []
 var users = []
-var checkee = ''
 var mpSelected = null
 var user2color = {}
+var isLeftMenuActive = true
 
 //socket.on('add-card', addCard)
 //socket.on('remove-card', removeCard)
@@ -174,6 +174,7 @@ $('.pure-menu-item').on('click', function() {
 
 $('#nav-self').on('click', function (e) {
   e.preventDefault()
+  if(!isLeftMenuActive) { return }
   hideAll()
   $('#self').show()
 })
@@ -181,24 +182,28 @@ $('#nav-self').on('click', function (e) {
 $('#nav-mp').on('click', function (e) {
   e.preventDefault()
   $('#nav-mp').html('MPS')
+  if(!isLeftMenuActive) { return }
   hideAll()
   $('#mp').show()
 })
 
 $('#nav-check').on('click', function (e) {
   e.preventDefault()
+  if(!isLeftMenuActive) { return }
   hideAll()
   $('#check').show()
 })
 
 $('#nav-game').on('click', function (e) {
   e.preventDefault()
+  if(!isLeftMenuActive) { return }
   hideAll()
   $('#game').show()
 })
 
 $('#nav-hack').on('click', function (e) {
   e.preventDefault()
+  if(!isLeftMenuActive) { return }
   hideAll()
   $('#hack').show()
 })
@@ -273,11 +278,12 @@ function enableCards () {
   })
   $('#check-button').on('click', function (e) {
     e.preventDefault()
-    console.log('checking', checkee)
     socket.emit('game-get-data', ['card', $('#checkName').val(), Number($('#checkIndex').val()) - 1], (result) => {
       addCheck(result.checkee, result.index + 1, result)
       if (result.doHide) {
+        $('#menuLink').show()
         $('#checkSubmit').hide()
+        isLeftMenuActive = true
       }
     })
   })
@@ -395,6 +401,7 @@ function updatePlayers (players) {
 
   players.forEach(p => $('#mp-select-' + skipSpaces(p)).on('click', function (e) {
     e.preventDefault()
+    if(!isLeftMenuActive) { return }
     mpHideAll()
     hideAll()
     $('#mp').show()
@@ -410,6 +417,7 @@ function updatePlayers (players) {
 
   players.forEach(p => $('#mp-recipient-' + skipSpaces(p)).on('click', function (e) {
     e.preventDefault()
+    if(!isLeftMenuActive) { return }
     mpHideAll()
     hideAll()
     $('#mp').show()
@@ -440,6 +448,7 @@ function logMp (player, message) {
 }
 
 function voteStart (users, user2colorIn) {
+  $('#menuLink').hide()
   $('#phase-tick').hide()
   user2color = user2colorIn
   $('#vote-buttons').html('')
@@ -455,7 +464,6 @@ function voteStart (users, user2colorIn) {
 
   $('#vote-buttons').html(h)
   $('.vote-button').on('click', function() {
-    console.log(playerName, $(this).data("player"))
     socket.emit('vote-select', $(this).data("player"))
   })
   $('#dashboard').hide()
@@ -483,7 +491,13 @@ function voteSelect (votes) {
 }
 
 function voteStop () {
-  $('#vote-quit').show()
+  isLeftMenuActive = false
+  // $('#vote-quit').show()
+  hideAll()
+  $('#check').show()
+  $('#phase-tick').show()
+  $('#dashboard').show()
+  $('#vote').hide()
 }
 
 function voteTick (timeLeft) {
@@ -501,19 +515,16 @@ function phaseTick (timeLeft) {
 
 function updateHacks() {
   let translate = {jammers:'JAM',spies:'SPY',usurpators:'USURP'}
-  console.log(hacks)
   var hackList = hacks.reduce((acc, cur) => acc += '<div>' + translate[cur.type] + ":" + cur.target + '</div>', '')
   $('#hack-list').html(hackList)
 }
 
 function hackStart(type, target) {
-  console.log('hack-start', type, target)
   hacks.push({type, target})
   updateHacks()
 }
 
 function hackStop(type, target) {
-  console.log('hack-stop', type, target)
   _.remove(hacks, function(item) {
     return item.type === type && item.target === target ? true : false
   })
@@ -524,7 +535,7 @@ function check() {
   $('#checkSubmit').show()
   //$('#checkName').html(name)
   //checkee = name
-  checkee = $('#checkName').val()
+  // checkee = $('#checkName').val()
 }
 
 function gameOver(data) {
