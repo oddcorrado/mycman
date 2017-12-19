@@ -28,6 +28,7 @@ socket.on('vote-select', voteSelect)
 socket.on('vote-tick', voteTick)
 socket.on('phase-tick', phaseTick)
 socket.on('revelation-update', updateRevelations)
+socket.on('hint-update', hints => updateHints(hints))
 socket.on('gameOver', data => gameOver(data))
 socket.on('hack-start', (type, target) => hackStart(type, target))
 socket.on('hack-stop', (type, target) => hackStop(type, target))
@@ -69,22 +70,29 @@ function highlightShared(secret) {
 function updateInfos () {
   socket.emit('game-get-data', ['player', playerName], self => {
     var selfSecrets = ''
-    var selfKnowledges = ''
     if(self.secrets && self.knowledges && self.team) {
       self.secrets.forEach(secret => {
         selfSecrets += '<div class="self-secret">' + highlightShared(secret.secret) + '</div>'
       })
-      self.knowledges.forEach(hint => {
-        selfKnowledges += '<div class="self-hint">' + hint + '</div>'
-      })
       $('#self').html('<div class="self-team">' + self.team + '</div>'
         + '<h3>INDICES</h2>'
-        + selfKnowledges
+        + '<div id="self-hints">' + '</div>'
         + '<h3>SECRETS</h2>'
         + selfSecrets
       )
+      updateHints(self.knowledges)
     }
   })
+}
+
+function updateHints (hints) {
+  let hintsHtml = ''
+  hints.forEach(hint => {
+    hintsHtml += '<div class="self-hint">' + hint + '</div>'
+  })
+
+  $('#self-hints').html(hintsHtml)
+  $('#check-hints').html(hintsHtml)
 }
 
 function updatePendings() {
