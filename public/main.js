@@ -3,26 +3,24 @@ const moment = require('moment')
 const io = require('socket.io-client')
 const _ = require('lodash')
 
-
 require('moment/locale/fr')
 moment.locale('fr')
 
+let socket = io()
+let playerOptions = []
+let playerName = 'anonymous'
+let hacks = []
+let users = []
+let mpSelected = null
+let user2color = {}
+let isLeftMenuActive = true
 
-var socket = io()
-var playerOptions = []
-var playerName = 'anonymous'
-var hacks = []
-var users = []
-var mpSelected = null
-var user2color = {}
-var isLeftMenuActive = true
-
-//socket.on('add-card', addCard)
-//socket.on('remove-card', removeCard)
+// ##################################
+// IO SOCKET CALLBACKS
+// ##################################
 socket.on('players', updatePlayers)
 socket.on('mp', logMp)
 socket.on('vote-start', (users, user2color) => voteStart(users,user2color))
-//socket.on('vote-move', voteMove)
 socket.on('vote-stop', voteStop)
 socket.on('vote-select', voteSelect)
 socket.on('vote-tick', voteTick)
@@ -36,7 +34,7 @@ socket.on('check', (checkee) => check(checkee))
 
 socket.on('game-reset', () => {
   $('#self').html('')
-  $('#checkResult').html('')
+  $('#check-result').html('')
   $('#revelationResult').html('')
   $('#mp-result').html('')
   $('#start').show()
@@ -67,6 +65,9 @@ function highlightShared(secret) {
   }
 }
 
+// ##################################
+// UPDATES FUNCTIONS
+// ##################################
 function updateInfos () {
   socket.emit('game-get-data', ['player', playerName], self => {
     var selfSecrets = ''
@@ -124,269 +125,11 @@ function updateMps () {
   })
 }
 
-function addCheck(name, index, result) {
-  $('#checkResult').prepend('<div class="check-card">'
-    + '<div class="clearfix">'
-      + '<div class="check-card-index">' + index + '</div>'
-      + '<div class="check-card-name">' + name + '</div>'
-    + '</div>'
-    + '<div class="check-card-secret">' + result.secret.secret + '</div>'
-    +'</div>')
-}
-
-function cleanRevelations() {
-  $('#revelationResult').html('')
-}
-
-function addRevelation(name, index, result) {
-  $('#revelationResult').prepend('<div class="revelation-card">'
-    + '<div class="clearfix">'
-      + '<div class="revelation-card-index">' + index + '</div>'
-      + '<div class="revelation-card-name">' + name + '</div>'
-    + '</div>'
-    + '<div class="revelation-card-secret">' + result.secret.secret + '</div>'
-    +'</div>')
-}
-
-function addMp(player, message, isEcho) {
-  if(isEcho) {
-    $('#mp-result-' + skipSpaces(player)).append('<div class="clearfix"><div class="message-card-self">'
-    + $('<span>').text(message).html()
-    + '</div></div>')
-  } else {
-    $('#mp-result-' + skipSpaces(player)).append('<div class="clearfix"><div class="message-card-other">'
-    + $('<span>').text(message).html()
-    + '</div></div>')
-  }
-}
-
-
-
-$('#coucou').on('submit', function (e) {
-  e.preventDefault()
-  socket.emit('coucou')
-})
-
-function hideAll () {
-  $('#self').hide()
-  $('#check').hide()
-  $('#mp').hide()
-  $('#game').hide()
-  $('#hack').hide()
-}
-
-$('.pure-menu-item').on('click', function() {
-  $('.pure-menu-selected').removeClass('pure-menu-selected')
-  $(this).addClass('pure-menu-selected')
-})
-
-$('#nav-self').on('click', function (e) {
-  e.preventDefault()
-  if(!isLeftMenuActive) { return }
-  hideAll()
-  $('#self').show()
-})
-
-$('#nav-mp').on('click', function (e) {
-  e.preventDefault()
-  $('#nav-mp').html('MPS')
-  if(!isLeftMenuActive) { return }
-  hideAll()
-  $('#mp').show()
-})
-
-$('#nav-check').on('click', function (e) {
-  e.preventDefault()
-  if(!isLeftMenuActive) { return }
-  hideAll()
-  $('#check').show()
-})
-
-$('#nav-game').on('click', function (e) {
-  e.preventDefault()
-  if(!isLeftMenuActive) { return }
-  hideAll()
-  $('#game').show()
-})
-
-$('#nav-hack').on('click', function (e) {
-  e.preventDefault()
-  if(!isLeftMenuActive) { return }
-  hideAll()
-  $('#hack').show()
-})
-
-$('#mp-message-text').on('focus', function() {
-  $('#mp-recipients').hide()
-})
-
-$('#mp-message-text').on('blur', function() {
-  $('#mp-recipients').show()
-})
-
-// Test login
-$.get('/login')
-  .then(
-  o => {
-    playerName = o.user
-    enableCards(o.user)
-    updateInfos()
-    updateChecks()
-    updateRevelations()
-    updateMps()
-    updatePendings()
-  },
-  () => enableLogin()
-)
-
-function enableLogin () {
-  $('#login').show()
-  $('#chatbox').hide()
-  $('#login input[name=author]').focus()
-  $('#login').on('click', function (e) {
-    e.preventDefault()
-    $.post('/login', {
-      user: this.elements.author.value.slice(0,30)
-    }).then(() => document.location.reload())
-  })
-}
-
-function enableCards () {
-  $('#logout').show()
-  $('#logout').on('submit', function (e) {
-    e.preventDefault()
-    $.get('/logout')
-      .then(
-      () => {
-        enableLogin()
-        $('#logout').hide()
-      }
-    )
-  })
-  $('#reset').on('click', function (e) {
-    e.preventDefault()
-    socket.emit('game-reset')
-  })
-  $('#start').show()
-  $('#start').on('click', function (e) {
-    e.preventDefault()
-    socket.emit('game-start')
-  })
-  $('#startDecision').on('click', function (e) {
-    e.preventDefault()
-    socket.emit('decision-start')
-  })
-  $('#startVote').on('click', function (e) {
-    e.preventDefault()
-    socket.emit('vote-start')
-  })
-  $('#startAuction').on('click', function (e) {
-    e.preventDefault()
-    socket.emit('auction-start')
-  })
-  $('#check-button').on('click', function (e) {
-    e.preventDefault()
-    socket.emit('game-get-data', ['card', $('#checkName').val(), Number($('#checkIndex').val()) - 1], (result) => {
-      addCheck(result.checkee, result.index + 1, result)
-      if (result.doHide) {
-        $('#menuLink').show()
-        $('#checkSubmit').hide()
-        isLeftMenuActive = true
-      }
-    })
-  })
-  $('#hack-jam-submit').on('submit', function (e) {
-    e.preventDefault()
-    //socket.emit('game-start')
-    socket.emit('game-action', ['hack-jam', $('#hack-jam-name').val()], (result) => {
-      console.log(result)
-    })
-  })
-  $('#hack-spy-submit').on('submit', function (e) {
-    e.preventDefault()
-    //socket.emit('game-start')
-    socket.emit('game-action', ['hack-spy', $('#hack-spy-name').val()], (result) => {
-      console.log(result)
-    })
-  })
-  $('#hack-usurp-submit').on('submit', function (e) {
-    e.preventDefault()
-    //socket.emit('game-start')
-    socket.emit('game-action', ['hack-usurp', $('#hack-usurp-name').val()], (result) => {
-      console.log(result)
-    })
-  })
-  $('#dbSubmit').on('submit', function (e) {
-    e.preventDefault()
-    socket.emit('game-get-data', ['word', $('#dbWord').val()], (result) => {
-      var out = result
-      $('#dbResult').prepend('<div>'+out+'</div>')
-    })
-  })
-  $('#status').on('submit', function (e) {
-    e.preventDefault()
-    $('#statusResult').html('')
-    socket.emit('players-status', (result) => {
-      var out = ''
-      Object.keys(result).forEach(k => {
-        out += '<div>['+k+']=>'+result[k]+'secs</div>'
-      })
-      $('#statusResult').html(out)
-    })
-  })
-  $('#mp-message-send').on('click', function (e) {
-    e.preventDefault()
-    //socket.emit('game-start')
-    if(mpSelected !== null &&  $('#mp-message-text').val() !== '') {
-      socket.emit('mp', playerName, mpSelected, $('#mp-message-text').val(), (target, message) => {
-        addMp(target, message, true)})
-      $('#mp-message-text').val('')
-    }
-  })
-
-  $('#decision-quit').on('submit', function (e) {
-    e.preventDefault()
-    $('#dashboard').show()
-    $('#decision').hide()
-  })
-
-  $('#vote-quit').on('submit', function (e) {
-    $('#phase-tick').show()
-    e.preventDefault()
-    $('#dashboard').show()
-    $('#vote').hide()
-  })
-
-  $('#auction-quit').on('submit', function (e) {
-    e.preventDefault()
-    $('#dashboard').show()
-    $('#auction').hide()
-  })
-
-  $('#money').on('click', e => {
-    e.preventDefault()
-    socket.emit('player-money-transfer', 'bank', -1)
-  })
-
-  $('#bank').on('click', e => {
-    e.preventDefault()
-    socket.emit('player-money-transfer', 'bank', 1)
-  })
-
-  $('#dashboard').show()
-  $('#login').hide()
-}
-
-function mpHideAll() {
-  users.forEach(u => $('#mp-result-' + skipSpaces(u.name)).hide())
-  $('.pure-menu-selected').removeClass('pure-menu-selected')
-}
-
 function updatePlayers (players) {
   users = players.map(name=>({name}))
   playerOptions = ''
   players.forEach(p => playerOptions+= '<option value="' + p + '">' + p + '</option>' )
-  $('#checkName').html(playerOptions)
+  $('#check-name').html(playerOptions)
   players.forEach(p => {
     if($('#mp-result-' + skipSpaces(p)).length === 0) {
       $('#mp-result').append('<div class="mp-player" id="mp-result-' + skipSpaces(p) + '"></div>')
@@ -449,12 +192,274 @@ function updatePlayers (players) {
   $('#hack-usurp-name').html(playerOptions)
 }
 
+function addCheck(name, index, result) {
+  $('#check-result').prepend('<div class="check-card">'
+    + '<div class="clearfix">'
+      + '<div class="check-card-index">' + index + '</div>'
+      + '<div class="check-card-name">' + name + '</div>'
+    + '</div>'
+    + '<div class="check-card-secret">' + result.secret.secret + '</div>'
+    +'</div>')
+}
+
+function cleanRevelations() {
+  $('#revelationResult').html('')
+}
+
+function addRevelation(name, index, result) {
+  $('#revelationResult').prepend('<div class="revelation-card">'
+    + '<div class="clearfix">'
+      + '<div class="revelation-card-index">' + index + '</div>'
+      + '<div class="revelation-card-name">' + name + '</div>'
+    + '</div>'
+    + '<div class="revelation-card-secret">' + result.secret.secret + '</div>'
+    +'</div>')
+}
+
+function addMp(player, message, isEcho) {
+  if(isEcho) {
+    $('#mp-result-' + skipSpaces(player)).append('<div class="clearfix"><div class="message-card-self">'
+    + $('<span>').text(message).html()
+    + '</div></div>')
+  } else {
+    $('#mp-result-' + skipSpaces(player)).append('<div class="clearfix"><div class="message-card-other">'
+    + $('<span>').text(message).html()
+    + '</div></div>')
+  }
+}
+
+function hideAll () {
+  $('#self').hide()
+  $('#check').hide()
+  $('#mp').hide()
+  $('#game').hide()
+  $('#hack').hide()
+}
+
+// ##################################
+// MENU NAVIGATION
+// ##################################
+$('.pure-menu-item').on('click', function() {
+  $('.pure-menu-selected').removeClass('pure-menu-selected')
+  $(this).addClass('pure-menu-selected')
+})
+
+$('#nav-self').on('click', function (e) {
+  e.preventDefault()
+  if(!isLeftMenuActive) { return }
+  hideAll()
+  $('#self').show()
+})
+
+$('#nav-mp').on('click', function (e) {
+  e.preventDefault()
+  $('#nav-mp').html('MPS')
+  if(!isLeftMenuActive) { return }
+  hideAll()
+  $('#mp').show()
+})
+
+$('#nav-check').on('click', function (e) {
+  e.preventDefault()
+  if(!isLeftMenuActive) { return }
+  hideAll()
+  $('#check').show()
+})
+
+$('#nav-game').on('click', function (e) {
+  e.preventDefault()
+  if(!isLeftMenuActive) { return }
+  hideAll()
+  $('#game').show()
+})
+
+$('#nav-hack').on('click', function (e) {
+  e.preventDefault()
+  if(!isLeftMenuActive) { return }
+  hideAll()
+  $('#hack').show()
+})
+
+$('#mp-message-text').on('focus', function() {
+  $('#mp-recipients').hide()
+})
+
+$('#mp-message-text').on('blur', function() {
+  $('#mp-recipients').show()
+})
+
+// ##################################
+// LOGIN STUFF
+// ##################################
+$.get('/login')
+  .then(
+  o => {
+    playerName = o.user
+    setupNavigation(o.user)
+    updateInfos()
+    updateChecks()
+    updateRevelations()
+    updateMps()
+    updatePendings()
+  },
+  () => enableLogin()
+)
+
+function enableLogin () {
+  $('#login').show()
+  $('#chatbox').hide()
+  $('#login input[name=author]').focus()
+  $('#login').on('click', function (e) {
+    e.preventDefault()
+    $.post('/login', {
+      user: this.elements.author.value.slice(0,30)
+    }).then(() => document.location.reload())
+  })
+}
+
+// ##################################
+// SETUP NAVIGATION
+// ##################################
+function setupNavigation () {
+  $('#logout').show()
+  $('#logout').on('submit', function (e) {
+    e.preventDefault()
+    $.get('/logout')
+      .then(
+      () => {
+        enableLogin()
+        $('#logout').hide()
+      }
+    )
+  })
+  $('#reset').on('click', function (e) {
+    e.preventDefault()
+    socket.emit('game-reset')
+  })
+  $('#start').show()
+  $('#start').on('click', function (e) {
+    e.preventDefault()
+    socket.emit('game-start')
+  })
+  $('#start-decision').on('click', function (e) {
+    e.preventDefault()
+    socket.emit('decision-start')
+  })
+  $('#start-vote').on('click', function (e) {
+    e.preventDefault()
+    socket.emit('vote-start')
+  })
+  $('#startAuction').on('click', function (e) {
+    e.preventDefault()
+    socket.emit('auction-start')
+  })
+  $('#check-button').on('click', function (e) {
+    e.preventDefault()
+    socket.emit('game-get-data', ['card', $('#check-name').val(), Number($('#check-index').val()) - 1], (result) => {
+      addCheck(result.checkee, result.index + 1, result)
+      if (result.doHide) {
+        $('#menuLink').show()
+        $('#check-submit').hide()
+        isLeftMenuActive = true
+      }
+    })
+  })
+  $('#hack-jam-submit').on('submit', function (e) {
+    e.preventDefault()
+    //socket.emit('game-start')
+    socket.emit('game-action', ['hack-jam', $('#hack-jam-name').val()], (result) => {
+      console.log(result)
+    })
+  })
+  $('#hack-spy-submit').on('submit', function (e) {
+    e.preventDefault()
+    //socket.emit('game-start')
+    socket.emit('game-action', ['hack-spy', $('#hack-spy-name').val()], (result) => {
+      console.log(result)
+    })
+  })
+  $('#hack-usurp-submit').on('submit', function (e) {
+    e.preventDefault()
+    //socket.emit('game-start')
+    socket.emit('game-action', ['hack-usurp', $('#hack-usurp-name').val()], (result) => {
+      console.log(result)
+    })
+  })
+  $('#dbSubmit').on('submit', function (e) {
+    e.preventDefault()
+    socket.emit('game-get-data', ['word', $('#dbWord').val()], (result) => {
+      var out = result
+      $('#dbResult').prepend('<div>'+out+'</div>')
+    })
+  })
+  $('#status').on('submit', function (e) {
+    e.preventDefault()
+    $('#status-result').html('')
+    socket.emit('players-status', (result) => {
+      var out = ''
+      Object.keys(result).forEach(k => {
+        out += '<div>['+k+']=>'+result[k]+'secs</div>'
+      })
+      $('#status-result').html(out)
+    })
+  })
+  $('#mp-message-send').on('click', function (e) {
+    e.preventDefault()
+    //socket.emit('game-start')
+    if(mpSelected !== null &&  $('#mp-message-text').val() !== '') {
+      socket.emit('mp', playerName, mpSelected, $('#mp-message-text').val(), (target, message) => {
+        addMp(target, message, true)})
+      $('#mp-message-text').val('')
+    }
+  })
+
+  $('#decision-quit').on('submit', function (e) {
+    e.preventDefault()
+    $('#dashboard').show()
+    $('#decision').hide()
+  })
+
+  $('#vote-quit').on('submit', function (e) {
+    $('#phase-tick').show()
+    e.preventDefault()
+    $('#dashboard').show()
+    $('#vote').hide()
+  })
+
+  $('#auction-quit').on('submit', function (e) {
+    e.preventDefault()
+    $('#dashboard').show()
+    $('#auction').hide()
+  })
+
+  $('#money').on('click', e => {
+    e.preventDefault()
+    socket.emit('player-money-transfer', 'bank', -1)
+  })
+
+  $('#bank').on('click', e => {
+    e.preventDefault()
+    socket.emit('player-money-transfer', 'bank', 1)
+  })
+
+  $('#dashboard').show()
+  $('#login').hide()
+}
+
+function mpHideAll() {
+  users.forEach(u => $('#mp-result-' + skipSpaces(u.name)).hide())
+  $('.pure-menu-selected').removeClass('pure-menu-selected')
+}
+
 function logMp (player, message) {
   $('#mp-select-' + skipSpaces(player)).html('*> '+player)
   $('#mp-recipient-' + skipSpaces(player)).addClass('mp-recipient-unread')
   addMp(player, message, false)
 }
 
+// ############################
+// VOTING STUFF
+// ############################
 function voteStart (users, user2colorIn) {
   $('#menuLink').hide()
   $('#phase-tick').hide()
@@ -521,6 +526,9 @@ function phaseTick (timeLeft) {
   $('#phase-tick').html(Math.trunc(timeLeft/1000))
 }
 
+// ############################
+// HACKING STUFF
+// ############################
 function updateHacks() {
   let translate = {jammers:'JAM',spies:'SPY',usurpators:'USURP'}
   var hackList = hacks.reduce((acc, cur) => acc += '<div>' + translate[cur.type] + ":" + cur.target + '</div>', '')
@@ -540,20 +548,23 @@ function hackStop(type, target) {
 }
 
 function check() {
-  $('#checkSubmit').show()
-  //$('#checkName').html(name)
+  $('#check-submit').show()
+  //$('#check-name').html(name)
   //checkee = name
-  // checkee = $('#checkName').val()
+  // checkee = $('#check-name').val()
 }
 
+// ############################
+// GAMEOVER
+// ############################
 function gameOver(data) {
-  $('#gameOver').show()
-  $('#gameOver-winner').html('<h3>' + 'Les ' + data.winnerTeams + 's ont gagné</h3>')
-  data.winners.forEach(name => $('#gameOver-winner').append('<div>' + name + ' a gagné' + '</div>'))
-  $('#gameOver-messages').html('')
-  data.messages.forEach(message => $('#gameOver-messages')
+  $('#gameover').show()
+  $('#gameover-winner').html('<h3>' + 'Les ' + data.winnerTeams + 's ont gagné</h3>')
+  data.winners.forEach(name => $('#gameover-winner').append('<div>' + name + ' a gagné' + '</div>'))
+  $('#gameover-messages').html('')
+  data.messages.forEach(message => $('#gameover-messages')
     .append('<div>' + message.from + '=>' + message.to + ':' + message.message + '</div>'))
-  $('#gameOver-votes').html('')
-  data.votes.forEach(vote => $('#gameOver-votes')
+  $('#gameover-votes').html('')
+  data.votes.forEach(vote => $('#gameover-votes')
     .append('<div>' + vote.name + '=>' + vote.voted + ':' + vote.count + '</div>'))
 }

@@ -229,7 +229,7 @@ function enableCards () {
       }
     )*/
   })
-  $('#startDecision').on('submit', function (e) {
+  $('#start-decision').on('submit', function (e) {
     e.preventDefault()
     socket.emit('decision-start')
   })
@@ -237,14 +237,14 @@ function enableCards () {
     e.preventDefault()
     socket.emit('auction-start')
   })
-  $('#checkSubmit').on('submit', function (e) {
+  $('#check-submit').on('submit', function (e) {
     e.preventDefault()
     //socket.emit('game-start')
     /* checkee = $('#checkName').val() */
 console.log('checking', checkee)
     socket.emit('game-get-data', ['card', checkee, Number($('#checkIndex').val()) - 1], (result) => {
       addCheck(checkee, $('#checkIndex').val(), result)
-      $('#checkSubmit').hide()
+      $('#check-submit').hide()
       /* var out = $('#checkName').val() + '[' + $('#checkIndex').val() + ']=>'+ result
       $('#checkResult').prepend('<div>'+out+'</div>') */
     })
@@ -280,13 +280,13 @@ console.log('checking', checkee)
   })
   $('#status').on('submit', function (e) {
     e.preventDefault()
-    $('#statusResult').html('')
+    $('#status-result').html('')
     socket.emit('players-status', (result) => {
       var out = ''
       Object.keys(result).forEach(k => {
         out += '<div>['+k+']=>'+result[k]+'secs</div>'
       })
-      $('#statusResult').html(out)
+      $('#status-result').html(out)
     })
   })
   $('#mpSubmit').on('submit', function (e) {
@@ -566,7 +566,7 @@ function hackStop(type, target) {
 }
 
 function check(name) {
-  $('#checkSubmit').show()
+  $('#check-submit').show()
   checkee = name
 }
 //drawDecisions(150, 150)

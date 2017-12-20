@@ -46,7 +46,7 @@
       <form id="start" style="display:none">
         <input type="submit" value="START">
       </form>
-      <form id="startDecision">
+      <form id="start-decision">
         <input type="submit" value="DECISION">
       </form>
       <form id="startAuction">
@@ -58,12 +58,12 @@
       <form id="status" style="display:none">
         <input type="submit" value="STATUS">
       </form>
-      <div id="statusResult"></div>
+      <div id="status-result"></div>
     </div>
     <div id="self" style="display:none"><h2>INFOS</h2></div>
     <div id="check" style="display:none">
       <h2>CHECK</h2>
-      <form id="checkSubmit" style="display:none">
+      <form id="check-submit" style="display:none">
         <select id="checkName" style="display:none"><option value="none">none</option></select>
         <select id="checkIndex">
           <option value="1">1</option>

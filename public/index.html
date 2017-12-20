@@ -31,7 +31,7 @@
       <div id="content">
         <div id="vote" style="display:none">
           <div id="vote-tick">3.0</div>
-          <canvas id="voteCanvas" width="300" height="0"></canvas>
+          <canvas id="vote-canvas" width="300" height="0"></canvas>
           <div id="vote-buttons"></div>
           <form id="vote-quit" style="display:none">
             <input type="submit" value="QUIT">
@@ -52,10 +52,10 @@
             <div id="start" style="display:none" class="game-button">
               START
             </div>
-            <div id="startDecision" style="display:none" class="game-button">
+            <div id="start-decision" style="display:none" class="game-button">
               ENQUETE
             </div>
-            <div id="startVote" class="game-button">
+            <div id="start-vote" class="game-button">
               VOTES
             </div>
             <div id="reset" class="game-button">
@@ -64,25 +64,23 @@
             <div id="status" style="display:none" class="game-button">
               STATUS
             </div>
-            <div id="statusResult"></div>
+            <div id="status-result"></div>
           </div>
           <div id="self" style="display:none"><h2>INFOS</h2></div>
           <div id="check" style="display:none">
             <h3>INDICES</h3>
             <div id="check-hints"></div>
             <h3>ENQUETE</h3>
-            <form id="checkSubmit" style="display:none">
-              <select id="checkName"><option value="none">none</option></select>
-              <select id="checkIndex">
+            <form id="check-submit" style="display:none">
+              <select id="check-name"><option value="none">none</option></select>
+              <select id="check-index">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
               </select>
               <div id="check-button">CHECK</div>
             </form>
-            <div id="checkResult"></div>
+            <div id="check-result"></div>
             <h3>REVELATIONS</h3>
             <form id="dbSubmit" style="display:none">
               <input id="dbWord" type="text">
@@ -120,14 +118,14 @@
               <div id="mp-message-send">MP</div>
             </div>
           </div>
-          <div id="gameOver" style="display:none">
+          <div id="gameover" style="display:none">
             <h2>GAME OVER</h2>
             <h2>GAGNANT</h2>
-            <div id="gameOver-winner"></div>
+            <div id="gameover-winner"></div>
             <h2>VOTES</h2>
-            <div id="gameOver-votes"></div>
+            <div id="gameover-votes"></div>
             <h2>MESSAGES</h2>
-            <div id="gameOver-messages"></div>
+            <div id="gameover-messages"></div>
           </div>
 
         </div>
