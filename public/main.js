@@ -14,6 +14,8 @@ let users = []
 let mpSelected = null
 let user2color = {}
 let isLeftMenuActive = true
+let selfInfos = {}
+let glitchRatio = 0.02
 
 // ##################################
 // IO SOCKET CALLBACKS
@@ -26,7 +28,7 @@ socket.on('vote-select', voteSelect)
 socket.on('vote-tick', voteTick)
 socket.on('phase-tick', phaseTick)
 socket.on('revelation-update', updateRevelations)
-socket.on('hint-update', hints => updateHints(hints))
+socket.on('hint-update', hints => {selfInfos.hints = hints; updateHints(hints)})
 socket.on('gameOver', data => gameOver(data))
 socket.on('hack-start', (type, target) => hackStart(type, target))
 socket.on('hack-stop', (type, target) => hackStop(type, target))
@@ -72,6 +74,9 @@ function updateInfos () {
   socket.emit('game-get-data', ['player', playerName], self => {
     var selfSecrets = ''
     if(self.secrets && self.knowledges && self.team) {
+      selfInfos.secrets = self.secretStrings
+      selfInfos.hints = self.knowledges
+      selfInfos.team = self.team
       self.secrets.forEach(secret => {
         selfSecrets += '<div class="self-secret">' + highlightShared(secret.secret) + '</div>'
       })
@@ -89,6 +94,13 @@ function updateInfos () {
 function updateHints (hints) {
   let hintsHtml = ''
   hints.forEach(hint => {
+    if(hint.slice(0, 1) === "!") {
+      hint = hint.slice(1)
+      if(Math.random() < glitchRatio) {
+        let index = Math.trunc(Math.random() * hint.length)
+        hint = hint.slice(0, index) + hint.slice(index, index + 1).toUpperCase() + hint.slice (index + 1)
+      }
+    }
     hintsHtml += '<div class="self-hint">' + hint + '</div>'
   })
 
@@ -524,6 +536,7 @@ function phaseTick (timeLeft) {
     $('body').css("background-color", "rgb(" + ratio + ",0," + ratio +")")
   }
   $('#phase-tick').html(Math.trunc(timeLeft/1000))
+  updateHints(selfInfos.hints)
 }
 
 // ############################
