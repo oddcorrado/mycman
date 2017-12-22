@@ -15,7 +15,7 @@ let mpSelected = null
 let user2color = {}
 let isLeftMenuActive = true
 let selfInfos = {}
-let glitchRatio = 0.02
+let glitchRatio = 0.01
 
 // ##################################
 // IO SOCKET CALLBACKS
