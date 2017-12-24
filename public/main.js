@@ -2,18 +2,27 @@ const $ = require('jquery')
 const moment = require('moment')
 const io = require('socket.io-client')
 const _ = require('lodash')
+const mp = require('./mp')
+const hack = require('./hack')
+const vote = require('./vote')
+const hint = require('./hint')
+const menu = require('./menu')
 
 require('moment/locale/fr')
 moment.locale('fr')
+
+
+console.log(vote.test())
+console.log(hack.test())
+console.log(hint.test())
+console.log(menu.test())
 
 let socket = io()
 let playerOptions = []
 let playerName = 'anonymous'
 let hacks = []
 let users = []
-let mpSelected = null
 let user2color = {}
-let isLeftMenuActive = true
 let selfInfos = {}
 let glitchRatio = 0.01
 let secretShareName = null
@@ -22,8 +31,8 @@ let secretShareText = null
 // ##################################
 // IO SOCKET CALLBACKS
 // ##################################
+mp.setSocket(socket)
 socket.on('players', updatePlayers)
-socket.on('mp', logMp)
 socket.on('vote-start', (users, user2color) => voteStart(users,user2color))
 socket.on('vote-stop', voteStop)
 socket.on('vote-select', voteSelect)
@@ -135,77 +144,15 @@ function updateRevelations () {
   })
 }
 
-function updateMps () {
-  socket.emit('game-get-history', 'mp', history => {
-    if(history) {
-      history.forEach(item=>addMp(item.target, item.message, item.isEcho))
-    }
-  })
-}
-
 function updatePlayers (players) {
   users = players.map(name=>({name}))
   playerOptions = ''
   players.forEach(p => playerOptions+= '<option value="' + p + '">' + p + '</option>' )
   $('#check-name').html(playerOptions)
   $('#secret-share-name').html(playerOptions)
-  players.forEach(p => {
-    if($('#mp-result-' + skipSpaces(p)).length === 0) {
-      $('#mp-result').append('<div class="mp-player" id="mp-result-' + skipSpaces(p) + '"></div>')
-    }
-  })
-  $(".mp-messenger").remove()
-  players.forEach(p => {
-    if(p !== playerName) {
-      $('#menu-list').append( // FIXME
-          '<li class="pure-menu-item mp-messenger" id="mp-select-' + skipSpaces(p) + '">' + '\> ' + p + '</li>')
-    }
-  })
-  $("#mp-recipients").html('')
-  players.forEach(p => {
-    if(p !== playerName) { // FIXME
-      $('#mp-recipients').append(
-      '<div class="mp-recipient" id="mp-recipient-' + skipSpaces(p) + '">' + p.slice(0,2) + '</div>')
-    }
-  })
 
-  players.forEach(p => $('#mp-select-' + skipSpaces(p)).on('click', function (e) {
-    e.preventDefault()
-    if(!isLeftMenuActive) { return }
-    mpHideAll()
-    hideAll()
-    $('#mp').show()
-    $('#mp-result-' + skipSpaces(p)).show()
-    mpSelected = p
-    $('.mp-recipient').removeClass('mp-recipient-selected')
-    $('#mp-recipient-' + skipSpaces(p)).addClass('mp-recipient-selected')
-    $('#mp-select-' + skipSpaces(p)).addClass('pure-menu-selected')
-    $('#mp-select-'+ skipSpaces(p)).html('> '+ p)
-    $('html').scrollTop(document.getElementById("mp").scrollHeight)
-    $('#mp-recipient-' + skipSpaces(p)).removeClass('mp-recipient-unread')
-  }))
+  mp.newPlayers(players, playerOptions)
 
-  players.forEach(p => $('#mp-recipient-' + skipSpaces(p)).on('click', function (e) {
-    e.preventDefault()
-    if(!isLeftMenuActive) { return }
-    mpHideAll()
-    hideAll()
-    $('#mp').show()
-    $('#mp-result-' + skipSpaces(p)).show()
-    mpSelected = p
-    $('.mp-recipient').removeClass('mp-recipient-selected')
-    $('#mp-recipient-' + skipSpaces(p)).addClass('mp-recipient-selected')
-    $('#mp-select-' + skipSpaces(p)).addClass('pure-menu-selected')
-    $('#mp-select-'+ skipSpaces(p)).html('> '+ p)
-    $('html').scrollTop(document.getElementById("mp").scrollHeight)
-    $('#mp-recipient-' + skipSpaces(p)).removeClass('mp-recipient-unread')
-  }))
-
-  if(mpSelected === null) {
-    mpHideAll()
-  }
-
-  $('#mpName').html(playerOptions)
   $('#hack-jam-name').html(playerOptions)
   $('#hack-spy-name').html(playerOptions)
   $('#hack-usurp-name').html(playerOptions)
@@ -244,76 +191,36 @@ function addRevelation(name, index, result) {
     +'</div>')
 }
 
-function addMp(player, message, isEcho) {
-  if(isEcho) {
-    $('#mp-result-' + skipSpaces(player)).append('<div class="clearfix"><div class="message-card-self">'
-    + $('<span>').text(message).html()
-    + '</div></div>')
-  } else {
-    $('#mp-result-' + skipSpaces(player)).append('<div class="clearfix"><div class="message-card-other">'
-    + $('<span>').text(message).html()
-    + '</div></div>')
-  }
-}
-
-function hideAll () {
-  $('#self').hide()
-  $('#check').hide()
-  $('#mp').hide()
-  $('#game').hide()
-  $('#hack').hide()
-}
-
 // ##################################
 // MENU NAVIGATION
 // ##################################
-$('.pure-menu-item').on('click', function() {
-  $('.pure-menu-selected').removeClass('pure-menu-selected')
-  $(this).addClass('pure-menu-selected')
-})
 
 $('#nav-self').on('click', function (e) {
   e.preventDefault()
-  if(!isLeftMenuActive) { return }
-  hideAll()
+  if(!menu.isLeftMenuActive()) { return }
+  menu.hideAll()
   $('#self').show()
-})
-
-$('#nav-mp').on('click', function (e) {
-  e.preventDefault()
-  $('#nav-mp').html('MPS')
-  if(!isLeftMenuActive) { return }
-  hideAll()
-  $('#mp').show()
 })
 
 $('#nav-check').on('click', function (e) {
   e.preventDefault()
-  if(!isLeftMenuActive) { return }
-  hideAll()
+  if(!menu.isLeftMenuActive()) { return }
+  menu.hideAll()
   $('#check').show()
 })
 
 $('#nav-game').on('click', function (e) {
   e.preventDefault()
-  if(!isLeftMenuActive) { return }
-  hideAll()
+  if(!menu.isLeftMenuActive()) { return }
+  menu.hideAll()
   $('#game').show()
 })
 
 $('#nav-hack').on('click', function (e) {
   e.preventDefault()
-  if(!isLeftMenuActive) { return }
-  hideAll()
+  if(!menu.isLeftMenuActive()) { return }
+  menu.hideAll()
   $('#hack').show()
-})
-
-$('#mp-message-text').on('focus', function() {
-  $('#mp-recipients').hide()
-})
-
-$('#mp-message-text').on('blur', function() {
-  $('#mp-recipients').show()
 })
 
 // ##################################
@@ -327,7 +234,7 @@ $.get('/login')
     updateInfos()
     updateChecks()
     updateRevelations()
-    updateMps()
+    mp.update(playerName)
     updatePendings()
   },
   () => enableLogin()
@@ -388,7 +295,7 @@ function setupNavigation () {
       if (result.doHide) {
         $('#menuLink').show()
         $('#check-submit').hide()
-        isLeftMenuActive = true
+        menu.isLeftMenuActive(true)
       }
     })
   })
@@ -430,15 +337,6 @@ function setupNavigation () {
       })
       $('#status-result').html(out)
     })
-  })
-  $('#mp-message-send').on('click', function (e) {
-    e.preventDefault()
-    //socket.emit('game-start')
-    if(mpSelected !== null &&  $('#mp-message-text').val() !== '') {
-      socket.emit('mp', playerName, mpSelected, $('#mp-message-text').val(), (target, message) => {
-        addMp(target, message, true)})
-      $('#mp-message-text').val('')
-    }
   })
 
   $('#decision-quit').on('submit', function (e) {
@@ -490,17 +388,6 @@ function setupNavigation () {
   $('#login').hide()
 }
 
-function mpHideAll() {
-  users.forEach(u => $('#mp-result-' + skipSpaces(u.name)).hide())
-  $('.pure-menu-selected').removeClass('pure-menu-selected')
-}
-
-function logMp (player, message) {
-  $('#mp-select-' + skipSpaces(player)).html('*> '+player)
-  $('#mp-recipient-' + skipSpaces(player)).addClass('mp-recipient-unread')
-  addMp(player, message, false)
-}
-
 // ############################
 // VOTING STUFF
 // ############################
@@ -548,9 +435,9 @@ function voteSelect (votes) {
 }
 
 function voteStop () {
-  isLeftMenuActive = false
+  menu.isLeftMenuActive(false)
   // $('#vote-quit').show()
-  hideAll()
+  menu.hideAll()
   $('#check').show()
   $('#phase-tick').show()
   $('#dashboard').show()
@@ -594,9 +481,6 @@ function hackStop(type, target) {
 
 function check() {
   $('#check-submit').show()
-  //$('#check-name').html(name)
-  //checkee = name
-  // checkee = $('#check-name').val()
 }
 
 // ############################
