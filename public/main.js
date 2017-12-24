@@ -16,7 +16,9 @@ let user2color = {}
 let isLeftMenuActive = true
 let selfInfos = {}
 let glitchRatio = 0.01
-
+let secretShareName = null
+let secretShareIndex = null
+let secretShareText = null
 // ##################################
 // IO SOCKET CALLBACKS
 // ##################################
@@ -33,6 +35,7 @@ socket.on('gameOver', data => gameOver(data))
 socket.on('hack-start', (type, target) => hackStart(type, target))
 socket.on('hack-stop', (type, target) => hackStop(type, target))
 socket.on('check', (checkee) => check(checkee))
+socket.on('secret-share-rx',  (name, index, text) => addCheck(name, index, {secret:{secret:text}}))
 
 socket.on('game-reset', () => {
   $('#self').html('')
@@ -93,6 +96,9 @@ function updateInfos () {
 
 function updateHints (hints) {
   let hintsHtml = ''
+  if(!hints) {
+    return
+  }
   hints.forEach(hint => {
     if(hint.slice(0, 1) === "!") {
       hint = hint.slice(1)
@@ -142,6 +148,7 @@ function updatePlayers (players) {
   playerOptions = ''
   players.forEach(p => playerOptions+= '<option value="' + p + '">' + p + '</option>' )
   $('#check-name').html(playerOptions)
+  $('#secret-share-name').html(playerOptions)
   players.forEach(p => {
     if($('#mp-result-' + skipSpaces(p)).length === 0) {
       $('#mp-result').append('<div class="mp-player" id="mp-result-' + skipSpaces(p) + '"></div>')
@@ -209,9 +216,18 @@ function addCheck(name, index, result) {
     + '<div class="clearfix">'
       + '<div class="check-card-index">' + index + '</div>'
       + '<div class="check-card-name">' + name + '</div>'
+      + '<div id="check-card-share-' + skipSpaces(name) + index + '" class="check-card-share">PARTAGER</div>'
     + '</div>'
     + '<div class="check-card-secret">' + result.secret.secret + '</div>'
     +'</div>')
+  $('#check-card-share-'+ skipSpaces(name) + index).on('click', (e) =>{
+    e.preventDefault()
+    $("#secret-share").show()
+    console.log(name, index,  result.secret.secret)
+    secretShareName = name
+    secretShareIndex = index
+    secretShareText = result.secret.secret
+  })
 }
 
 function cleanRevelations() {
@@ -436,6 +452,22 @@ function setupNavigation () {
     e.preventDefault()
     $('#dashboard').show()
     $('#vote').hide()
+  })
+
+  $("#secret-share-cancel").on('click', e => {
+    e.preventDefault()
+    $("#secret-share").hide()
+  })
+
+  $("#secret-share-submit").on('click', e => {
+    e.preventDefault()
+    $("#secret-share").hide()
+    console.log("share to", $('#secret-share-name').val() , secretShareName, secretShareIndex, secretShareText)
+    socket.emit('secret-share', $('#secret-share-name').val(), secretShareName, secretShareIndex, secretShareText, (result) => {
+      if(result === "success") {
+        $("#secret-share").hide()
+      }
+    })
   })
 
   $('#auction-quit').on('submit', function (e) {

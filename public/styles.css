@@ -190,6 +190,14 @@ h3 {
   float:left;
 }
 
+.check-card-share {
+  margin: 4px;
+  padding: 6px;
+  background: #990099;
+  color: #ffffff;
+  float:right;
+}
+
 .check-card-secret {
 }
 
@@ -323,3 +331,24 @@ h3 {
   font-size: 1.5em;
   float:right;
 }
+
+.modal {
+  margin: 0 auto;
+  top: 20px;
+  bottom: 200px;
+  left: 20px;
+  right: 20px;
+  z-index: 20;
+  background: #990099;
+  position: absolute;
+}
+
+.overlay {
+	  position: absolute;
+	  top: 0;
+	  bottom: 0;
+	  left: 0;
+	  right: 0;
+	  background: rgba(0, 0, 0, 0.5);
+	  display: none;
+	}
