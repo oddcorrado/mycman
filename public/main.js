@@ -7,6 +7,10 @@ const hack = require('./hack')
 const vote = require('./vote')
 const hint = require('./hint')
 const menu = require('./menu')
+const game = require('./game')
+const help = require('./help')
+
+game.init(updateInfos, enableLogin)
 
 require('moment/locale/fr')
 moment.locale('fr')
@@ -32,6 +36,7 @@ let secretShareText = null
 // IO SOCKET CALLBACKS
 // ##################################
 mp.setSocket(socket)
+game.setSocket(socket)
 socket.on('players', updatePlayers)
 socket.on('vote-start', (users, user2color) => voteStart(users,user2color))
 socket.on('vote-stop', voteStop)
@@ -40,13 +45,12 @@ socket.on('vote-tick', voteTick)
 socket.on('phase-tick', phaseTick)
 socket.on('revelation-update', updateRevelations)
 socket.on('hint-update', hints => {selfInfos.hints = hints; updateHints(hints)})
-socket.on('gameOver', data => gameOver(data))
 socket.on('hack-start', (type, target) => hackStart(type, target))
 socket.on('hack-stop', (type, target) => hackStop(type, target))
 socket.on('check', (checkee) => check(checkee))
 socket.on('secret-share-rx',  (name, index, text) => addCheck(name, index, {secret:{secret:text}}))
 
-socket.on('game-reset', () => {
+/* socket.on('game-reset', () => {
   $('#self').html('')
   $('#check-result').html('')
   $('#revelationResult').html('')
@@ -65,7 +69,7 @@ socket.on('game-reset', () => {
 socket.on('game-start', () => {
   $('#start').hide()
   updateInfos()
-})
+}) */
 
 function skipSpaces(s) {
   return s.replace(/ /g, '_')
@@ -209,13 +213,6 @@ $('#nav-check').on('click', function (e) {
   $('#check').show()
 })
 
-$('#nav-game').on('click', function (e) {
-  e.preventDefault()
-  if(!menu.isLeftMenuActive()) { return }
-  menu.hideAll()
-  $('#game').show()
-})
-
 $('#nav-hack').on('click', function (e) {
   e.preventDefault()
   if(!menu.isLeftMenuActive()) { return }
@@ -267,27 +264,6 @@ function setupNavigation () {
       }
     )
   })
-  $('#reset').on('click', function (e) {
-    e.preventDefault()
-    socket.emit('game-reset')
-  })
-  $('#start').show()
-  $('#start').on('click', function (e) {
-    e.preventDefault()
-    socket.emit('game-start')
-  })
-  $('#start-decision').on('click', function (e) {
-    e.preventDefault()
-    socket.emit('decision-start')
-  })
-  $('#start-vote').on('click', function (e) {
-    e.preventDefault()
-    socket.emit('vote-start')
-  })
-  $('#startAuction').on('click', function (e) {
-    e.preventDefault()
-    socket.emit('auction-start')
-  })
   $('#check-button').on('click', function (e) {
     e.preventDefault()
     socket.emit('game-get-data', ['card', $('#check-name').val(), Number($('#check-index').val()) - 1], (result) => {
@@ -318,24 +294,6 @@ function setupNavigation () {
     //socket.emit('game-start')
     socket.emit('game-action', ['hack-usurp', $('#hack-usurp-name').val()], (result) => {
       console.log(result)
-    })
-  })
-  $('#dbSubmit').on('submit', function (e) {
-    e.preventDefault()
-    socket.emit('game-get-data', ['word', $('#dbWord').val()], (result) => {
-      var out = result
-      $('#dbResult').prepend('<div>'+out+'</div>')
-    })
-  })
-  $('#status').on('submit', function (e) {
-    e.preventDefault()
-    $('#status-result').html('')
-    socket.emit('players-status', (result) => {
-      var out = ''
-      Object.keys(result).forEach(k => {
-        out += '<div>['+k+']=>'+result[k]+'secs</div>'
-      })
-      $('#status-result').html(out)
     })
   })
 
@@ -481,19 +439,4 @@ function hackStop(type, target) {
 
 function check() {
   $('#check-submit').show()
-}
-
-// ############################
-// GAMEOVER
-// ############################
-function gameOver(data) {
-  $('#gameover').show()
-  $('#gameover-winner').html('<h3>' + 'Les ' + data.winnerTeams + 's ont gagné</h3>')
-  data.winners.forEach(name => $('#gameover-winner').append('<div>' + name + ' a gagné' + '</div>'))
-  $('#gameover-messages').html('')
-  data.messages.forEach(message => $('#gameover-messages')
-    .append('<div>' + message.from + '=>' + message.to + ':' + message.message + '</div>'))
-  $('#gameover-votes').html('')
-  data.votes.forEach(vote => $('#gameover-votes')
-    .append('<div>' + vote.name + '=>' + vote.voted + ':' + vote.count + '</div>'))
 }

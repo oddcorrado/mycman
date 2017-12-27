@@ -83,6 +83,21 @@ h3 {
   margin: 0.5 em;
 }
 
+.help-title {
+  margin: 2px;
+  padding: 6px;
+  background: #990099;
+  color: #ffffff;
+}
+
+.help-text {
+  margin: 2px;
+  padding: 6px;
+  background: #666666;
+  color: #ffffff;
+}
+
+
 .self-team {
   margin: 2px;
   padding: 6px;
@@ -335,7 +350,7 @@ h3 {
 .modal {
   margin: 0 auto;
   top: 20px;
-  bottom: 200px;
+  bottom: 20px;
   left: 20px;
   right: 20px;
   z-index: 20;
