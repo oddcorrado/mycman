@@ -248,6 +248,45 @@ h3 {
   float:left;
 }
 
+.powerup-card {
+  margin: 4px;
+  padding: 6px;
+  background: #cccccc;
+  color: #000000;
+  font-size: 1em;
+}
+
+.powerup-card-value {
+  margin: 4px;
+  padding: 6px;
+  background: #990099;
+  color: #ffffff;
+  float:left;
+}
+
+.powerup-card-emphasize {
+  margin: 4px;
+  padding: 6px;
+  background: #990000;
+  color: #ffffff;
+  float:left;
+}
+
+.powerup-card-help {
+  margin: 4px;
+  padding: 6px;
+  background: #666666;
+  color: #ffffff;
+}
+
+.powerup-card-use {
+  margin: 4px;
+  padding: 6px;
+  background: #990000;
+  color: #ffffff;
+  float:right;
+}
+
 .revelation-card {
   margin: 4px;
   padding: 6px;

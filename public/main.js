@@ -9,6 +9,7 @@ const hint = require('./hint')
 const menu = require('./menu')
 const game = require('./game')
 const help = require('./help')
+const powerup = require('./powerup')
 const dashboard = require('./dashboard')
 
 game.init(updateInfos, enableLogin)
@@ -42,6 +43,7 @@ let revelations = null
 // ##################################
 mp.setSocket(socket)
 game.setSocket(socket)
+powerup.setSocket(socket)
 socket.on('players', updatePlayers)
 socket.on('vote-start', (users, user2color) => voteStart(users,user2color))
 socket.on('vote-stop', voteStop)
