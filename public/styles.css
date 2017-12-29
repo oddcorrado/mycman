@@ -216,6 +216,38 @@ h3 {
 .check-card-secret {
 }
 
+.dashboard-card {
+  margin: 4px;
+  padding: 6px;
+  background: #cccccc;
+  color: #000000;
+  font-size: 1em;
+}
+
+.dashboard-card-name {
+  margin: 4px;
+  padding: 6px;
+  background: #990099;
+  color: #ffffff;
+  float:left;
+}
+
+.dashboard-card-emphasize {
+  margin: 4px;
+  padding: 6px;
+  background: #990000;
+  color: #ffffff;
+  float:left;
+}
+
+.dashboard-card-normal {
+  margin: 4px;
+  padding: 6px;
+  background: #666666;
+  color: #ffffff;
+  float:left;
+}
+
 .revelation-card {
   margin: 4px;
   padding: 6px;

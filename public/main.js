@@ -9,6 +9,7 @@ const hint = require('./hint')
 const menu = require('./menu')
 const game = require('./game')
 const help = require('./help')
+const dashboard = require('./dashboard')
 
 game.init(updateInfos, enableLogin)
 
@@ -32,6 +33,10 @@ let glitchRatio = 0.2
 let secretShareName = null
 let secretShareIndex = null
 let secretShareText = null
+let hints = null
+let players = []
+let checks = []
+let revelations = null
 // ##################################
 // IO SOCKET CALLBACKS
 // ##################################
@@ -44,7 +49,7 @@ socket.on('vote-select', voteSelect)
 socket.on('vote-tick', voteTick)
 socket.on('phase-tick', phaseTick)
 socket.on('revelation-update', updateRevelations)
-socket.on('hint-update', hints => {selfInfos.hints = hints; updateHints(hints)})
+socket.on('hint-update', hintsIn => updateHints(hintsIn))
 socket.on('hack-start', (type, target) => hackStart(type, target))
 socket.on('hack-stop', (type, target) => hackStop(type, target))
 socket.on('check', (checkee) => check(checkee))
@@ -56,7 +61,7 @@ socket.on('secret-share-rx',  (name, index, text) => addCheck(name, index, {secr
   $('#revelationResult').html('')
   $('#mp-result').html('')
   $('#start').show()
-  $('#dashboard').hide()
+  $('#gameboard').hide()
   $.get('/logout')
     .then(
     () => {
@@ -107,7 +112,10 @@ function updateInfos () {
   })
 }
 
-function updateHints (hints) {
+function updateHints (hintsIn) {
+  hints = hintsIn
+  selfInfos.hints = hintsIn
+  dashboard.update(players, hints, checks, revelations)
   let hintsHtml = ''
   if(!hints) {
     return
@@ -141,14 +149,18 @@ function updateChecks () {
 
 function updateRevelations () {
   cleanRevelations()
-  socket.emit('game-get-revelations', revelations => {
-    if(revelations) {
-      revelations.forEach(item=>addRevelation(item.name, item.card, item.secret))
+  socket.emit('game-get-revelations', revelationsIn => {
+    if(revelationsIn) {
+      revelations = revelationsIn
+      dashboard.update(players, hints, checks, revelations)
+      revelations.sort((a, b) => a.name + a.card < b.name + b.card).forEach(item=>addRevelation(item.name, item.card, item.secret))
     }
   })
 }
 
-function updatePlayers (players) {
+function updatePlayers (playersIn) {
+  players = playersIn
+  dashboard.update(players, hints, checks, revelations)
   users = players.map(name=>({name}))
   playerOptions = ''
   players.forEach(p => playerOptions+= '<option value="' + p + '">' + p + '</option>' )
@@ -163,6 +175,8 @@ function updatePlayers (players) {
 }
 
 function addCheck(name, index, result) {
+  checks.push({name, card:index, secret:result})
+  dashboard.update(players, hints, checks, revelations)
   $('#check-result').prepend('<div class="check-card">'
     + '<div class="clearfix">'
       + '<div class="check-card-index">' + index + '</div>'
@@ -299,14 +313,14 @@ function setupNavigation () {
 
   $('#decision-quit').on('submit', function (e) {
     e.preventDefault()
-    $('#dashboard').show()
+    $('#gameboard').show()
     $('#decision').hide()
   })
 
   $('#vote-quit').on('submit', function (e) {
     $('#phase-tick').show()
     e.preventDefault()
-    $('#dashboard').show()
+    $('#gameboard').show()
     $('#vote').hide()
   })
 
@@ -328,7 +342,7 @@ function setupNavigation () {
 
   $('#auction-quit').on('submit', function (e) {
     e.preventDefault()
-    $('#dashboard').show()
+    $('#gameboard').show()
     $('#auction').hide()
   })
 
@@ -342,7 +356,7 @@ function setupNavigation () {
     socket.emit('player-money-transfer', 'bank', 1)
   })
 
-  $('#dashboard').show()
+  $('#gameboard').show()
   $('#login').hide()
 }
 
@@ -368,7 +382,7 @@ function voteStart (users, user2colorIn) {
   $('.vote-button').on('click', function() {
     socket.emit('vote-select', $(this).data("player"))
   })
-  $('#dashboard').hide()
+  $('#gameboard').hide()
   $('#vote').show()
   $('#vote-quit').hide()
 }
@@ -398,7 +412,7 @@ function voteStop () {
   menu.hideAll()
   $('#check').show()
   $('#phase-tick').show()
-  $('#dashboard').show()
+  $('#gameboard').show()
   $('#vote').hide()
 }
 

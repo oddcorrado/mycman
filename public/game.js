@@ -17,7 +17,7 @@ const setSocket = (socketIn) => {
     $('#revelationResult').html('')
     $('#mp-result').html('')
     $('#start').show()
-    $('#dashboard').hide()
+    $('#gameboard').hide()
     $.get('/logout')
       .then(
       () => {

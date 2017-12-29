@@ -19,6 +19,7 @@ const hideAll = () => {
   $('#game').hide()
   $('#hack').hide()
   $('#help').hide()
+  $('#dashboard').hide()
 }
 
 const isLeftMenuActive = (v) => {
