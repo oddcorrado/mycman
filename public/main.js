@@ -169,7 +169,8 @@ function updatePlayers (playersIn) {
   $('#check-name').html(playerOptions)
   $('#secret-share-name').html(playerOptions)
 
-  mp.newPlayers(players, playerOptions)
+  mp.newPlayers(players)
+  powerup.newPlayers(players)
 
   $('#hack-jam-name').html(playerOptions)
   $('#hack-spy-name').html(playerOptions)

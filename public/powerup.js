@@ -1,8 +1,10 @@
 'use strict'
 const $ = require('jquery')
 const menu = require('./menu')
+const skipSpaces = require('./skipSpaces')
 
 let socket = null
+let players = null
 
 const setSocket = (socketIn) => {
   socket = socketIn
@@ -38,11 +40,19 @@ const addPowerup = (powerup) => {
 
   if(powerup.available) {
     if(powerup.cooldown <= 0) {
-      html += '<div id="powerup-' + powerup.name + '"class="powerup-card-use">UTILISER</div>'
+      html += '<div id="powerup-' + skipSpaces(powerup.name) + '"class="powerup-card-use">UTILISER</div>'
     } else {
       html += '<div class="powerup-card-use">ACTIVABLE DANS ' + powerup.cooldown + ' TOURS</div>'
     }
   }
+
+  if(powerup.inUse) {
+    html += '<div class="powerup-card-value">ACTIF</div>'
+  }
+
+  html += '<select id="powerup-target-' + skipSpaces(powerup.name) + '">'
+  html += players.reduce((a, v) => a + '<option value="' + v + '">' + v + '</option>', '')
+  html += '<select>'
 
   html += '</div>'
   html += '<div class="powerup-card-help">' + powerup.help + '</div>'
@@ -50,16 +60,21 @@ const addPowerup = (powerup) => {
   $('#powerup').append(html)
 
   if(powerup.available && powerup.cooldown <= 0) {
-    $('#powerup-' + powerup.name).on('click', () => {
-      socket.emit('powerup-use', powerup.name, (result) => {
+    $('#powerup-' + skipSpaces(powerup.name)).on('click', () => {
+      socket.emit('powerup-use', powerup.name, $('#powerup-target-' + skipSpaces(powerup.name)).val(), (result) => {
         console.log(result)
-        //updatePowerups()
+        socket.emit('powerup-get-all', (powerups) => updatePowerups(powerups))
       })
     })
   }
 
 }
 
+const newPlayers = (playersIn) => {
+  players = playersIn
+}
+
 module.exports = {
-  setSocket
+  setSocket,
+  newPlayers,
 }
