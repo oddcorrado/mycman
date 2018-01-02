@@ -46,7 +46,7 @@ game.setSocket(socket)
 powerup.setSocket(socket)
 socket.on('players', updatePlayers)
 socket.on('vote-start', (users, user2color) => voteStart(users,user2color))
-socket.on('vote-stop', voteStop)
+socket.on('vote-stop', log => voteStop(log))
 socket.on('vote-select', voteSelect)
 socket.on('vote-tick', voteTick)
 socket.on('phase-tick', phaseTick)
@@ -359,6 +359,11 @@ function setupNavigation () {
     socket.emit('player-money-transfer', 'bank', 1)
   })
 
+  $('#vote-result-ok').on('click', e => {
+    e.preventDefault()
+    $('#vote-result-modal').hide()
+  })
+
   $('#gameboard').show()
   $('#login').hide()
 }
@@ -409,7 +414,8 @@ function voteSelect (votes) {
   })
 }
 
-function voteStop () {
+function voteStop (log) {
+  console.log(log)
   menu.isLeftMenuActive(false)
   // $('#vote-quit').show()
   menu.hideAll()
@@ -417,6 +423,9 @@ function voteStop () {
   $('#phase-tick').show()
   $('#gameboard').show()
   $('#vote').hide()
+  $('#vote-result-modal').show()
+  let htmlLog = log.split('\n').reduce((a, v) => a + '<div class="self-secret">' + v + '</div>', '')
+  $('#vote-result-log').html(htmlLog)
 }
 
 function voteTick (timeLeft) {

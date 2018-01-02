@@ -31,7 +31,7 @@ const update = (playersIn, hintsIn, checks, revelations) => {
     }
   })
 
-  console.log('players' , players)
+  // console.log('players' , players)
   let hasRegex = /^les (.*) ont (.*)/i
   if(hintsIn) {
     hintsIn.forEach(hint => {
