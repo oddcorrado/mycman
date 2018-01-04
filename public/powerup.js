@@ -5,6 +5,7 @@ const skipSpaces = require('./skipSpaces')
 
 let socket = null
 let players = null
+let playerName = null
 
 const setSocket = (socketIn) => {
   socket = socketIn
@@ -50,9 +51,20 @@ const addPowerup = (powerup) => {
     html += '<div class="powerup-card-value">ACTIF</div>'
   }
 
-  html += '<select id="powerup-target-' + skipSpaces(powerup.name) + '">'
-  html += players.reduce((a, v) => a + '<option value="' + v + '">' + v + '</option>', '')
-  html += '<select>'
+  if(powerup.targetMax > 0) {
+    if(powerup.inUse) {
+      html += '<div class="powerup-card-value">CIBLE ' + powerup.targets[0] + '</div>'
+    } else {
+      html += '<select id="powerup-target-' + skipSpaces(powerup.name) + '">'
+      if(powerup.targetNoSelf) {
+        html += players.filter(v => v !== playerName).reduce((a, v) => a + '<option value="' + v + '">' + v + '</option>', '')
+      } else {
+        html += players.reduce((a, v) => a + '<option value="' + v + '">' + v + '</option>', '')
+      }
+      html += '<select>'
+    }
+  }
+
 
   html += '</div>'
   html += '<div class="powerup-card-help">' + powerup.help + '</div>'
@@ -70,8 +82,9 @@ const addPowerup = (powerup) => {
 
 }
 
-const newPlayers = (playersIn) => {
+const newPlayers = (playersIn, playerNameIn) => {
   players = playersIn
+  playerName = playerNameIn
 }
 
 module.exports = {
