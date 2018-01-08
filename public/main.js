@@ -50,7 +50,7 @@ socket.on('vote-stop', log => voteStop(log))
 socket.on('vote-select', voteSelect)
 socket.on('vote-tick', voteTick)
 socket.on('phase-tick', phaseTick)
-socket.on('revelation-update', updateRevelations)
+socket.on('revelation-update', () => {updateRevelations(); updateChecks()})
 socket.on('hint-update', hintsIn => updateHints(hintsIn))
 socket.on('hack-start', (type, target) => hackStart(type, target))
 socket.on('hack-stop', (type, target) => hackStop(type, target))
@@ -142,6 +142,7 @@ function updatePendings() {
 }
 
 function updateChecks () {
+  cleanChecks()
   socket.emit('game-get-history', 'card', history => {
     if(history) {
       history.forEach(item=>addCheck(item.name, item.card + 1, item.data))
@@ -177,7 +178,7 @@ function updatePlayers (playersIn) {
   $('#hack-usurp-name').html(playerOptions)
 }
 
-function addCheck(name, index, result) {
+function addCheckOld(name, index, result) {
   checks.push({name, card:index, secret:result})
   dashboard.update(players, hints, checks, revelations)
   $('#check-result').prepend('<div class="check-card">'
@@ -191,11 +192,57 @@ function addCheck(name, index, result) {
   $('#check-card-share-'+ skipSpaces(name) + index).on('click', (e) =>{
     e.preventDefault()
     $("#secret-share").show()
-    console.log(name, index,  result.secret.secret)
     secretShareName = name
     secretShareIndex = index
     secretShareText = result.secret.secret
   })
+}
+
+function cleanChecks() {
+  $('#check-result').html('')
+}
+
+function addCheck(name, index, result) {
+  // checks.push({name, card:index, secret:result})
+  let hasRegex = /^les (.*) ont (.*)/i
+  let teamHints = []
+  if(hints) {
+    hints.forEach(hint => {
+      let r = hint.match(hasRegex)
+      if(r) {
+        let team = r[1]
+        let secret = r[2]
+        teamHints.push({team, secret})
+      }
+    })
+  }
+  let team = teamHints.reduce((a,v) => (!a && v.secret === result.secret.secret) ? v.team : a, null)
+  // let teamHtml = team ? ('<div class="revelation-card-important">' + team + '</div>') : ''
+  let teamHtml = team ? ('<img class="icon" src="/img/' + team + '.png" />') : ''
+
+  let hasNotRegex = /^les élus n'ont pas (.*)/i
+  let chosenHints = []
+  if(hints) {
+    hints.forEach(hint => {
+      let r = hint.match(hasNotRegex)
+      if(r) {
+        chosenHints.push(r[1])
+      }
+    })
+  }
+  let isChosen = chosenHints.reduce((a,v) => (!a && v === result.secret.secret) ? true : a, false)
+//   let chosenHtml = isChosen ? ('<div class="revelation-card-important">NON ELU</div>') : ''
+  let chosenHtml = isChosen ? ('<img class="icon" src="/img/NotChosen.png" />') : ''
+
+  $('#check-result').prepend('<div class="revelation-card">'
+    + '<div class="clearfix">'
+      + '<div class="revelation-card-index">' + index + '</div>'
+      + '<div class="revelation-card-name">' + name + '</div>'
+      + teamHtml
+      + chosenHtml
+      + '<div class="revelation-card-name">' + result.secret.secret + '</div>'
+    + '</div>'
+    +'</div>')
 }
 
 function cleanRevelations() {
@@ -203,12 +250,44 @@ function cleanRevelations() {
 }
 
 function addRevelation(name, index, result) {
+  let hasRegex = /^les (.*) ont (.*)/i
+  let teamHints = []
+  if(hints) {
+    hints.forEach(hint => {
+      let r = hint.match(hasRegex)
+      if(r) {
+        let team = r[1]
+        let secret = r[2]
+        teamHints.push({team, secret})
+      }
+    })
+  }
+  let team = teamHints.reduce((a,v) => (!a && v.secret === result.secret.secret) ? v.team : a, null)
+  // let teamHtml = team ? ('<div class="revelation-card-important">' + team + '</div>') : ''
+  let teamHtml = team ? ('<img class="icon" src="/img/' + team + '.png" />') : ''
+
+  let hasNotRegex = /^les élus n'ont pas (.*)/i
+  let chosenHints = []
+  if(hints) {
+    hints.forEach(hint => {
+      let r = hint.match(hasNotRegex)
+      if(r) {
+        chosenHints.push(r[1])
+      }
+    })
+  }
+  let isChosen = chosenHints.reduce((a,v) => (!a && v === result.secret.secret) ? true : a, false)
+  // let chosenHtml = isChosen ? ('<div class="revelation-card-important">NON ELU</div>') : ''
+  let chosenHtml = isChosen ? ('<img class="icon" src="/img/NotChosen.png" />') : ''
+
   $('#revelationResult').prepend('<div class="revelation-card">'
     + '<div class="clearfix">'
       + '<div class="revelation-card-index">' + index + '</div>'
       + '<div class="revelation-card-name">' + name + '</div>'
+      + teamHtml
+      + chosenHtml
+      + '<div class="revelation-card-name">' + result.secret.secret + '</div>'
     + '</div>'
-    + '<div class="revelation-card-secret">' + result.secret.secret + '</div>'
     +'</div>')
 }
 
@@ -284,12 +363,13 @@ function setupNavigation () {
   $('#check-button').on('click', function (e) {
     e.preventDefault()
     socket.emit('game-get-data', ['card', $('#check-name').val(), Number($('#check-index').val()) - 1], (result) => {
-      addCheck(result.checkee, result.index + 1, result)
+      // addCheck(result.checkee, result.index + 1, result)
       if (result.doHide) {
         $('#menuLink').show()
         $('#check-submit').hide()
         menu.isLeftMenuActive(true)
       }
+      updateChecks()
     })
   })
   $('#hack-jam-submit').on('submit', function (e) {

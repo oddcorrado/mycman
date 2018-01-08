@@ -27,6 +27,15 @@ button {
     background-color: #990099;
 }
 
+.logo {
+  height: 30px;
+}
+
+.icon {
+  height: 26px;
+  margin: 4px;
+}
+
 .pure-menu-item {
   padding: 0.6em;
   color: #ffffff;
@@ -308,6 +317,14 @@ h3 {
   margin: 4px;
   padding: 6px;
   background: #990099;
+  color: #ffffff;
+  float:left;
+}
+
+.revelation-card-important {
+  margin: 4px;
+  padding: 6px;
+  background: #990000;
   color: #ffffff;
   float:left;
 }
