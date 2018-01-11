@@ -19,7 +19,7 @@ const creditUpdate = () => {
   })
 }
 const creditUiUpdate = (credit) => {
-  if(credit >= 0 || credit !== 'null') {
+  if(credit >= 0 && credit !== null) {
     if(credit === 0) {
       $('#mp-message-send').hide()
       $('#mp-message-text').hide()
