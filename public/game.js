@@ -1,6 +1,7 @@
 'use strict'
 const $ = require('jquery')
 const menu = require('./menu')
+const mp = require('./mp')
 
 let socket = null
 let updateInfos = null
@@ -29,6 +30,7 @@ const setSocket = (socketIn) => {
 
   socket.on('game-start', () => {
     $('#start').hide()
+    mp.creditUpdate()
     updateInfos()
   })
 

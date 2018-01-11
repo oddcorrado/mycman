@@ -156,7 +156,8 @@ function updateRevelations () {
     if(revelationsIn) {
       revelations = revelationsIn
       dashboard.update(players, hints, checks, revelations)
-      revelations.sort((a, b) => a.name + a.card < b.name + b.card).forEach(item=>addRevelation(item.name, item.card, item.secret))
+      //revelations.sort((a, b) => a.name + a.card < b.name + b.card).forEach(item=>addRevelation(item.name, item.card, item.secret))
+      revelations.forEach(item=>addRevelation(item.name, item.card, item.secret))
     }
   })
 }
@@ -505,6 +506,7 @@ function voteStop (log) {
   $('#vote-result-modal').show()
   let htmlLog = log.split('\n').reduce((a, v) => a + '<div class="self-secret">' + v + '</div>', '')
   $('#vote-result-log').html(htmlLog)
+  mp.creditUpdate()
 }
 
 function voteTick (timeLeft) {

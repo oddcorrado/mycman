@@ -4,8 +4,35 @@ const menu = require('./menu')
 
 let socket = null
 
+let credit = 0
+
 const setSocket = (socketIn) => {
   socket = socketIn
+  creditUpdate()
+  $('#mp-message-send').html('MP:' + credit)
+}
+
+const creditUpdate = () => {
+  socket.emit('mp-get-credit', creditIn => {
+    credit = creditIn
+    creditUiUpdate(credit)
+  })
+}
+const creditUiUpdate = (credit) => {
+  if(credit >= 0 || credit !== 'null') {
+    if(credit === 0) {
+      $('#mp-message-send').hide()
+      $('#mp-message-text').hide()
+      $('#mp-message-send-no').show()
+    } else {
+      $('#mp-message-send').show()
+      $('#mp-message-text').show()
+      $('#mp-message-send-no').hide()
+      $('#mp-message-send').html('MP:' + credit)
+    }
+  } else {
+    $('#mp-message-send').html('MP')
+  }
 }
 
 $('#nav-mp').on('click', function (e) {
@@ -53,13 +80,14 @@ const addMp = (player, message, isEcho) => {
 const update = (playerNameIn) => {
   playerName = playerNameIn
   socket.on('mp', logMp)
-  console.log('socket ready')
 
   $('#mp-message-send').on('click', function (e) {
     e.preventDefault()
     if(mpSelected !== null &&  $('#mp-message-text').val() !== '') {
-      socket.emit('mp', playerName, mpSelected, $('#mp-message-text').val(), (target, message) => {
-        addMp(target, message, true)})
+      socket.emit('mp', playerName, mpSelected, $('#mp-message-text').val(), (target, message, credit) => {
+        creditUiUpdate(credit)
+        addMp(target, message, true)
+      })
       $('#mp-message-text').val('')
     }
   })
@@ -147,5 +175,6 @@ const newPlayers = (playersIn, playerOptions) => {
 module.exports = {
   setSocket,
   newPlayers,
-  update
+  update,
+  creditUpdate
 }
