@@ -9,11 +9,12 @@ const hint = require('./hint')
 const menu = require('./menu')
 const game = require('./game')
 const help = require('./help')
+const login = require('./login')
 const powerup = require('./powerup')
 const dashboard = require('./dashboard')
 const scan = require('./scan')
 
-game.init(updateInfos, enableLogin)
+game.init(updateInfos, login.startLogin)
 
 require('moment/locale/fr')
 moment.locale('fr')
@@ -333,10 +334,10 @@ $.get('/login')
     mp.update(playerName)
     updatePendings()
   },
-  () => enableLogin()
+  () => login.startLogin()
 )
 
-function enableLogin () {
+/* function enableLogin () {
   $('#login').show()
   $('#chatbox').hide()
   $('#login input[name=author]').focus()
@@ -346,7 +347,7 @@ function enableLogin () {
       user: this.elements.author.value.slice(0,30)
     }).then(() => document.location.reload())
   })
-}
+} */
 
 // ##################################
 // SETUP NAVIGATION

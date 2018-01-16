@@ -8,6 +8,7 @@ const players = require('./lib/players')
 const bodyParser = require('body-parser')
 const session = require('./lib/session')
 const game = require('./lib/game')
+const scan = require('./lib/scan')
 
 const app = express()
 
@@ -88,6 +89,8 @@ app.get('/logout', (req, res) => {
 app.post('/login', (req, res) => {
   if (req.body.user) {
     players.addPlayer(req.body.user)
+    scan.addUser(req.body.user)
+    scan.setId(req.body.user, req.body.id) // TODO check user id
     if(testMulti) {
       players.addPlayer(req.body.user + '-1')
       players.addPlayer(req.body.user + '-2')
