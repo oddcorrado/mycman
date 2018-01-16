@@ -11,6 +11,7 @@ const game = require('./game')
 const help = require('./help')
 const powerup = require('./powerup')
 const dashboard = require('./dashboard')
+const scan = require('./scan')
 
 game.init(updateInfos, enableLogin)
 
@@ -173,6 +174,7 @@ function updatePlayers (playersIn) {
 
   mp.newPlayers(players, playerName)
   powerup.newPlayers(players, playerName)
+  scan.newPlayers(players, playerName)
 
   $('#hack-jam-name').html(playerOptions)
   $('#hack-spy-name').html(playerOptions)

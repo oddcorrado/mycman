@@ -6,6 +6,9 @@
   <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
   <link rel="stylesheet" href="/side-menu.css">
   <link rel="stylesheet" href="/styles.css">
+  <script src="artoolkit.min.js"></script>
+  <script src="three.min.js"></script>
+  <script src="artoolkit.three.js"></script>
   <title>MYCMAN</title>
 </head>
 <body>
@@ -27,6 +30,7 @@
           <li id="nav-game" class="pure-menu-item">GAME</li>
           <li id="nav-dashboard" class="pure-menu-item">DASHBOARD</li>
           <li id="nav-powerup" class="pure-menu-item">POWERUP</li>
+          <li id="nav-scan" class="pure-menu-item">SCAN TEST</li>
         </ul>
       </div>
     </div>
@@ -179,6 +183,19 @@
         <div class="content">
           <div id="vote-result-log"></div>
           <div id="vote-result-ok" class="game-button">OK</div>
+        </div>
+    </div>
+  </div>
+
+  <div id="scan-modal" class="overlay">
+    <a class="cancel" href="#"></a>
+      <div class="modal">
+        <h2>SCAN</h2>
+        <div id="scan-view"></div>
+        <div class="content">
+          <div id="scan-result"></div>
+          <div id="scan-ok" class="game-button">OK</div>
+          <div id="scan-cancel" class="game-button">ANNULER</div>
         </div>
     </div>
   </div>
