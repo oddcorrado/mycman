@@ -106,6 +106,12 @@ const setSocket = (socketIn) => {
       gameOptions[gameOptionsSetKey] = value
       socket.emit('game-options-set', gameOptions)
     }
+    // TODO cleanup
+    if(!(gameOptions.doScan > 0)) {
+      $('#check-direct').show()
+    } else {
+      $('#check-direct').hide()
+    }
     $("#game-options-set-modal").hide()
   })
 
@@ -146,7 +152,12 @@ function gameOver(data) {
     .append('<div>' + vote.name + '=>' + vote.voted + ':' + vote.count + '</div>'))
 }
 
+const getOptions = () => {
+  return gameOptions
+}
+
 module.exports = {
+  getOptions,
   setSocket,
   init
 }

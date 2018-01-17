@@ -2,6 +2,7 @@
 
 const $ = require('jquery')
 const scan = require('./scan')
+const game = require('./game')
 
 let userName = null
 let userId = null
@@ -22,13 +23,13 @@ const getName = () => {
     userName = $('#login-name-input').val().slice(0,30)
     if(userName) {
       $('#login-name').hide()
-      if(doScan) {
+      if(game.getOptions().doScan > 0) {
         getId()
       } else {
         $('#login-name').hide()
         $.post('/login', {
           user: userName,
-          id: 4
+          id: null
         }).then(() => document.location.reload())
       }
     }

@@ -41,7 +41,7 @@ let players = []
 let checks = []
 let revelations = null
 let objects = []
-let doScan = true
+
 // ##################################
 // IO SOCKET CALLBACKS
 // ##################################
@@ -345,17 +345,23 @@ function setupNavigation () {
     $.get('/logout')
       .then(
       () => {
-        enableLogin()
+        login.startLogin()
         $('#logout').hide()
       }
     )
   })
 
+  if(!(game.getOptions().doScan > 0)) {
+    $('#check-direct').show()
+  } else {
+    $('#check-direct').hide()
+  }
+
   $('#check-button').on('click', function (e) {
     e.preventDefault()
 
-    if(!doScan) {
-      $('check-direct').show()
+    if(!(game.getOptions().doScan > 0)) {
+      $('#check-direct').show()
       socket.emit('game-get-data', ['card', $('#check-name').val(), Number($('#check-index').val()) - 1], (result) => {
         if (result.doHide) {
           $('#menuLink').show()
