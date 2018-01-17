@@ -14,6 +14,7 @@ const powerup = require('./powerup')
 const dashboard = require('./dashboard')
 const scan = require('./scan')
 
+// TODO bg color for revelation
 game.init(updateInfos, login.startLogin)
 
 require('moment/locale/fr')
@@ -30,7 +31,6 @@ let playerOptions = []
 let playerName = 'anonymous'
 let hacks = []
 let users = []
-let user2color = {}
 let selfInfos = {}
 let glitchRatio = 0.2
 let secretShareName = null
@@ -40,6 +40,8 @@ let hints = null
 let players = []
 let checks = []
 let revelations = null
+let objects = []
+let doScan = true
 // ##################################
 // IO SOCKET CALLBACKS
 // ##################################
@@ -47,7 +49,7 @@ mp.setSocket(socket)
 game.setSocket(socket)
 powerup.setSocket(socket)
 socket.on('players', updatePlayers)
-socket.on('vote-start', (users, user2color) => voteStart(users,user2color))
+socket.on('vote-start', (users) => voteStart(users))
 socket.on('vote-stop', log => voteStop(log))
 socket.on('vote-select', voteSelect)
 socket.on('vote-tick', voteTick)
@@ -164,8 +166,11 @@ function updateRevelations () {
   })
 }
 
-function updatePlayers (playersIn) {
-  players = playersIn
+function updatePlayers (ids) {
+  players = ids.filter(id => id.type === 'user').map(v => v.name)
+
+  console.log(ids, players)
+  objects = ids
   dashboard.update(players, hints, checks, revelations)
   users = players.map(name=>({name}))
   playerOptions = ''
@@ -175,31 +180,12 @@ function updatePlayers (playersIn) {
 
   mp.newPlayers(players, playerName)
   powerup.newPlayers(players, playerName)
-  scan.newPlayers(players, playerName)
+  powerup.newObjects(objects)
+  scan.newObjects(objects)
 
   $('#hack-jam-name').html(playerOptions)
   $('#hack-spy-name').html(playerOptions)
   $('#hack-usurp-name').html(playerOptions)
-}
-
-function addCheckOld(name, index, result) {
-  checks.push({name, card:index, secret:result})
-  dashboard.update(players, hints, checks, revelations)
-  $('#check-result').prepend('<div class="check-card">'
-    + '<div class="clearfix">'
-      + '<div class="check-card-index">' + index + '</div>'
-      + '<div class="check-card-name">' + name + '</div>'
-      + '<div id="check-card-share-' + skipSpaces(name) + index + '" class="check-card-share">PARTAGER</div>'
-    + '</div>'
-    + '<div class="check-card-secret">' + result.secret.secret + '</div>'
-    +'</div>')
-  $('#check-card-share-'+ skipSpaces(name) + index).on('click', (e) =>{
-    e.preventDefault()
-    $("#secret-share").show()
-    secretShareName = name
-    secretShareIndex = index
-    secretShareText = result.secret.secret
-  })
 }
 
 function cleanChecks() {
@@ -364,18 +350,39 @@ function setupNavigation () {
       }
     )
   })
+
   $('#check-button').on('click', function (e) {
     e.preventDefault()
-    socket.emit('game-get-data', ['card', $('#check-name').val(), Number($('#check-index').val()) - 1], (result) => {
-      // addCheck(result.checkee, result.index + 1, result)
-      if (result.doHide) {
-        $('#menuLink').show()
-        $('#check-submit').hide()
-        menu.isLeftMenuActive(true)
-      }
-      updateChecks()
-    })
+
+    if(!doScan) {
+      $('check-direct').show()
+      socket.emit('game-get-data', ['card', $('#check-name').val(), Number($('#check-index').val()) - 1], (result) => {
+        if (result.doHide) {
+          $('#menuLink').show()
+          $('#check-submit').hide()
+          menu.isLeftMenuActive(true)
+        }
+        updateChecks()
+      })
+    }
+    else {
+      scan.scan({allowCancel:false, message:'Scannez un secret', filter:'secret'})
+      .then(id => {
+        let name = objects[id].name
+        let index = objects[id].card - 1
+        socket.emit('game-get-data', ['card', name, index], (result) => {
+          if (result.doHide) {
+            $('#menuLink').show()
+            $('#check-submit').hide()
+            menu.isLeftMenuActive(true)
+          }
+          updateChecks()
+        })
+
+      })
+    }
   })
+
   $('#hack-jam-submit').on('submit', function (e) {
     e.preventDefault()
     //socket.emit('game-start')
@@ -455,16 +462,19 @@ function setupNavigation () {
 // ############################
 // VOTING STUFF
 // ############################
-function voteStart (users, user2colorIn) {
+function getColor(name) {
+  return objects.find(o => o.name === name).data.color
+}
+
+function voteStart (users) {
   $('#menuLink').hide()
   $('#phase-tick').hide()
-  user2color = user2colorIn
   $('#vote-buttons').html('')
   var h = ''
   users.forEach((u)=>{
     h += '<div class="vote-button" data-player="' + u +'"'
     h += ' id="vote-button-' + u + '"'
-    h += ' style="float:left;width:50%;height:50px;color:black;background-color:' + user2color[u] + '">'
+    h += ' style="float:left;width:50%;height:50px;color:black;background-color:' + getColor(u) + '">'
     h += '<div style="text-align:center">' + u + '</div>'
     h += '<div style="text-align:center" id="vote-count-' + skipSpaces(u) + '">' + 0 + '</div>'
     h += '</div>'
@@ -523,7 +533,7 @@ function phaseTick (timeLeft) {
     $('body').css("background-color", "rgb(" + ratio + ",0," + ratio +")")
   }
   $('#phase-tick').html(Math.trunc(timeLeft/1000))
-  updateHints(selfInfos.hints)
+  // updateHints(selfInfos.hints)
 }
 
 // ############################

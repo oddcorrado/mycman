@@ -5,6 +5,7 @@ const scan = require('./scan')
 
 let userName = null
 let userId = null
+let doScan = true
 
 const startLogin = () => {
   getName()
@@ -21,11 +22,16 @@ const getName = () => {
     userName = $('#login-name-input').val().slice(0,30)
     if(userName) {
       $('#login-name').hide()
-      getId()
+      if(doScan) {
+        getId()
+      } else {
+        $('#login-name').hide()
+        $.post('/login', {
+          user: userName,
+          id: 4
+        }).then(() => document.location.reload())
+      }
     }
-    /* $.post('/login', {
-      user: this.elements.author.value.slice(0,30)
-    }).then(() => document.location.reload()) */
   })
 }
 

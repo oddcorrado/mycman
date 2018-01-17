@@ -2,9 +2,10 @@ const $ = require('jquery')
 const menu = require('./menu')
 
 let renderer = null
-let players = null
+let objects = null
 let doScan = false
-let founds = []
+let scans = []
+let lastScanId = null
 
 let ARThreeOnLoad = function() {
   ARController.getUserMediaThreeScene({
@@ -13,33 +14,29 @@ let ARThreeOnLoad = function() {
     onSuccess: function (arScene, arController) {
       cameraSetup (arController)
 
-      // arController.addEventListener('getMarker', function(ev) {
-      //  console.log(ev)
-      // })
-
-
       var tick = function () {
         if(doScan) {
           var cnt = arController.getMarkerNum()
-          if(cnt > 0) {
-            founds = []
-          }
-          for (var i=0; i < cnt; i++) {
+          let founds = []
+          for (var i = 0; i < cnt; i++) {
             let id = arController.getMarker(i).idMatrix
             if(id !== -1 && id !== undefined) {
               founds.push(arController.getMarker(i).idMatrix)
             }
           }
-          if(founds.length >= 1) {
-            if(founds.length === 1) {
-              $('#scan-feedback').html('Objet détecté : ' + founds[0])
+
+          if(founds.length > 0) {
+            scans = founds
+          }
+          if(scans.length >= 1) {
+            if(scans.length === 1) {
+              $('#scan-feedback').html('Objet détecté : ' + scans[0])
             } else {
-              $('#scan-feedback').html('Trop d\'objets détectés : ' + founds.reduce((a,v) => a + ' ' + v , ' '))
+              $('#scan-feedback').html('Trop d\'objets détectés : ' + scans.reduce((a,v) => a + ' ' + v , ' '))
             }
           } else {
             $('#scan-feedback').html('Aucun objet détecté')
           }
-          // console.log(founds)
           arScene.process()
           arScene.renderOn(renderer)
           requestAnimationFrame(tick)
@@ -82,19 +79,19 @@ $('#nav-scan').on('click', function (e) {
   e.preventDefault()
   if(!menu.isLeftMenuActive()) { return }
   menu.hideAll()
-  founds = []
+  scans = []
   doScan = true
   $('#scan-modal').show()
 })
 
-const newPlayers = (playersIn) => {
-  players = playersIn
+const newObjects = (objectsIn) => {
+  objects = objectsIn
 }
 
-const scan = ({allowCancel, message}) => {
-  if(!menu.isLeftMenuActive()) { return }
-  menu.hideAll()
-  founds = []
+const scan = ({allowCancel, message, filter}) => {
+  // if(!menu.isLeftMenuActive()) { return }
+  // menu.hideAll()
+  scans = []
   doScan = true
   $('#scan-modal').show()
 
@@ -116,16 +113,20 @@ const scan = ({allowCancel, message}) => {
 
     $('#scan-ok').on('click', function (e) {
       e.preventDefault()
-      if(founds[0]) {
-        doScan = false
-        $('#scan-modal').hide()
-        resolve(founds[0])
+      if(scans[0] !== null && scans[0] !== undefined) {
+        if(!filter || objects[scans[0]].type === filter) {
+          doScan = false
+          $('#scan-modal').hide()
+          resolve(scans[0])
+        }
       }
     })
   })
 }
 
+
+
 module.exports = {
-  newPlayers,
+  newObjects,
   scan
 }

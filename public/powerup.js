@@ -2,10 +2,13 @@
 const $ = require('jquery')
 const menu = require('./menu')
 const skipSpaces = require('./skipSpaces')
+const scan = require('./scan')
 
 let socket = null
 let players = null
 let playerName = null
+let doScan = true
+let objects = []
 
 const setSocket = (socketIn) => {
   socket = socketIn
@@ -55,13 +58,15 @@ const addPowerup = (powerup) => {
     if(powerup.inUse) {
       html += '<div class="powerup-card-value">CIBLE ' + powerup.targets[0] + '</div>'
     } else {
-      html += '<select id="powerup-target-' + skipSpaces(powerup.name) + '">'
-      if(powerup.targetNoSelf) {
-        html += players.filter(v => v !== playerName).reduce((a, v) => a + '<option value="' + v + '">' + v + '</option>', '')
-      } else {
-        html += players.reduce((a, v) => a + '<option value="' + v + '">' + v + '</option>', '')
+      if(!doScan) {
+        html += '<select id="powerup-target-' + skipSpaces(powerup.name) + '">'
+        if(powerup.targetNoSelf) {
+          html += players.filter(v => v !== playerName).reduce((a, v) => a + '<option value="' + v + '">' + v + '</option>', '')
+        } else {
+          html += players.reduce((a, v) => a + '<option value="' + v + '">' + v + '</option>', '')
+        }
+        html += '<select>'
       }
-      html += '<select>'
     }
   }
 
@@ -73,13 +78,22 @@ const addPowerup = (powerup) => {
 
   if(powerup.available && powerup.cooldown <= 0) {
     $('#powerup-' + skipSpaces(powerup.name)).on('click', () => {
-      socket.emit('powerup-use', powerup.name, $('#powerup-target-' + skipSpaces(powerup.name)).val(), (result) => {
-        console.log(result)
-        socket.emit('powerup-get-all', (powerups) => updatePowerups(powerups))
-      })
+      if(!doScan) {
+        socket.emit('powerup-use', powerup.name, $('#powerup-target-' + skipSpaces(powerup.name)).val(), () => {
+          socket.emit('powerup-get-all', (powerups) => updatePowerups(powerups))
+        })
+      } else {
+        // TODO fix me
+        scan.scan({allowCancel:false, message:'Scannez un personnage', filter:'user'})
+        .then(id => {
+          let name = objects[id].name
+          socket.emit('powerup-use', powerup.name, name, () => {
+            socket.emit('powerup-get-all', (powerups) => updatePowerups(powerups))
+          })
+        })
+      }
     })
   }
-
 }
 
 const newPlayers = (playersIn, playerNameIn) => {
@@ -87,7 +101,12 @@ const newPlayers = (playersIn, playerNameIn) => {
   playerName = playerNameIn
 }
 
+const newObjects = (objectsIn) => {
+  objects = objectsIn
+}
+
 module.exports = {
   setSocket,
   newPlayers,
+  newObjects,
 }
