@@ -8,8 +8,27 @@ let scans = []
 let lastScanId = null
 
 let ARThreeOnLoad = function() {
+  navigator
+  .mediaDevices
+  .enumerateDevices()
+  .then(devices => {
+    let devs = devices.reduce((a, v) => a + '[' + v.label + ']', 'devs: ')
+    console.log("devices", devs)
+    $('#scan-devs').html(devs)
+    let device = devices.find(element => element.label.indexOf('back') !== -1)
+
+    let videoParams = {deviceId: device ? {exact: device.deviceId} : undefined}
+
+    cameraFound(videoParams)
+  })
+  .catch(err => alert(err.name + ": " + err.message))
+  delete window.ARThreeOnLoad
+}
+
+let cameraFound = (videoParams) => {
   ARController.getUserMediaThreeScene({
     maxARVideoSize: 320,
+    deviceId: videoParams.deviceId,
     cameraParam: 'Data/camera_para-iPhone 5 rear 640x480 1.0m.dat',
     onSuccess: function (arScene, arController) {
       cameraSetup (arController)
@@ -41,18 +60,14 @@ let ARThreeOnLoad = function() {
           arScene.renderOn(renderer)
           requestAnimationFrame(tick)
         } else {
-          setTimeout(tick, 500)
+          setTimeout(tick, 200)
         }
       }
       tick()
     }
   })
-  delete window.ARThreeOnLoad;
 }
 
-if (window.ARController && ARController.getUserMediaThreeScene) {
-  ARThreeOnLoad()
-}
 
 function cameraSetup (arController) {
   document.body.className = arController.orientation
@@ -89,8 +104,6 @@ const newObjects = (objectsIn) => {
 }
 
 const scan = ({allowCancel, message, filter}) => {
-  // if(!menu.isLeftMenuActive()) { return }
-  // menu.hideAll()
   scans = []
   doScan = true
   $('#scan-modal').show()
@@ -124,7 +137,9 @@ const scan = ({allowCancel, message, filter}) => {
   })
 }
 
-
+if (window.ARController && ARController.getUserMediaThreeScene) {
+  ARThreeOnLoad()
+}
 
 module.exports = {
   newObjects,
