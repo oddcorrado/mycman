@@ -15,8 +15,8 @@ let ARThreeOnLoad = function() {
     let devs = devices.reduce((a, v) => a + '[' + v.label + ']', 'devs: ')
     console.log("devices", devs)
     $('#scan-devs').html(devs)
-    let device = devices.find(element => element.label.indexOf('back') !== -1)
-
+    let device = devices.find(element => element.label.match(/front/i) !== null) //element.label.indexOf('back') !== -1)
+    console.log("device is ", device && device.deviceId)
     let videoParams = {deviceId: device ? {exact: device.deviceId} : undefined}
 
     cameraFound(videoParams)
