@@ -73,21 +73,21 @@ function cameraSetup (arController) {
   document.body.className = arController.orientation
   arController.setPatternDetectionMode(artoolkit.AR_TEMPLATE_MATCHING_MONO_AND_MATRIX)
   renderer = new THREE.WebGLRenderer({antialias: true})
-  if (arController.orientation === 'portrait') {
-    var w = (window.innerWidth / arController.videoHeight) * arController.videoWidth
-    var h = window.innerWidth
+  /* if (arController.orientation === 'portrait') */ {
+    var w = 280
+    var h = w * (arController.videoHeight / arController.videoWidth)
     renderer.setSize(w, h)
-    renderer.domElement.style.paddingBottom = (w-h) + 'px'
-  } else {
+    // renderer.domElement.style.paddingBottom = (w-h) + 'px'
+  } /* else {
     if (/Android|mobile|iPad|iPhone/i.test(navigator.userAgent)) {
       renderer.setSize(window.innerWidth, (window.innerWidth / arController.videoWidth) * arController.videoHeight)
     } else {
       renderer.setSize(arController.videoWidth, arController.videoHeight)
       document.body.className += ' desktop'
     }
-  }
+  } */
   // document.body.insertBefore(renderer.domElement, document.body.firstChild)
-  $('#scan-view').replaceWith(renderer.domElement)
+  $('#scan-canvas').replaceWith(renderer.domElement)
 }
 
 $('#nav-scan').on('click', function (e) {
