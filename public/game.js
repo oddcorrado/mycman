@@ -6,7 +6,7 @@ const mp = require('./mp')
 let socket = null
 let updateInfos = null
 let enableLogin = null
-let gameOptions = {}
+let gameOptions = {doScan:1} // TODO fixme get gameoptions on login...
 let gameOptionsSetKey = null
 
 const setSocket = (socketIn) => {
