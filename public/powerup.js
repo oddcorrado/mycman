@@ -33,6 +33,7 @@ const updatePowerups = (powerups) => {
 const addPowerup = (powerup) => {
   let html = '<div class="powerup-card">'
   html += '<div class="clearfix">'
+  html += '<div class="powerup-card-icon"><img src="/img/secrets/FatMan.png" /></div>'
   html += '<div class="powerup-card-value">' + powerup.name + '</div>'
 
   html += '<div class="powerup-card-value">TOUS LES ' + powerup.cooldownPeriod + ' TOURS</div>'

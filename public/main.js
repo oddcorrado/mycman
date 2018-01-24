@@ -21,11 +21,6 @@ require('moment/locale/fr')
 moment.locale('fr')
 
 
-console.log(vote.test())
-console.log(hack.test())
-console.log(hint.test())
-console.log(menu.test())
-
 let socket = io()
 let playerOptions = []
 let playerName = 'anonymous'
@@ -231,6 +226,7 @@ function addCheck(name, index, result) {
       + teamHtml
       + chosenHtml
       + '<div class="revelation-card-name">' + result.secret.secret + '</div>'
+      + '<div class="revelation-card-icon"><img src="/img/secrets/Mjolnir.png" /></div>'
     + '</div>'
     +'</div>')
 }
@@ -277,6 +273,7 @@ function addRevelation(name, index, result) {
       + teamHtml
       + chosenHtml
       + '<div class="revelation-card-name">' + result.secret.secret + '</div>'
+      + '<div class="revelation-card-icon"><img src="/img/secrets/FatMan.png" /></div>'
     + '</div>'
     +'</div>')
 }

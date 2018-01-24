@@ -306,6 +306,11 @@ h3 {
   float:right;
 }
 
+.powerup-card-icon {
+  color: #ffffff;
+  float:left;
+}
+
 .revelation-card {
   margin: 4px;
   padding: 6px;
@@ -320,6 +325,12 @@ h3 {
   background: #666666;
   color: #ffffff;
   float:left;
+}
+
+.revelation-card-icon {
+  max-width: 15%;
+  color: #ffffff;
+  float:right;
 }
 
 .revelation-card-index {
