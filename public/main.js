@@ -306,19 +306,20 @@ $('#nav-hack').on('click', function (e) {
 // ##################################
 // LOGIN STUFF
 // ##################################
-$.get('/login')
+$.get('/options')
+  .then(o => game.setOptions(o))
+  .then(() => $.get('/login'))
   .then(
-  o => {
-    playerName = o.user
-    setupNavigation(o.user)
-    updateInfos()
-    updateChecks()
-    updateRevelations()
-    mp.update(playerName)
-    updatePendings()
-  },
-  () => login.startLogin()
-)
+    o => {
+      playerName = o.user
+      setupNavigation(o.user)
+      updateInfos()
+      updateChecks()
+      updateRevelations()
+      mp.update(playerName)
+      updatePendings()
+    }, () => login.startLogin()
+  )
 
 /* function enableLogin () {
   $('#login').show()

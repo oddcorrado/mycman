@@ -156,8 +156,21 @@ const getOptions = () => {
   return gameOptions
 }
 
+const setOptions = (options) => {
+  gameOptions = Object.assign({}, options)
+  let out = ''
+
+  Object.keys(gameOptions).forEach(k => {
+    out += '<div>['+k+']=>'+gameOptions[k]+'</div>'
+    options += '<option value="' + k + '">' + k + '</option>'
+  })
+  $('#game-options-result').html(out)
+  $('#game-options-set-key').html(options)
+}
+
 module.exports = {
   getOptions,
   setSocket,
+  setOptions,
   init
 }

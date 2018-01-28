@@ -53,6 +53,10 @@ app.get('/:num([0-9]+).json', (req, res) => {
   res.send(result)
 })
 
+app.get('/options', (req, res) => {
+  res.send(game.getOptions())
+})
+
 function restricted (req, res, next) {
   if (req.session.user) {
     next()
