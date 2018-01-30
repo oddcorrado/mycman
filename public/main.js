@@ -273,7 +273,7 @@ function addRevelation(name, index, result) {
       + teamHtml
       + chosenHtml
       + '<div class="revelation-card-name">' + result.secret.secret + '</div>'
-      + '<div class="revelation-card-icon"><img src="/img/secrets/' + skipSpaces(result.secret.secret) + '.png" /></div>'
+      + '<div class="revelation-card-icon" style="background-image:url(/img/secrets/' + skipSpaces(result.secret.secret) + '.png)"></div>'
     + '</div>'
     +'</div>')
 }

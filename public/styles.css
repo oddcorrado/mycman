@@ -328,7 +328,8 @@ h3 {
 }
 
 .revelation-card-icon {
-  max-width: 15%;
+  width: 48px;
+  height: 48px;
   color: #ffffff;
   float:right;
 }
