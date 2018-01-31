@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css?family=Oswald|Source+Sans+Pro&amp;subset=latin-ext" rel="stylesheet">
   <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
   <link rel="stylesheet" href="/side-menu.css">
@@ -41,6 +42,7 @@
     </div>
 
     <div id="main">
+      <div class="headerbar"></div>
       <div id="content">
         <div id="vote" style="display:none">
           <div id="vote-tick">3.0</div>
@@ -91,9 +93,10 @@
           <div id="self" style="display:none"><h2>INFOS</h2></div>
           <div id="help" style="display:none"></div>
           <div id="check" style="display:none">
-            <h3>INDICES</h3>
+            <h2>ENQUÊTE</h2>
+            <h3>Les indices à votre disposition :</h3>
             <div id="check-hints"></div>
-            <h3>ENQUETE</h3>
+            <h3>Les complots découverts :</h3>
             <div id="check-submit" style="display:none">
               <div id="check-direct" style="display:none">
                 <select id="check-name"><option value="none">none</option></select>
@@ -200,6 +203,7 @@
     <a class="cancel" href="#"></a>
       <div class="modal">
         <h2>SCAN</h2>
+        <div class="headerbar"></div>
         <div id="scan-view">
           <div id="scan-canvas">
           </div>

@@ -1,12 +1,33 @@
-#content {
-  padding: 5px;
-  overflow: auto;
-  margin: 0px auto;
-  max-width:600px;
+html {
+  font-size: 12px;
 }
 
 body {
   color: #ffffff;
+  background-color: #252737;
+  background-image: url("img/ui/fond.jpg");
+  background-size: 400px;
+  background-repeat: repeat;
+  font-family: 'Source Sans Pro', sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+}
+
+
+h2 {
+  text-align: right;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.5rem;
+  margin-top:4px;
+  margin-bottom: 24px;
+  padding-right: 80px;
+  z-index:2;
+}
+
+h3 {
+  text-align: center;
+  margin: 0.5 em;
 }
 
 select {
@@ -28,7 +49,7 @@ button {
 }
 
 .logo {
-  height: 30px;
+  height: 24px;
 }
 
 .icon {
@@ -41,12 +62,30 @@ button {
   color: #ffffff;
 }
 
-body {
-  font-family: monospace;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 0px;
-  background-color: #000000;
+#content {
+  padding: 5px;
+  overflow: auto;
+  margin: 0px auto;
+  max-width:600px;
+}
+
+#main{
+}
+
+#gameboard{
+}
+
+.headerbar{
+  width:100%;
+  position:fixed;
+  height:44px;
+  z-index:-1;
+  background-color: black;
+}
+
+.modal .headerbar{
+  top:0;
+  z-index:0;
 }
 
 #login {
@@ -93,13 +132,12 @@ body {
   text-align: center;
 }
 
-h2 {
-  text-align: center;
-}
-
-h3 {
-  text-align: center;
-  margin: 0.5 em;
+#check-hints{
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-top: -48px;
+  padding-top: 48px;
+  padding-bottom: 24px;
+  border-bottom: solid #ffffff 1px;
 }
 
 .help-title {
@@ -135,9 +173,14 @@ h3 {
 
 .self-hint {
   margin: 2px;
+  margin-top : 4px;
   padding: 6px;
-  background: #990099;
+  text-align:center;
+  font-family: 'Oswald' sans-serif;
+  font-size: 1.2rem;
+  background: none;
   color: #ffffff;
+  /*border-bottom: 1px solid #ffffff;*/
 }
 
 .self-secret {
@@ -156,14 +199,14 @@ h3 {
 }
 
 .game-button {
-  margin: 10px;
+  margin: 14px;
   margin-left: auto;
   margin-right: auto;
   padding: 12px;
-  font-size: 1.5em;
-  background: #cccccc;
+  font-size: 1rem;
+  background: #ffffff;
   color: #000000;
-  width: 150px;
+  width: 120px;
   text-align: center;
 }
 
@@ -328,8 +371,7 @@ h3 {
 }
 
 .revelation-card-icon {
-  width: 48px;
-  height: 48px;
+  max-width: 15%;
   color: #ffffff;
   float:right;
 }
@@ -451,9 +493,10 @@ h3 {
 
 #phase-tick {
   text-align:right;
-  background: #990099;
-  padding:4px;
-  font-size: 1.5em;
+  background: none;
+  padding:6px;
+  padding-right:24px;
+  font-size: 1.33rem;
   float:right;
 }
 
@@ -470,6 +513,9 @@ h3 {
   border-top-right-radius: 0;
 }
 
+#scan-modal{
+}
+
 .modal {
   margin: 0 auto;
 /*  top: 20px;
@@ -477,7 +523,10 @@ h3 {
   left: 20px;
   right: 20px;
   z-index: 20; */
-  background: #990099;
+  width:100%;
+  background-image: url("img/ui/fond.jpg");
+  background-size: 100%;
+  background-repeat: repeat;
   position: absolute;
 }
 
