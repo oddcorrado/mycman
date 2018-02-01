@@ -103,10 +103,12 @@ function updateInfos () {
       self.secrets.forEach(secret => {
         selfSecrets += '<div class="self-secret">' + highlightShared(secret.secret) + '</div>'
       })
-      $('#self').html('<div class="self-team">' + self.team + '</div>'
-        + '<h3>INDICES</h2>'
+      $('#self').html(
+        '<h2>VOTRE PERSONNAGE</h2>'
+        + '<div class="self-team">' + self.team + '</div>'
+        + '<h3>INDICES</h3>'
         + '<div id="self-hints">' + '</div>'
-        + '<h3>SECRETS</h2>'
+        + '<h3>SECRETS</h3>'
         + selfSecrets
       )
       updateHints(self.knowledges)
@@ -130,7 +132,7 @@ function updateHints (hintsIn) {
         hint = hint.slice(0, index) + hint.slice(index, index + 1).toUpperCase() + hint.slice (index + 1)
       }
     }
-    hintsHtml += '<div class="self-hint">' + hint + '</div>'
+    hintsHtml += '<div class="self-hint-separator"><div class="self-hint">' + hint + '</div></div>'
   })
 
   $('#self-hints').html(hintsHtml)

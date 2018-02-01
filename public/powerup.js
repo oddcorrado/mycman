@@ -26,7 +26,7 @@ $('#nav-powerup').on('click', function (e) {
 
 const updatePowerups = (powerups) => {
   console.log(powerups)
-  $('#powerup').html('<h3>POWERUPS</h3>')
+  $('#powerup').html('<h2>POWERUPS</h2>')
   powerups.forEach(powerup => addPowerup(powerup))
 }
 
