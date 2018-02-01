@@ -541,15 +541,24 @@ function voteStop (log) {
   console.log('log', log)
   let htmlLog = ''
   // let htmlLog = log.debug.split('\n').reduce((a, v) => a + '<div class="self-secret">' + v + '</div>', '')
-  if(log.uses.length === 0) {
+  if(log.powerupLog.uses.length === 0) {
     htmlLog += '<div class="self-secret">pas de powerup ce tour</div>'
   } else {
-    htmlLog += log.uses.reduce((a, v) => a + '<div class="self-secret">' + v.secret + ' a été utilisé</div>', '')
+    htmlLog += log.powerupLog.uses.reduce((a, v) =>
+      a + `<div class="self-secret">
+            <img class="vote-result-uses-image" src="${utils.getSecretImg(v.secret)}" />
+          </div>`
+      , '')
   }
-  if(log.uses.decisions === 0) {
+  if(log.gameLog.revelations.length === 0) {
     htmlLog += `<div class="self-secret">personne n'est révélé</div>`
   } else {
-    htmlLog += log.decisions.reduce((a, v) => a + '<div class="self-secret">' + v + ' a été révélé</div>', '')
+    htmlLog += log.gameLog.revelations.reduce((a, v) =>
+      a + `<div class="self-secret">
+            <img class="vote-result-revealed-image-player" src="${utils.getPlayerImg(v.name)}" />
+            <img class="vote-result-revealed-image-secret" src="${utils.getSecretImg(v.secret)}" />
+          </div>`
+      , '')
   }
   $('#vote-result-log').html(htmlLog)
   mp.creditUpdate()
