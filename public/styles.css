@@ -536,6 +536,18 @@ button {
   border-radius: 50%;
 }
 
+.vote-result-uses-image {
+  width:100%
+}
+
+.vote-result-revealed-image-player {
+  width:49%
+}
+
+.vote-result-revealed-image-secret {
+  width:49%;
+}
+
 #mp-message {
   margin: 4px;
   padding: 6px;
