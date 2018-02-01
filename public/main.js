@@ -544,19 +544,19 @@ function voteStop (log) {
   let htmlLog = ''
   // let htmlLog = log.debug.split('\n').reduce((a, v) => a + '<div class="self-secret">' + v + '</div>', '')
   if(log.powerupLog.uses.length === 0) {
-    htmlLog += '<div class="self-secret">pas de powerup ce tour</div>'
+    htmlLog += '<div class="vote-result-card">pas de powerup ce tour</div>'
   } else {
     htmlLog += log.powerupLog.uses.reduce((a, v) =>
-      a + `<div class="self-secret">
+      a + `<div class="vote-result-card">
             <img class="vote-result-uses-image" src="${utils.getSecretImg(v.secret)}" />
           </div>`
       , '')
   }
   if(log.gameLog.revelations.length === 0) {
-    htmlLog += `<div class="self-secret">personne n'est révélé</div>`
+    htmlLog += `<div class="vote-result-card">personne n'est révélé</div>`
   } else {
     htmlLog += log.gameLog.revelations.reduce((a, v) =>
-      a + `<div class="self-secret">
+      a + `<div class="vote-result-card">
             <img class="vote-result-revealed-image-player" src="${utils.getPlayerImg(v.name)}" />
             <img class="vote-result-revealed-image-secret" src="${utils.getSecretImg(v.secret)}" />
           </div>`
