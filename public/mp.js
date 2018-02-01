@@ -1,6 +1,7 @@
 'use strict'
 const $ = require('jquery')
 const menu = require('./menu')
+const utils = require('./utils')
 
 let socket = null
 
@@ -128,8 +129,13 @@ const newPlayers = (playersIn, playerOptions) => {
   $("#mp-recipients").html('')
   players.forEach(p => {
     if(p !== playerName) { // FIXME
+  /*     $('#mp-recipients').append(
+      '<div class="mp-recipient" id="mp-recipient-' + skipSpaces(p) + '">' + p.slice(0,2) + '</div>') */
       $('#mp-recipients').append(
-      '<div class="mp-recipient" id="mp-recipient-' + skipSpaces(p) + '">' + p.slice(0,2) + '</div>')
+          `<div class="mp-recipient" id="mp-recipient-${skipSpaces(p)}">
+            <img class="mp-recipient-image" src="/img/pawns/${utils.getImgName(p)}.png">
+          </div>`)
+
     }
   })
 

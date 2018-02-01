@@ -53,8 +53,7 @@ button {
 }
 
 .icon {
-  height: 26px;
-  margin: 4px;
+  height: 24px;
 }
 
 .pure-menu-item {
@@ -356,32 +355,45 @@ button {
 
 .revelation-card {
   margin: 4px;
-  padding: 6px;
+  margin-left: 24px;
+  margin-bottom: 12px;
+  padding-left: 0px;
   background: #cccccc;
   color: #000000;
   font-size: 1em;
+  position: relative;
 }
 
 .revelation-card-name {
-  margin: 4px;
-  padding: 6px;
+  padding: 4px;
   background: #666666;
   color: #ffffff;
   float:left;
+  height: 16px;
+}
+
+.revelation-card-secret {
+  padding: 4px;
+  background: #666666;
+  color: #ffffff;
+  position: absolute;
+  height: 16px;
 }
 
 .revelation-card-icon {
   max-width: 15%;
   color: #ffffff;
   float:right;
+  height: 16px;
 }
 
 .revelation-card-index {
-  margin: 4px;
-  padding: 6px;
+  padding: 4px;
+  padding-left: 30px;
   background: #990099;
   color: #ffffff;
   float:left;
+  height: 16px;
 }
 
 .revelation-card-important {
@@ -393,6 +405,23 @@ button {
 }
 
 .revelation-card-secret {
+  position: absolute;
+  right: 48px;
+  bottom: 0px;
+}
+
+.revelation-card-image-player {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  position : absolute;
+  left: -24px;
+}
+
+.revelation-card-image-secret {
+  width: 48px;
+  height: 48px;
+  float: right;
 }
 
 #mp-select {
@@ -425,16 +454,14 @@ button {
   left:55px;
   right:0;
   height: 200px;;
-
 }
 
 .mp-recipient {
   float: left;
-  margin: 4px;
-  padding: 6px;
+  padding: 3px;
   background: #999999;
-  height:30px;
-  width:30px;
+  height:40px;
+  width:40px;
   border-radius:50%;
   color:#ffffff;
   text-align:center;
@@ -444,12 +471,37 @@ button {
   border-width:3px;
 }
 
+.mp-recipient-image {
+  width:100%;
+  height:100%;
+  border-radius:50%;
+}
+
 .mp-recipient-selected {
   background: #990099;
 }
 
 .mp-recipient-unread {
   border-color:#ff0000;
+}
+
+.vote-button {
+  position: relative;
+  float:left;
+  width:50%;
+  height:80px;
+  color:black;
+}
+
+.vote-center {
+  width: 48px;
+  margin: auto;
+}
+
+.vote-image-player {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
 }
 
 #mp-message {

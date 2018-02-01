@@ -13,6 +13,7 @@ const login = require('./login')
 const powerup = require('./powerup')
 const dashboard = require('./dashboard')
 const scan = require('./scan')
+const utils = require('./utils')
 
 // TODO bg color for revelation
 game.init(updateInfos, login.startLogin)
@@ -219,16 +220,18 @@ function addCheck(name, index, result) {
 //   let chosenHtml = isChosen ? ('<div class="revelation-card-important">NON ELU</div>') : ''
   let chosenHtml = isChosen ? ('<img class="icon" src="/img/NotChosen.png" />') : ''
 
-  $('#check-result').prepend('<div class="revelation-card">'
-    + '<div class="clearfix">'
-      + '<div class="revelation-card-index">' + index + '</div>'
-      + '<div class="revelation-card-name">' + name + '</div>'
-      + teamHtml
-      + chosenHtml
-      + '<div class="revelation-card-name">' + result.secret.secret + '</div>'
-      + '<div class="revelation-card-icon"><img src="/img/secrets/' + skipSpaces(result.secret.secret) + '.png" /></div>'
-    + '</div>'
-    +'</div>')
+  $('#check-result').prepend(`
+    <div class="revelation-card">
+      <img class="revelation-card-image-player" class="mp-recipient-image" src="/img/pawns/${utils.getImgName(name)}.png" />
+      <div class="clearfix">
+        <div class="revelation-card-index">${index}</div>
+        <div class="revelation-card-name">${name}</div>
+        ${teamHtml}
+        ${chosenHtml}
+        <div class="revelation-card-secret">${result.secret.secret}</div>
+        <img class="revelation-card-image-secret" class="mp-recipient-image" src="/img/secrets/${skipSpaces(result.secret.secret)}.png" />
+      </div>
+    </div>`)
 }
 
 function cleanRevelations() {
@@ -266,7 +269,20 @@ function addRevelation(name, index, result) {
   // let chosenHtml = isChosen ? ('<div class="revelation-card-important">NON ELU</div>') : ''
   let chosenHtml = isChosen ? ('<img class="icon" src="/img/NotChosen.png" />') : ''
 
-  $('#revelationResult').prepend('<div class="revelation-card">'
+  $('#revelationResult').prepend(`
+    <div class="revelation-card">
+      <img class="revelation-card-image-player" class="mp-recipient-image" src="/img/pawns/${utils.getImgName(name)}.png" />
+      <div class="clearfix">
+        <div class="revelation-card-index">${index}</div>
+        <div class="revelation-card-name">${name}</div>
+        ${teamHtml}
+        ${chosenHtml}
+        <div class="revelation-card-secret">${result.secret.secret}</div>
+        <img class="revelation-card-image-secret" class="mp-recipient-image" src="/img/secrets/${skipSpaces(result.secret.secret)}.png" />
+      </div>
+    </div>`)
+
+/*   $('#revelationResult').prepend('<div class="revelation-card">'
     + '<div class="clearfix">'
       + '<div class="revelation-card-index">' + index + '</div>'
       + '<div class="revelation-card-name">' + name + '</div>'
@@ -275,7 +291,7 @@ function addRevelation(name, index, result) {
       + '<div class="revelation-card-name">' + result.secret.secret + '</div>'
       + '<div class="revelation-card-icon" style="background-image:url(/img/secrets/' + skipSpaces(result.secret.secret) + '.png)"></div>'
     + '</div>'
-    +'</div>')
+    +'</div>') */
 }
 
 // ##################################
@@ -430,7 +446,6 @@ function setupNavigation () {
   $("#secret-share-submit").on('click', e => {
     e.preventDefault()
     $("#secret-share").hide()
-    console.log("share to", $('#secret-share-name').val() , secretShareName, secretShareIndex, secretShareText)
     socket.emit('secret-share', $('#secret-share-name').val(), secretShareName, secretShareIndex, secretShareText, (result) => {
       if(result === "success") {
         $("#secret-share").hide()
@@ -478,9 +493,11 @@ function voteStart (users) {
   users.forEach((u)=>{
     h += '<div class="vote-button" data-player="' + u +'"'
     h += ' id="vote-button-' + u + '"'
-    h += ' style="float:left;width:50%;height:50px;color:black;background-color:' + getColor(u) + '">'
+    h += ' style="background-color:' + getColor(u) + '">'
     h += '<div style="text-align:center">' + u + '</div>'
     h += '<div style="text-align:center" id="vote-count-' + skipSpaces(u) + '">' + 0 + '</div>'
+    h += '<div class="vote-center"><img class="vote-image-player" class="mp-recipient-image" src="/img/pawns/'
+            + utils.getImgName(u) + '.png" /></div>'
     h += '</div>'
   })
 

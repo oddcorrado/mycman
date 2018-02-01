@@ -46,7 +46,6 @@
       <div id="content">
         <div id="vote" style="display:none">
           <div id="vote-tick">3.0</div>
-          <canvas id="vote-canvas" width="300" height="0"></canvas>
           <div id="vote-buttons"></div>
           <form id="vote-quit" style="display:none">
             <input type="submit" value="QUIT">
@@ -54,7 +53,17 @@
         </div>
         <form id="login" style="display:block">
           <div id="login-name">
-            <input id="login-name-input" type="text" name="author" placeholder="your name">
+            <select name="author" id="login-name-input">
+              <option value="Baron Belier">Baron Belier</option>
+              <option value="Frère Faucon">Frère Faucon</option>
+              <option value="Lord Loris">Lord Loris</option>
+              <option value="Sir Souris">Sir Souris</option>
+              <option value="Capitaine Corbeau">Capitaine Corbeau</option>
+              <option value="Colonel Cat">Colonel Cat</option>
+              <option value="Professeur Poulpe">Professeur Poulpe</option>
+              <option value="Shah Thon">Shah Thon</option>
+              <option value="Sultan Sanglier">Sultan Sanglier</option>
+            </select>
             <div id="login-name-button">LOGIN</div>
           </div>
         </form>
