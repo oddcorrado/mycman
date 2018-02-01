@@ -157,7 +157,7 @@ function updateRevelations () {
       revelations = revelationsIn
       dashboard.update(players, hints, checks, revelations)
       //revelations.sort((a, b) => a.name + a.card < b.name + b.card).forEach(item=>addRevelation(item.name, item.card, item.secret))
-      revelations.forEach(item=>addRevelation(item.name, item.card, item.secret))
+      revelations.forEach(item => addRevelation(item.name, item.card, item.secret))
     }
   })
 }
@@ -538,7 +538,19 @@ function voteStop (log) {
   $('#gameboard').show()
   $('#vote').hide()
   $('#vote-result-modal').show()
-  let htmlLog = log.split('\n').reduce((a, v) => a + '<div class="self-secret">' + v + '</div>', '')
+  console.log('log', log)
+  let htmlLog = ''
+  // let htmlLog = log.debug.split('\n').reduce((a, v) => a + '<div class="self-secret">' + v + '</div>', '')
+  if(log.uses.length === 0) {
+    htmlLog += '<div class="self-secret">pas de powerup ce tour</div>'
+  } else {
+    htmlLog += log.uses.reduce((a, v) => a + '<div class="self-secret">' + v.secret + ' a été utilisé</div>', '')
+  }
+  if(log.uses.decisions === 0) {
+    htmlLog += `<div class="self-secret">personne n'est révélé</div>`
+  } else {
+    htmlLog += log.decisions.reduce((a, v) => a + '<div class="self-secret">' + v + ' a été révélé</div>', '')
+  }
   $('#vote-result-log').html(htmlLog)
   mp.creditUpdate()
 }
