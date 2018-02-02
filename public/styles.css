@@ -536,6 +536,30 @@ button {
   border-radius: 50%;
 }
 
+.vote-result-card {
+  margin: 2px;
+  padding: 6px;
+  background: #000000;
+  color: #ffffff;
+  text-align: center;
+  /* height: 40px; */
+  font-family: 'Oswald' sans-serif;
+  font-size: 1.2rem;
+  line-height:48px
+}
+
+.vote-result-uses-image {
+  width:100%
+}
+
+.vote-result-revealed-image-player {
+  width:49%
+}
+
+.vote-result-revealed-image-secret {
+  width:49%;
+}
+
 #mp-message {
   margin: 4px;
   padding: 6px;
