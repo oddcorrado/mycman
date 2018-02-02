@@ -231,7 +231,7 @@ function addCheck(name, index, result) {
         ${teamHtml}
         ${chosenHtml}
         <div class="revelation-card-secret">${result.secret.secret}</div>
-        <img class="revelation-card-image-secret" class="mp-recipient-image" src="/img/secrets/${skipSpaces(result.secret.secret)}.png" />
+        <img class="revelation-card-image-secret" class="mp-recipient-image" src="${utils.getSecretImg(result.secret.secret)}" />
       </div>
     </div>`)
 }
@@ -280,7 +280,7 @@ function addRevelation(name, index, result) {
         ${teamHtml}
         ${chosenHtml}
         <div class="revelation-card-secret">${result.secret.secret}</div>
-        <img class="revelation-card-image-secret" class="mp-recipient-image" src="/img/secrets/${skipSpaces(result.secret.secret)}.png" />
+        <img class="revelation-card-image-secret" class="mp-recipient-image" src="${utils.getSecretImg(result.secret.secret)}" />
       </div>
     </div>`)
 
@@ -540,7 +540,6 @@ function voteStop (log) {
   $('#gameboard').show()
   $('#vote').hide()
   $('#vote-result-modal').show()
-  console.log('log', log)
   let htmlLog = ''
   // let htmlLog = log.debug.split('\n').reduce((a, v) => a + '<div class="self-secret">' + v + '</div>', '')
   if(log.powerupLog.uses.length === 0) {
