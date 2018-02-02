@@ -663,3 +663,8 @@ button {
   margin-right: auto;
   width: 280px;
 }
+
+#game-options-set-modal{
+  top:58px;
+  position: absolute;
+}
