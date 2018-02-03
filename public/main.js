@@ -437,8 +437,7 @@ function setupNavigation () {
     $('#phase-tick').show()
     e.preventDefault()
     $('#gameboard').show()
-    $('#vote-modal').hide()
-    menu.freeLayout('#vote-modal')
+    menu.modalHide('#vote-modal')
   })
 
   $("#secret-share-cancel").on('click', e => {
@@ -474,8 +473,7 @@ function setupNavigation () {
 
   $('#vote-result-ok').on('click', e => {
     e.preventDefault()
-    menu.freeLayout('#vote-result-modal')
-    $('#vote-result-modal').hide()
+    menu.modalHide('#vote-result-modal')
   })
 
   $('#gameboard').show()
@@ -510,8 +508,7 @@ function voteStart (users) {
     socket.emit('vote-select', $(this).data("player"))
   })
   $('#gameboard').hide()
-  $('#vote-modal').show()
-  menu.blockLayout('#vote-modal')
+  menu.modalShow('#vote-modal')
   $('#vote-quit').hide()
 }
 
@@ -541,10 +538,8 @@ function voteStop (log) {
   $('#check').show()
   $('#phase-tick').show()
   $('#gameboard').show()
-  $('#vote-modal').hide()
-  menu.freeLayout('#vote-modal')
-  $('#vote-result-modal').show()
-  menu.blockLayout('#vote-result-modal')
+  menu.modalHide('#vote-modal')
+  menu.modalShow('#vote-result-modal')
   let htmlLog = ''
   // let htmlLog = log.debug.split('\n').reduce((a, v) => a + '<div class="self-secret">' + v + '</div>', '')
   if(log.powerupLog.uses.length === 0) {

@@ -92,14 +92,12 @@ const setSocket = (socketIn) => {
 
   $('#game-options-set').on('click', function (e) {
     e.preventDefault()
-    $("#game-options-set-modal").show()
-    menu.blockLayout('#game-options-set-modal')
+    menu.modalShow('#game-options-set-modal')
   })
 
   $('#game-options-set-cancel').on('click', function (e) {
     e.preventDefault()
-    $("#game-options-set-modal").hide()
-    menu.freeLayout('#game-options-set-modal')
+    menu.modalHide('#game-options-set-modal')
   })
 
   $('#game-options-set-submit').on('click', function (e) {
@@ -115,8 +113,7 @@ const setSocket = (socketIn) => {
     } else {
       $('#check-direct').hide()
     }
-    $("#game-options-set-modal").hide()
-    menu.freeLayout('#game-options-set-modal')
+    menu.modalHide('#game-options-set-modal')
   })
 
   $('#game-options-set-key').on('change', function (e) {
@@ -145,9 +142,7 @@ $('#nav-game').on('click', function (e) {
 // GAMEOVER
 // ############################
 function gameOver(data) {
-  $('#main').hide()
-  $('#outro-modal').show()
-  menu.blockLayout('#outro-modal')
+  menu.modalShow('#outro-modal')
 
   $('#outro-winners').html(`<div><h1>Les ${data.winnerTeams}s ont gagné</h1><div>`)
   data.winners.forEach(name => $('#outro-winners').append(
@@ -168,8 +163,7 @@ function gameOver(data) {
     .append('<div>' + vote.name + '=>' + vote.voted + ':' + vote.count + '</div>')) */
 
   $('#outro-ok').on('click', function () {
-    menu.freeLayout('#outro-modal')
-    $('#outro-modal').hide()
+    menu.modalHide('#outro-modal')
     $.get('/logout')
       .then(() => document.location.reload())
   })
