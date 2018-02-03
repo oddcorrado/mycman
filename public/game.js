@@ -9,6 +9,7 @@ let updateInfos = null
 let enableLogin = null
 let gameOptions = {doScan:1} // TODO fixme get gameoptions on login...
 let gameOptionsSetKey = null
+let clickCnt = 0
 
 const setSocket = (socketIn) => {
   socket = socketIn
@@ -133,8 +134,12 @@ const init = (updateInfosIn, enableLoginIn) => {
 $('#nav-game').on('click', function (e) {
   e.preventDefault()
   if(!menu.isLeftMenuActive()) { return }
-  menu.hideAll()
-  $('#game').show()
+  clickCnt++
+  if(clickCnt > 3) {
+    menu.hideAll()
+    $('#game').show()
+    clickCnt = 0
+  }
 })
 
 
