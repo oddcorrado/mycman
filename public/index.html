@@ -44,13 +44,6 @@
     <div id="main">
       <div class="headerbar"></div>
       <div id="content">
-        <div id="vote" style="display:none">
-          <div id="vote-tick">3.0</div>
-          <div id="vote-buttons"></div>
-          <form id="vote-quit" style="display:none">
-            <input type="submit" value="QUIT">
-          </form>
-        </div>
         <form id="login" style="display:block">
           <div id="login-name">
             <select name="author" id="login-name-input">
@@ -252,6 +245,14 @@
           <div id="scan-cancel" class="game-button">ANNULER</div>
         </div>
     </div>
+  </div>
+
+  <div id="vote-modal" style="display:none">
+    <div id="vote-tick">3.0</div>
+    <div id="vote-buttons"></div>
+    <form id="vote-quit" style="display:none">
+      <input type="submit" value="QUIT">
+    </form>
   </div>
 
   <script src="/build.js"></script>

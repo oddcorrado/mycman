@@ -2,6 +2,7 @@
 const $ = require('jquery')
 
 let leftMenuActive = true
+let layoutBlockers = []
 
 $('.pure-menu-item').on('click', function() {
   $('.pure-menu-selected').removeClass('pure-menu-selected')
@@ -30,8 +31,34 @@ const isLeftMenuActive = (v) => {
 
   return leftMenuActive
 }
+
+const checkLayout = () => {
+  if(layoutBlockers.length > 0) {
+    $('#layout').hide()
+  } else {
+    $('#layout').show()
+  }
+}
+
+const blockLayout = (blocker) => {
+  if(!layoutBlockers.find(v => v === blocker)) {
+    layoutBlockers.push(blocker)
+  }
+  checkLayout()
+}
+
+const freeLayout = (blocker) => {
+  let index = layoutBlockers.findIndex(v => v === blocker)
+  if(index >= 0) {
+    layoutBlockers.splice(index, 1)
+  }
+  checkLayout()
+}
+
 module.exports = {
   test,
   hideAll,
-  isLeftMenuActive
+  isLeftMenuActive,
+  blockLayout,
+  freeLayout
 }

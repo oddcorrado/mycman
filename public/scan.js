@@ -97,6 +97,7 @@ $('#nav-scan').on('click', function (e) {
   scans = []
   doScan = true
   $('#scan-modal').show()
+  menu.blockLayout('#scan-modal')
 })
 
 const newObjects = (objectsIn) => {
@@ -107,6 +108,7 @@ const scan = ({allowCancel, message, filter}) => {
   scans = []
   doScan = true
   $('#scan-modal').show()
+  menu.blockLayout('#scan-modal')
 
   if(allowCancel) {
     $('#scan-cancel').show()
@@ -121,6 +123,7 @@ const scan = ({allowCancel, message, filter}) => {
       e.preventDefault()
       doScan = false
       $('#scan-modal').hide()
+      menu.freeLayout('#scan-modal')
       resolve(null)
     })
 
@@ -130,6 +133,7 @@ const scan = ({allowCancel, message, filter}) => {
         if(!filter || objects[scans[0]].type === filter) {
           doScan = false
           $('#scan-modal').hide()
+          menu.freeLayout('#scan-modal')
           resolve(scans[0])
         }
       }
