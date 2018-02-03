@@ -75,8 +75,8 @@ app.get('/login', restricted, (req, res) => {
 }) */
 
 app.get('/logout', (req, res) => {
-  console.log('exit')
   players.removePlayer(req.session.user)
+  game.reset()
   if(testMulti) {
     players.removePlayer(req.session.user + '-1')
     players.removePlayer(req.session.user + '-2')
