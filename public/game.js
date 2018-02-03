@@ -2,6 +2,7 @@
 const $ = require('jquery')
 const menu = require('./menu')
 const mp = require('./mp')
+const utils = require('./utils')
 
 let socket = null
 let updateInfos = null
@@ -141,15 +142,33 @@ $('#nav-game').on('click', function (e) {
 // GAMEOVER
 // ############################
 function gameOver(data) {
-  $('#gameover').show()
-  $('#gameover-winner').html('<h3>' + 'Les ' + data.winnerTeams + 's ont gagné</h3>')
-  data.winners.forEach(name => $('#gameover-winner').append('<div>' + name + ' a gagné' + '</div>'))
-  $('#gameover-messages').html('')
-  data.messages.forEach(message => $('#gameover-messages')
-    .append('<div>' + message.from + '=>' + message.to + ':' + message.message + '</div>'))
-  $('#gameover-votes').html('')
-  data.votes.forEach(vote => $('#gameover-votes')
-    .append('<div>' + vote.name + '=>' + vote.voted + ':' + vote.count + '</div>'))
+  $('#main').hide()
+  $('#outro-modal').show()
+
+  $('#outro-winners').html(`<div><h1>Les ${data.winnerTeams}s ont gagné</h1><div>`)
+  data.winners.forEach(name => $('#outro-winners').append(
+    `<img class="outro-winner-image" src="${utils.getPlayerImg(name)}"" />`
+  ))
+
+  $('#outro-messages').html('<div><h1>Messages</h1><div>')
+  data.messages.forEach(message =>
+     $('#outro-messages').append(`
+        <div class="outro-message">
+          <img class="outro-message-from" src="${utils.getPlayerImg(message.from)}"" />
+          <img class="outro-message-to" src="${utils.getPlayerImg(message.to)}"" />
+          <span class="outro-message-text">${message.message}</span>
+        </div>`))
+
+  /* $('#outro-votes').html('')
+  data.votes.forEach(vote => $('#outro-votes')
+    .append('<div>' + vote.name + '=>' + vote.voted + ':' + vote.count + '</div>')) */
+
+  $('#outro-ok').on('click', function () {
+    $('#main').show()
+    $('#outro-modal').hide()
+    $.get('/logout')
+      .then(() => document.location.reload())
+  })
 }
 
 const getOptions = () => {

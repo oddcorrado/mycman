@@ -473,6 +473,7 @@ function setupNavigation () {
 
   $('#vote-result-ok').on('click', e => {
     e.preventDefault()
+    $('#main').show()
     $('#vote-result-modal').hide()
   })
 
@@ -540,6 +541,7 @@ function voteStop (log) {
   $('#gameboard').show()
   $('#vote').hide()
   $('#vote-result-modal').show()
+  $('#main').hide()
   let htmlLog = ''
   // let htmlLog = log.debug.split('\n').reduce((a, v) => a + '<div class="self-secret">' + v + '</div>', '')
   if(log.powerupLog.uses.length === 0) {
