@@ -14,6 +14,7 @@ const powerup = require('./powerup')
 const dashboard = require('./dashboard')
 const scan = require('./scan')
 const utils = require('./utils')
+const startup = require('./startup')
 const scanNotification = require('./scanNotification')
 
 // TODO bg color for revelation
@@ -43,6 +44,7 @@ let objects = []
 // IO SOCKET CALLBACKS
 // ##################################
 mp.setSocket(socket)
+startup.setSocket(socket)
 game.setSocket(socket)
 powerup.setSocket(socket)
 socket.on('players', updatePlayers)
@@ -169,7 +171,6 @@ function updateRevelations () {
 function updatePlayers (ids) {
   players = ids.filter(id => id.type === 'user').map(v => v.name)
 
-  console.log(ids, players)
   objects = ids
   dashboard.update(players, hints, checks, revelations)
   users = players.map(name=>({name}))
@@ -179,6 +180,7 @@ function updatePlayers (ids) {
   $('#secret-share-name').html(playerOptions)
 
   mp.newPlayers(players, playerName)
+  startup.newPlayers(players, playerName)
   powerup.newPlayers(players, playerName)
   powerup.newObjects(objects)
   scan.newObjects(objects)
@@ -230,6 +232,7 @@ function addCheck(name, index, result) {
       <div class="clearfix">
         <div class="revelation-card-index">${index}</div>
         <div class="revelation-card-name">${name}</div>
+        <div class="revelation-card-short">${result.secret.short}</div>
         ${teamHtml}
         ${chosenHtml}
         <div class="revelation-card-secret">${result.secret.secret}</div>
@@ -279,6 +282,7 @@ function addRevelation(name, index, result) {
       <div class="clearfix">
         <div class="revelation-card-index">${index}</div>
         <div class="revelation-card-name">${name}</div>
+        <div class="revelation-card-short">${result.secret.short}</div>
         ${teamHtml}
         ${chosenHtml}
         <div class="revelation-card-secret">${result.secret.secret}</div>
@@ -338,6 +342,7 @@ $.get('/options')
       updateRevelations()
       mp.update(playerName)
       updatePendings()
+      menu.modalShow('#startup-modal')
     }, () => login.startLogin()
   )
 

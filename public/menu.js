@@ -57,10 +57,17 @@ const modalHide = (modal) => {
   checkLayout()
 }
 
+const modalHideAll = () => {
+  activeModals.forEach(modal => $(modal).hide())
+  activeModals =[]
+  checkLayout()
+}
+
 module.exports = {
   test,
   hideAll,
   isLeftMenuActive,
   modalShow,
-  modalHide
+  modalHide,
+  modalHideAll
 }
