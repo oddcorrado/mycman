@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
   <link rel="stylesheet" href="/side-menu.css">
   <link rel="stylesheet" href="/styles.css">
-  <script src="artoolkit.debug.js">
+  <script src="artoolkit.min.js">
   // - include debug build
   </script>
   <script src="artoolkit.api.js">
@@ -31,10 +31,11 @@
 
         <ul id="menu-list" class="pure-menu-list">
           <li id="nav-self" class="pure-menu-item menu-item-divided pure-menu-selected">MOI</li>
-          <li id="nav-powerup" class="pure-menu-item">POWERUP</li>
-          <li id="nav-help" class="pure-menu-item">HELP</li>
+          <!-- <li id="nav-powerup" class="pure-menu-item">POWERUP</li> !-->
+          <!-- <li id="nav-help" class="pure-menu-item">HELP</li> !-->
           <li id="nav-check" class="pure-menu-item">CHECK</li>
-          <li id="nav-scan" class="pure-menu-item">SCAN TEST</li>
+          <li id="nav-speedup" class="pure-menu-item">ACCELERER</li>
+          <!-- <li id="nav-scan" class="pure-menu-item">SCAN TEST</li> !-->
         </ul>
       </div>
     </div>
@@ -90,7 +91,10 @@
             </div>
             <div id="game-options-result"></div>
           </div>
-          <div id="self" style="display:none"><h2>INFOS</h2></div>
+          <div id="self" style="display:none">
+            <div id="self-info"></div>
+            <div id="powerup"></div>
+          </div>
           <div id="help" style="display:none"></div>
           <div id="check" style="display:none">
             <h2>ENQUÊTE</h2>
@@ -157,7 +161,6 @@
             <h2>MESSAGES</h2>
             <div id="gameover-messages"></div>
           </div>
-          <div id="powerup" style="display:none"></div>
           <div id="dashboard" style="display:none"></div>
         </div>
       </div>
@@ -248,9 +251,11 @@
   <div id="vote-modal" style="display:none">
     <div id="vote-tick">3.0</div>
     <div id="vote-buttons"></div>
-    <form id="vote-quit" style="display:none">
-      <input type="submit" value="QUIT">
-    </form>
+  </div>
+
+  <div id="scan-notification" style="display:none">
+    <div id="scan-notification-title">Vous avez été scanné</div>
+    <div id="scan-notification-image-container"></div>
   </div>
 
   <script src="/build.js"></script>

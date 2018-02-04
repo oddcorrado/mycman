@@ -57,6 +57,12 @@ const setSocket = (socketIn) => {
     socket.emit('vote-start')
   })
 
+  $('#nav-speedup').on('click', function (e) {
+    e.preventDefault()
+    socket.emit('vote-start')
+    $('#nav-speedup').hide()
+  })
+
   $('#startAuction').on('click', function (e) {
     e.preventDefault()
     socket.emit('auction-start')
@@ -135,7 +141,7 @@ $('#nav-game').on('click', function (e) {
   e.preventDefault()
   if(!menu.isLeftMenuActive()) { return }
   clickCnt++
-  if(clickCnt > 3) {
+  if(clickCnt > 0) {
     menu.hideAll()
     $('#game').show()
     clickCnt = 0

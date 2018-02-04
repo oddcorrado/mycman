@@ -21,7 +21,7 @@ const hideAll = () => {
   $('#hack').hide()
   $('#help').hide()
   $('#dashboard').hide()
-  $('#powerup').hide()
+  // $('#powerup').hide()
 }
 
 const isLeftMenuActive = (v) => {

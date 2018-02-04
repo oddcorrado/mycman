@@ -14,6 +14,7 @@ const powerup = require('./powerup')
 const dashboard = require('./dashboard')
 const scan = require('./scan')
 const utils = require('./utils')
+const scanNotification = require('./scanNotification')
 
 // TODO bg color for revelation
 game.init(updateInfos, login.startLogin)
@@ -56,6 +57,7 @@ socket.on('hack-start', (type, target) => hackStart(type, target))
 socket.on('hack-stop', (type, target) => hackStop(type, target))
 socket.on('check', (checkee) => check(checkee))
 socket.on('secret-share-rx',  (name, index, text) => addCheck(name, index, {secret:{secret:text}}))
+socket.on('scan', scanner => scanNotification.notify(scanner))
 
 /* socket.on('game-reset', () => {
   $('#self').html('')
@@ -103,11 +105,11 @@ function updateInfos () {
       self.secrets.forEach(secret => {
         selfSecrets += '<div class="self-secret">' + highlightShared(secret.secret) + '</div>'
       })
-      $('#self').html(
+      $('#self-info').html(
         '<h2>VOTRE PERSONNAGE</h2>'
         + '<div class="self-team">' + self.team + '</div>'
-        + '<h3>INDICES</h3>'
-        + '<div id="self-hints">' + '</div>'
+        // + '<h3>INDICES</h3>'
+        // + '<div id="self-hints">' + '</div>'
         + '<h3>SECRETS</h3>'
         + selfSecrets
       )
@@ -135,7 +137,7 @@ function updateHints (hintsIn) {
     hintsHtml += '<div class="self-hint-separator"><div class="self-hint">' + hint + '</div></div>'
   })
 
-  $('#self-hints').html(hintsHtml)
+//  $('#self-hints').html(hintsHtml)
   $('#check-hints').html(hintsHtml)
 }
 
@@ -538,6 +540,7 @@ function voteStop (log) {
   $('#check').show()
   $('#phase-tick').show()
   $('#gameboard').show()
+  $('#nav-speedup').show()
   menu.modalHide('#vote-modal')
   menu.modalShow('#vote-result-modal')
   let htmlLog = ''
