@@ -540,6 +540,7 @@ function voteStop (log) {
   $('#check').show()
   $('#phase-tick').show()
   $('#gameboard').show()
+  $('#nav-speedup').show()
   menu.modalHide('#vote-modal')
   menu.modalShow('#vote-result-modal')
   let htmlLog = ''

@@ -57,6 +57,12 @@ const setSocket = (socketIn) => {
     socket.emit('vote-start')
   })
 
+  $('#nav-speedup').on('click', function (e) {
+    e.preventDefault()
+    socket.emit('vote-start')
+    $('#nav-speedup').hide()
+  })
+
   $('#startAuction').on('click', function (e) {
     e.preventDefault()
     socket.emit('auction-start')
