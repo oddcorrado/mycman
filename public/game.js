@@ -21,6 +21,7 @@ const setSocket = (socketIn) => {
     $('#mp-result').html('')
     $('#start').show()
     $('#gameboard').hide()
+    menu.modalHideAll()
     $.get('/logout')
       .then(
       () => {
@@ -32,6 +33,7 @@ const setSocket = (socketIn) => {
 
   socket.on('game-start', () => {
     $('#start').hide()
+    menu.modalHideAll()
     mp.creditUpdate()
     updateInfos()
   })
