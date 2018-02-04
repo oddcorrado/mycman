@@ -137,6 +137,7 @@ appears on the left side of the page.
         #menu-list li{
           font-size: 1rem;
           border-bottom: 1px solid #ffffff;
+          cursor: alias;
         }
 
     /*
