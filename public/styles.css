@@ -709,6 +709,34 @@ button {
   display: none;
 }
 
+#scan-notification {
+  height: 140px;
+  background-color: #953333;
+  z-index: 100;
+  position: fixed;
+  width: 100%;
+  top: 0px;
+}
+
+#scan-notification-title {
+  margin: 0 auto;
+  margin-top: 10px;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+#scan-notification-image-container {
+  margin: 0 auto;
+  width: 80px;
+  height: 80px;
+}
+
+.scan-notification-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50px;
+}
+
 #scan-canvas {
   width: 280px;
 }

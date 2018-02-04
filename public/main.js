@@ -14,6 +14,7 @@ const powerup = require('./powerup')
 const dashboard = require('./dashboard')
 const scan = require('./scan')
 const utils = require('./utils')
+const scanNotification = require('./scanNotification')
 
 // TODO bg color for revelation
 game.init(updateInfos, login.startLogin)
@@ -56,6 +57,7 @@ socket.on('hack-start', (type, target) => hackStart(type, target))
 socket.on('hack-stop', (type, target) => hackStop(type, target))
 socket.on('check', (checkee) => check(checkee))
 socket.on('secret-share-rx',  (name, index, text) => addCheck(name, index, {secret:{secret:text}}))
+socket.on('scan', scanner => scanNotification.notify(scanner))
 
 /* socket.on('game-reset', () => {
   $('#self').html('')
