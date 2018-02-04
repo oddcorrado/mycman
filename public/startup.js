@@ -32,6 +32,11 @@ const newPlayers = (playersIn) => {
     socket.emit('game-reset')
     menu.modalHide('#startup-modal')
   })
+
+  $('#startup-skip').show()
+  $('#startup-skip').on('click', function () {
+    menu.modalHide('#startup-modal')
+  })
 }
 
 const setSocket = (socketIn) => {
