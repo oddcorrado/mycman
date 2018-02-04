@@ -396,6 +396,19 @@ button {
   height: 40px;
 }
 
+.revelation-card-short {
+  position: absolute;
+  font-family: 'Oswald' sans-serif;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-left: 20px;
+  color: #ffffff;
+  right: 40px;
+  top: 15px;
+  text-align: right;
+  font-size: 1.2rem;
+}
+
 .revelation-card-secret {
   color: #ffffff;
   position: absolute;

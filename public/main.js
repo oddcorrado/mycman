@@ -171,7 +171,6 @@ function updateRevelations () {
 function updatePlayers (ids) {
   players = ids.filter(id => id.type === 'user').map(v => v.name)
 
-  console.log(ids, players)
   objects = ids
   dashboard.update(players, hints, checks, revelations)
   users = players.map(name=>({name}))
@@ -233,6 +232,7 @@ function addCheck(name, index, result) {
       <div class="clearfix">
         <div class="revelation-card-index">${index}</div>
         <div class="revelation-card-name">${name}</div>
+        <div class="revelation-card-short">${result.secret.short}</div>
         ${teamHtml}
         ${chosenHtml}
         <div class="revelation-card-secret">${result.secret.secret}</div>
@@ -282,6 +282,7 @@ function addRevelation(name, index, result) {
       <div class="clearfix">
         <div class="revelation-card-index">${index}</div>
         <div class="revelation-card-name">${name}</div>
+        <div class="revelation-card-short">${result.secret.short}</div>
         ${teamHtml}
         ${chosenHtml}
         <div class="revelation-card-secret">${result.secret.secret}</div>
