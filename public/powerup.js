@@ -17,7 +17,7 @@ const setSocket = (socketIn) => {
 
 $('#nav-self').on('click', function (e) {
   e.preventDefault()
-  $('#powerup').html('<h1>POWERUPS</h1>')
+  $('#powerup').html('<h3>POWERUPS</h3>')
   if(!menu.isLeftMenuActive()) { return }
   // menu.hideAll()
   socket.emit('powerup-get-all', (powerups) => updatePowerups(powerups))
@@ -26,7 +26,7 @@ $('#nav-self').on('click', function (e) {
 
 const updatePowerups = (powerups) => {
   console.log(powerups)
-  $('#powerup').html('<h1>POWERUPS</h1>')
+  $('#powerup').html('<h3>POWERUPS</h3>')
   powerups.forEach(powerup => addPowerup(powerup))
 }
 

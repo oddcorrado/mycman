@@ -12,13 +12,10 @@ body {
   margin-left: auto;
   margin-right: auto;
   margin-top: 0px;
+  overflow: hidden;
 }
 
 a hover{
-  cursor: alias;
-}
-
-#menu-list li hover{
   cursor: alias;
 }
 
@@ -75,7 +72,7 @@ button {
 }
 
 #content {
-  overflow: auto;
+  overflow: hidden;
   margin: 0px auto;
   max-width:600px;
 }
@@ -84,7 +81,7 @@ button {
 }
 
 #gameboard{
-  position:absolute;
+  position:relative;
   top:44px;
   width:100%;
 }
@@ -168,6 +165,10 @@ button {
   color: #ffffff;
 }
 
+#self-info{
+  margin-bottom: 40px;
+}
+
 .self-team {
   text-align: left;
   margin-left: 33%;
@@ -197,15 +198,15 @@ button {
 }
 
 .self-secret {
-  margin: 2px;
-  padding: 6px;
+  margin: 4px;
+  padding: 4px;
   background: #000000;
   color: #ffffff;
   text-align: center;
   height: 40px;
   font-family: 'Oswald' sans-serif;
   font-size: 1.2rem;
-  line-height:48px
+  line-height:40px
 }
 
 .nav-button {
@@ -329,7 +330,8 @@ button {
 }
 
 #powerup{
-  margin-top:14px;
+  margin-top:24px;
+  border-top : solid #ffffff 1px;
 }
 
 .powerup-card {
@@ -710,34 +712,6 @@ button {
   right: 0;
   background: rgba(0, 0, 0, 1);
   display: none;
-}
-
-#scan-notification {
-  height: 140px;
-  background-color: #953333;
-  z-index: 100;
-  position: fixed;
-  width: 100%;
-  top: 0px;
-}
-
-#scan-notification-title {
-  margin: 0 auto;
-  margin-top: 10px;
-  text-align: center;
-  font-size: 1.5em;
-}
-
-#scan-notification-image-container {
-  margin: 0 auto;
-  width: 80px;
-  height: 80px;
-}
-
-.scan-notification-image {
-  width: 80px;
-  height: 80px;
-  border-radius: 50px;
 }
 
 #scan-canvas {
