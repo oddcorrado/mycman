@@ -510,10 +510,10 @@ function voteStart () {
     h += '<div class="vote-button" data-player="' + u +'"'
     h += ' id="vote-button-' + u + '"'
     h += ' style="background-color:' + getColor(u) + '">'
-    h += '<div style="text-align:center">' + u + '</div>'
-    h += '<div style="text-align:center" id="vote-count-' + skipSpaces(u) + '">' + 0 + '</div>'
-    h += '<div class="vote-center"><img class="vote-image-player" class="mp-recipient-image" src="/img/pawns/'
-            + utils.getImgName(u) + '.png" /></div>'
+    h += '<div class="vote-count" id="vote-count-' + skipSpaces(u) + '">' + 0 + '</div>'
+    h += '<img class="vote-image-player" id="vote-image-' + skipSpaces(u) + '" class="mp-recipient-image" src="/img/pawns/'
+            + utils.getImgName(u) + '.png" />'
+    h += '<div class="vote-name">' + u + '</div>'
     h += '</div>'
   })
 
@@ -537,10 +537,10 @@ function voteCount(votes) {
 function voteSelect (votes) {
   let myVote = (votes.find(vote => vote.voter === playerName) || {}).target
   voteCount(votes).forEach(vote => {
+    $('#vote-count-' + skipSpaces(vote.name)).html(vote.count)
+    $('#vote-image-' + skipSpaces(vote.name)).removeClass('vote-image-player-selected')
     if(vote.name === myVote) {
-      $('#vote-count-' + skipSpaces(vote.name)).html('<' + vote.count + '>')
-    } else {
-      $('#vote-count-' + skipSpaces(vote.name)).html(vote.count)
+      $('#vote-image-' + skipSpaces(vote.name)).addClass('vote-image-player-selected')
     }
   })
 }

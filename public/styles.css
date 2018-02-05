@@ -539,21 +539,44 @@ button {
 
 .vote-button {
   position: relative;
-  float:left;
-  width:50%;
-  height:80px;
-  color:black;
+  float: left;
+  width: 44%;
+  height: 88px;
+  color: black;
+  margin: 3%;
+  border-radius: 20px;
 }
 
-.vote-center {
-  width: 48px;
+.vote-count {
+  text-align: left;
+  position: absolute;
+  top: 16px;
+  font-size: 4em;
+  left: 96px;
+}
+
+.vote-name {
+  text-align: center;
   margin: auto;
+  margin-top: 5px;
+  font-size: 1.2em;
 }
 
 .vote-image-player {
+  position: absolute;
+  top: 24px;
+  left: 40px;
   width: 48px;
   height: 48px;
   border-radius: 50%;
+}
+
+.vote-image-player-selected {
+  border-style: inset;
+  border-width: 8px;
+  width: 32px;
+  height: 32px;
+  border-color: red;
 }
 
 .vote-result-card {
