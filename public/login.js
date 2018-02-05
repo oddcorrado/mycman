@@ -3,10 +3,20 @@
 const $ = require('jquery')
 const scan = require('./scan')
 const game = require('./game')
+const id2Username = [
+  'Baron Belier',
+  'Frère Faucon',
+  'Lord Loris',
+  'Sir Souris',
+  'Capitaine Corbeau',
+  'Colonel Cat',
+  'Professeur Poulpe',
+  'Shah Thon',
+  'Sultan Sanglier'
+]
 
 let userName = null
 let userId = null
-let doScan = true
 
 const startLogin = () => {
   getName()
@@ -23,7 +33,7 @@ const getName = () => {
     userName = $('#login-name-input').val().slice(0,30)
     if(userName) {
       $('#login-name').hide()
-      if(game.getOptions().doScan > 0) {
+      if(game.getOptions().doScan > 0 || userName === 'SCAN') {
         getId()
       } else {
         $('#login-name').hide()
@@ -40,6 +50,7 @@ const getId = () => {
   scan.scan({allowScan:false, message:'Scannez votre personnage'})
   .then((id) => {
     userId = id
+    userName = id2Username[Math.trunc(id / 4)]
     console.log('got id', userName, userId)
     $('#login-name').hide()
     $.post('/login', {

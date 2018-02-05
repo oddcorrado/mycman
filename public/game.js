@@ -190,6 +190,12 @@ const setOptions = (options) => {
   gameOptions = Object.assign({}, options)
   let out = ''
 
+  // TODO dirty - use redux state in the future
+  if(options.doScan > 0) {
+    $('#login-name-input').hide()
+  } else {
+    $('#login-name-input').show()
+  }
   Object.keys(gameOptions).forEach(k => {
     out += '<div>['+k+']=>'+gameOptions[k]+'</div>'
     options += '<option value="' + k + '">' + k + '</option>'
