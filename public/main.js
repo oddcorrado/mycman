@@ -47,7 +47,7 @@ mp.setSocket(socket)
 startup.setSocket(socket)
 game.setSocket(socket)
 powerup.setSocket(socket)
-socket.on('players', updatePlayers)
+socket.on('players', ids => updatePlayers(ids))
 socket.on('vote-start', (users) => voteStart(users))
 socket.on('vote-stop', log => voteStop(log))
 socket.on('vote-select', voteSelect)
@@ -342,7 +342,14 @@ $.get('/options')
       updateRevelations()
       mp.update(playerName)
       updatePendings()
-      menu.modalShow('#startup-modal')
+      updatePlayers(o.ids)
+      if(o.gameStatus.state === 'idle') {
+        menu.modalShow('#startup-modal')
+      }
+      if(o.gameStatus.state === 'vote') {
+        menu.modalShow('#vote-modal')
+        voteStart()
+      }
     }, () => login.startLogin()
   )
 
@@ -494,12 +501,12 @@ function getColor(name) {
   return objects.find(o => o.name === name).data.color
 }
 
-function voteStart (users) {
+function voteStart () {
   $('#menuLink').hide()
   $('#phase-tick').hide()
   $('#vote-buttons').html('')
   var h = ''
-  users.forEach((u)=>{
+  players.forEach((u)=>{
     h += '<div class="vote-button" data-player="' + u +'"'
     h += ' id="vote-button-' + u + '"'
     h += ' style="background-color:' + getColor(u) + '">'

@@ -66,7 +66,11 @@ function restricted (req, res, next) {
 }
 
 app.get('/login', restricted, (req, res) => {
-  res.send({ user: req.session.user })
+  res.send({
+    user: req.session.user,
+    gameStatus: game.getStatus(),
+    ids: scan.getIds()
+  })
 })
 
 /* app.get('/start', restricted, (req, res) => {
