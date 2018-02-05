@@ -112,8 +112,8 @@ function updateInfos () {
         + '<div class="self-team">' + self.team + '</div>'
         // + '<h3>INDICES</h3>'
         // + '<div id="self-hints">' + '</div>'
-        + '<h3>SECRETS</h3>'
-        + selfSecrets
+      //   + '<h3>SECRETS</h3>'
+      //  + selfSecrets
       )
       updateHints(self.knowledges)
     }
