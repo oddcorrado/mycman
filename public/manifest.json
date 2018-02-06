@@ -2,7 +2,7 @@
   "name": "Secret Societies",
   "short_name": "ScrtScts",
   "lang": "en-US",
-  "start_url": "/",
+  "start_url": "https://secretsocieties.club/",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#000000",
