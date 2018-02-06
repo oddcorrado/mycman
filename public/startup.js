@@ -37,6 +37,12 @@ const newPlayers = (playersIn) => {
   $('#startup-skip').on('click', function () {
     menu.modalHide('#startup-modal')
   })
+
+  if(playersIn.length < 4) {
+    $('#startup-start').hide()
+  } else {
+    $('#startup-start').show()
+  }
 }
 
 const setSocket = (socketIn) => {
