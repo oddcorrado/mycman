@@ -47,7 +47,7 @@ const getName = () => {
 }
 
 const getId = () => {
-  scan.scan({allowScan:false, message:'Scannez votre personnage'})
+  scan.scan({allowScan:false, message:'Scannez votre personnage', filter:'user'})
   .then((id) => {
     userId = id
     userName = id2Username[Math.trunc(id / 4)]

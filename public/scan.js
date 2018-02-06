@@ -2,10 +2,29 @@ const $ = require('jquery')
 const menu = require('./menu')
 
 let renderer = null
-let objects = null
+let objects = [
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
+  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'}]
 let doScan = false
-let scans = []
+let scans = null
 let lastScanId = null
+let currentFilter = null
 
 let ARThreeOnLoad = function() {
   navigator
@@ -49,12 +68,38 @@ let cameraFound = (videoParams) => {
           }
           if(scans.length >= 1) {
             if(scans.length === 1) {
-              $('#scan-feedback').html('Objet détecté : ' + scans[0])
+              let type = null
+              if(scans[0] !== null && scans[0] !== undefined && objects && objects[scans[0]]) {
+                type = objects[scans[0]].type
+                $('#scan-feedback').html('Objet attendu détecté : ' + scans[0] + ' ' + type)
+              } else {
+                $('#scan-feedback').html('Objet détecté : ' + scans[0])
+              }
+
+              if(scans[0] !== null && scans[0] !== undefined && (!currentFilter || type === currentFilter) ) {
+                if(!currentFilter) {
+                  $('#scan-feedback').html('Objet attendu détecté : ' + scans[0] + ' ' + type)
+                  $('#scan-ok').show()
+                } else {
+                  if(currentFilter === type) {
+                    $('#scan-feedback').html('Objet attendu détecté : ' + scans[0] + ' ' + type)
+                    $('#scan-ok').show()
+                  } else {
+                    $('#scan-feedback').html('Mauvais objet détecté : ' + scans[0] + ' ' + type)
+                    $('#scan-ok').hide()
+                  }
+                }
+              } else {
+                $('#scan-feedback').html('Mauvais objet détecté : ' + scans[0] + ' ' + type)
+                $('#scan-ok').hide()
+              }
             } else {
               $('#scan-feedback').html('Trop d\'objets détectés : ' + scans.reduce((a,v) => a + ' ' + v , ' '))
+              $('#scan-ok').hide()
             }
           } else {
             $('#scan-feedback').html('Aucun objet détecté')
+            $('#scan-ok').hide()
           }
           arScene.process()
           arScene.renderOn(renderer)
@@ -104,6 +149,7 @@ const newObjects = (objectsIn) => {
 }
 
 const scan = ({allowCancel, message, filter}) => {
+  currentFilter = filter
   scans = []
   doScan = true
   menu.modalShow('#scan-modal')
@@ -127,7 +173,7 @@ const scan = ({allowCancel, message, filter}) => {
     $('#scan-ok').on('click', function (e) {
       e.preventDefault()
       if(scans[0] !== null && scans[0] !== undefined) {
-        if(!filter || objects[scans[0]].type === filter) {
+        if(!currentFilter || objects[scans[0]].type === currentFilter) {
           doScan = false
           menu.modalHide('#scan-modal')
           resolve(scans[0])
