@@ -1126,6 +1126,9 @@
 		var onError = configuration.onError || function(err) { console.error("ARController.getUserMedia", err); };
 
 		var video = document.createElement('video');
+// MAXIME : debug pour faire fonctionner ARtoolKit sur ios
+		video.playsInline = true;
+// MAXIME : debug pour faire fonctionner ARtoolKit sur ios
 
 		var initProgress = function() {
 			if (this.videoWidth !== 0) {
@@ -1155,7 +1158,17 @@
 
 		var success = function(stream) {
 			video.addEventListener('loadedmetadata', initProgress, false);
-			video.src = window.URL.createObjectURL(stream);
+
+// MAXIME : debug pour faire fonctionner ARtoolKit sur ios
+			//video.src = window.URL.createObjectURL(stream);
+			if (typeof video.srcObject !== 'undefined') {
+				video.srcObject = stream;
+			}
+			else {
+				video.src = window.URL.createObjectURL(stream);
+			}
+// MAXIME : debug pour faire fonctionner ARtoolKit sur ios
+
 			readyToPlay = true;
 			play(); // Try playing without user input, should work on non-Android Chrome
 		};
