@@ -39,7 +39,7 @@ const getName = () => {
         $('#login-name').hide()
         $.post('/login', {
           user: userName,
-          id: null
+          id: id2Username.findIndex(v => v === userName) * 4
         }).then(() => document.location.reload())
       }
     }

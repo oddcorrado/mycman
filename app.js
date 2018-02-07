@@ -81,13 +81,6 @@ app.get('/login', restricted, (req, res) => {
 app.get('/logout', (req, res) => {
   players.removePlayer(req.session.user)
   game.reset()
-  if(testMulti) {
-    players.removePlayer(req.session.user + '-1')
-    players.removePlayer(req.session.user + '-2')
-    players.removePlayer(req.session.user + '-3')
-    players.removePlayer(req.session.user + '-4')
-    players.removePlayer(req.session.user + '-5')
-  }
 
   //req.session.destroy(()=>res.send('bye bye'))
   req.session = null
@@ -95,17 +88,15 @@ app.get('/logout', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
+  // dirty hack to handle multiple logins
+  if(req.session.user === req.body.user) {
+    console.log('RELOGIN >>> ', req.session.user, req.body.user, req.body.id)
+    res.send({ user: req.session.user })
+  }
   if (req.body.user) {
     players.addPlayer(req.body.user)
     scan.addUser(req.body.user)
     scan.setId(req.body.user, req.body.id) // TODO check user id
-    if(testMulti) {
-      players.addPlayer(req.body.user + '-1')
-      players.addPlayer(req.body.user + '-2')
-      players.addPlayer(req.body.user + '-3')
-      players.addPlayer(req.body.user + '-4')
-      players.addPlayer(req.body.user + '-5')
-    }
 
     req.session.user = req.body.user
     res.send({ user: req.session.user })
