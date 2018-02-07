@@ -562,6 +562,7 @@ function voteStop (log) {
   } else {
     htmlLog += log.powerupLog.uses.reduce((a, v) =>
       a + `<div class="vote-result-card">
+            <div class="vote-result-uses-text">${v.log}</div>
             <img class="vote-result-uses-image" src="${utils.getSecretImg(v.secret)}" />
           </div>`
       , '')
@@ -571,6 +572,7 @@ function voteStop (log) {
   } else {
     htmlLog += log.gameLog.revelations.reduce((a, v) =>
       a + `<div class="vote-result-card">
+            <div class="vote-result-revealed-text">${v.name} a été révélé avec ${v.secret}</div>
             <img class="vote-result-revealed-image-player" src="${utils.getPlayerImg(v.name)}" />
             <img class="vote-result-revealed-image-secret" src="${utils.getSecretImg(v.secret)}" />
           </div>`
