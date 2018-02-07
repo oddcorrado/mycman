@@ -113,6 +113,7 @@ button {
 }
 
 #login-name{
+  background: url(img/ui/dropdown-icon.png) no-repeat right #000000;
   margin-left: 50px;
   margin-right: 50px;
   border-radius: 20px;
@@ -120,9 +121,9 @@ button {
 }
 
 #login-name-input{
-  background: url(img/ui/dropdown-icon.png) no-repeat 260px #000000;
+  background-color: RGBA(0,0,0,0);
   overflow: hidden;
-  width:320px;
+  width:120%;
   padding:4px;
   padding-left:16px;
   border-style: none;
@@ -613,8 +614,7 @@ button {
   margin: 2px;
   padding: 6px;
   background: #000000;
-  color: #ffffff;
-  text-align: center;
+  color: 0 0 0 80;
   /* height: 40px; */
   font-family: 'Oswald' sans-serif;
   font-size: 1.2rem;
@@ -623,23 +623,27 @@ button {
 }
 
 .vote-result-uses-image {
-  width:100%
+  width:80px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .vote-result-revealed-image-player {
     border-radius: 32px;
     height: 64px;
     margin: 8px;
+
 }
 
 .vote-result-revealed-image-secret {
+  position: absolute;
     border-radius: 5px;
     height: 64px;
     margin: 8px;
+    right: 32px;
 }
 
 #outro-content {
-  margin-top:150px;
 }
 
 .outro-winner-image {
