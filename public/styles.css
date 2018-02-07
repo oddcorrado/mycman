@@ -843,3 +843,12 @@ button {
   left: 60px;
   font-size: 1.5em;
 }
+
+#intro_txt{
+  margin-top: 80px;
+  margin-left:auto;
+  margin-right:auto;
+  width: 300px;
+  font-size: 1.25rem;
+  text-align: center;
+}
