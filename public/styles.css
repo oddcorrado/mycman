@@ -4,7 +4,7 @@ html {
 
 body {
   color: #ffffff;
-  background-color: #252737;
+  background-color: #000000;
   background-image: url("img/ui/fond.png");
   background-size: 100px;
   background-repeat: repeat;
@@ -114,6 +114,18 @@ button {
 
 #login-name{
   margin-left: 50px;
+  margin-right: 50px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+#login-name-input{
+  background: url(img/ui/dropdown-icon.png) no-repeat 260px #000000;
+  overflow: hidden;
+  width:320px;
+  padding:4px;
+  padding-left:16px;
+  border-style: none;
 }
 
 #login-name-button {
@@ -727,6 +739,7 @@ button {
   text-align:right;
   background: none;
   right:0px;
+  top: 10px;
   padding-right:24px;
   font-size: 1.33rem;
   float:right;
