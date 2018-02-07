@@ -17,7 +17,7 @@ const newPlayers = (playersIn) => {
     $('#startup-players').append(`
       <div class="startup-player-container">
         <img class="startup-player-image" src="${utils.getPlayerImg(p)}" />
-        <span class="startup-player-name">${p} est en ligne</span>
+        <span class="startup-player-name">${p} </span>
       </div>`)
   })
 

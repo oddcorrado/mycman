@@ -20,13 +20,12 @@ a hover{
 
 h2 {
   position: fixed;
-  text-align: right;
+  text-align: center;
   font-family: 'Oswald', sans-serif;
   font-size: 1.5rem;
-  top:-6px;
-  padding-right: 80px;
+  width: 100%;
   z-index:2;
-  right:0px;
+  top: -6px;
 }
 
 
@@ -113,14 +112,31 @@ button {
   color: #000000;
 }
 
-#login-name-button {
-  margin: 4px;
-  padding: 12px;
-  font-size: 1.5em;
+#login-name{
   margin-left: 50px;
-  margin-right: 50px;
+}
+
+#login-name-button {
+  position: absolute;
+  margin: 4px;
+  bottom: -300px;
+  padding: 12px;
+  padding-top: 16px;
+  font-size: 1.5em;
+  left: 50px;
+  right: 50px;
   background: #cccccc;
-  color: #000000;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+
+  text-shadow:0px 1px 0px #07526e;
+
+  background: linear-gradient(to top, rgba(31,36,47,1), rgba(42,48,66,1));
+
+  box-shadow: inset 0px 1px 0px #4e566d, 0px 5px 0px 0px #1F242F, 0px 10px 5px #000000;
+
+  letter-spacing: 2px;
 }
 
 #check-button {
@@ -237,11 +253,12 @@ button {
   float:left;
   max-width:70%;
   margin: 4px;
-  padding: 6px;
-  padding-left: 10px;
+  padding: 12px;
+  padding-left: 24px;
+  padding-right: 24px;
   background: #ffffff;
   color: #000000;
-  font-size: 1em;
+  font-size: 1.3em;
   border-radius : 20px;
   border-top-left-radius: 0;
 }
@@ -251,11 +268,12 @@ button {
   max-width:70%;
   text-align:right;
   margin: 4px;
-  padding: 6px;
-  padding-right: 10px;
+  padding: 12px;
+  padding-left: 24px;
+  padding-right: 24px;
   background: #000000;
   color: #ffffff;
-  font-size: 1em;
+  font-size: 1.3em;
   border-radius : 20px;
   border-top-right-radius: 0;
 }
@@ -588,7 +606,8 @@ button {
   /* height: 40px; */
   font-family: 'Oswald' sans-serif;
   font-size: 1.2rem;
-  line-height:48px
+  line-height:48px;
+  height: 80px;
 }
 
 .vote-result-uses-image {
@@ -596,11 +615,15 @@ button {
 }
 
 .vote-result-revealed-image-player {
-  width:49%
+    border-radius: 32px;
+    height: 64px;
+    margin: 8px;
 }
 
 .vote-result-revealed-image-secret {
-  width:49%;
+    border-radius: 5px;
+    height: 64px;
+    margin: 8px;
 }
 
 #outro-content {
@@ -727,6 +750,7 @@ button {
 }
 
 .modal {
+  height: 100%;
   margin: 0 auto;
 /*  top: 20px;
   bottom: 20px;
@@ -770,15 +794,24 @@ button {
 }
 
 .startup-button {
-  margin: 14px;
+  margin: 24px;
   margin-left: auto;
   margin-right: auto;
   padding: 12px;
-  font-size: 1rem;
+  font-size: 1.5rem;
   background: #ffffff;
-  color: #000000;
+  color: #FFF;
   width: 120px;
   text-align: center;
+
+  border-radius: 5px;
+  text-shadow:0px 1px 0px #07526e;
+
+  background: linear-gradient(to top, rgba(31,36,47,1), rgba(42,48,66,1));
+
+  box-shadow: inset 0px 1px 0px #4e566d, 0px 5px 0px 0px #1F242F, 0px 10px 5px #000000;
+
+  letter-spacing: 2px;
 }
 
 .startup-player-container {
