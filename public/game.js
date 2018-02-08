@@ -3,6 +3,7 @@ const $ = require('jquery')
 const menu = require('./menu')
 const mp = require('./mp')
 const utils = require('./utils')
+const scan = require('./scan')
 
 let socket = null
 let updateInfos = null
@@ -21,6 +22,7 @@ const setSocket = (socketIn) => {
     $('#mp-result').html('')
     $('#start').show()
     $('#gameboard').hide()
+    scan.reset()
     menu.modalHideAll()
     $.get('/logout')
       .then(

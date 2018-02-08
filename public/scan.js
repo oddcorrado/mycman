@@ -26,6 +26,10 @@ let scans = null
 let lastScanId = null
 let currentFilter = null
 
+const reset = () => {
+  objects = objects.map((v,i) => i % 4 === 0 ? {type:'user'} : {type:'secret'})
+}
+
 let ARThreeOnLoad = function() {
   navigator
   .mediaDevices
@@ -188,6 +192,7 @@ if (window.ARController && ARController.getUserMediaThreeScene) {
 }
 
 module.exports = {
+  reset,
   newObjects,
   scan
 }
