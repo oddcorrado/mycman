@@ -34,7 +34,7 @@
     "watch-server-cluster": "nodemon server-cluster.js -i public",
     "watch-test": "mocha --watch",
     "watch-test-growl": "mocha --watch --growl",
-    "build": "browserify public/main.js > public/build.js",
+    "build": "browserify public/main.js | uglifyjs > public/build.js",
     "watch-client": "watchify -t babelify -v --debug ./public/main.js -o public/build.js"
   },
   "author": "",

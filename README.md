@@ -10,4 +10,8 @@ instructions (tested on on node V6.9.4)
 * to test with multiple player you use chrome users
 * to build the dirty jquery client (in watch-mode, preferably in another windox): `npm run watch-client`
 
+Building
+* If you haven't done it install uglify : npm install uglify-js -g
+* Then build the app : npm run build
+
 Good luck jim!
