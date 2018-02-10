@@ -4,6 +4,7 @@ const menu = require('./menu')
 const skipSpaces = require('./skipSpaces')
 const scan = require('./scan')
 const game = require('./game')
+const utils = require('./utils')
 
 let socket = null
 let players = null
@@ -82,6 +83,7 @@ const addPowerup = (powerup) => {
       if(!(game.getOptions().doScan > 0)) {
         socket.emit('powerup-use', powerup.name, $('#powerup-target-' + skipSpaces(powerup.name)).val(), (result) => {
           console.log(result)
+          processResult(result)
           socket.emit('powerup-get-all', (powerups) => updatePowerups(powerups))
         })
       } else {
@@ -90,6 +92,7 @@ const addPowerup = (powerup) => {
           let name = objects[id].name
           socket.emit('powerup-use', powerup.name, name, (result) => {
             console.log(result)
+            processResult(result)
             socket.emit('powerup-get-all', (powerups) => updatePowerups(powerups))
           })
         })
@@ -97,6 +100,23 @@ const addPowerup = (powerup) => {
     })
   }
 }
+
+const processResult = (result) => {
+  if(result) {
+    $('#spy-modal').show()
+    let data = result.reduce((a, msg) => a +
+      `<div class="outro-message">
+        <img class="outro-message-from" src="${utils.getPlayerImg(msg.from)}"" />
+        <img class="outro-message-to" src="${utils.getPlayerImg(msg.to)}"" />
+        <span class="outro-message-text">${msg.message}</span>
+      </div>`, '')
+    $('#spy-content').html(data)
+  }
+}
+
+$('#spy-ok').on('click', function () {
+  menu.modalHide('#spy-modal')
+})
 
 const newPlayers = (playersIn, playerNameIn) => {
   players = playersIn
