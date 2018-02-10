@@ -48,6 +48,21 @@ let ARThreeOnLoad = function() {
   delete window.ARThreeOnLoad
 }
 
+let feedback = (id) => {
+  if(!objects[id]) {
+    return 'Object Inconnu'
+  }
+  if(!objects[id].type) {
+    return 'Object Inconnu'
+  }
+  if(objects[id].type === 'user') {
+    return 'Joueur ' + (objects[id].name || 'inconnu')
+  }
+  if(objects[id].type === 'secret') {
+    return 'Secret '(objects[id].card || '?') + ' de ' + (objects[id].name || 'inconnu')
+  }
+}
+
 let cameraFound = (videoParams) => {
   ARController.getUserMediaThreeScene({
     maxARVideoSize: 320,
@@ -75,26 +90,26 @@ let cameraFound = (videoParams) => {
               let type = null
               if(scans[0] !== null && scans[0] !== undefined && objects && objects[scans[0]]) {
                 type = objects[scans[0]].type
-                $('#scan-feedback').html('Objet attendu détecté : ' + scans[0] + ' ' + type)
+                $('#scan-feedback').html(feedback(scans[0]))
               } else {
                 $('#scan-feedback').html('Objet détecté : ' + scans[0])
               }
 
               if(scans[0] !== null && scans[0] !== undefined && (!currentFilter || type === currentFilter) ) {
                 if(!currentFilter) {
-                  $('#scan-feedback').html('Objet attendu détecté : ' + scans[0] + ' ' + type)
+                  $('#scan-feedback').html(feedback(scans[0]))
                   $('#scan-ok').show()
                 } else {
                   if(currentFilter === type) {
-                    $('#scan-feedback').html('Objet attendu détecté : ' + scans[0] + ' ' + type)
+                    $('#scan-feedback').html(feedback(scans[0]))
                     $('#scan-ok').show()
                   } else {
-                    $('#scan-feedback').html('Mauvais objet détecté : ' + scans[0] + ' ' + type)
+                    $('#scan-feedback').html('Mauvais objet détecté : ' + feedback(scans[0]))
                     $('#scan-ok').hide()
                   }
                 }
               } else {
-                $('#scan-feedback').html('Mauvais objet détecté : ' + scans[0] + ' ' + type)
+                $('#scan-feedback').html('Mauvais objet détecté : ' + feedback(scans[0]))
                 $('#scan-ok').hide()
               }
             } else {
