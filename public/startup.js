@@ -16,8 +16,8 @@ const newPlayers = (playersIn) => {
   players.forEach(p => {
     $('#startup-players').append(`
       <div class="startup-player-container">
-        <img class="startup-player-image" src="${utils.getPlayerImg(p)}" />
-        <span class="startup-player-name">${p} </span>
+        <div><img class="startup-player-image" src="${utils.getPlayerImg(p)}" /></div>
+        <div class="startup-player-name">${p} </div>
       </div>`)
   })
 
