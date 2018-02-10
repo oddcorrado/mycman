@@ -3,27 +3,38 @@ const menu = require('./menu')
 
 let renderer = null
 let objects = [
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'},
-  {type:'user'}, {type:'secret'}, {type:'secret'}, {type:'secret'}]
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''},
+  {type:'user', name:' '}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}, {type:'secret', name:' ', card:''}]
 let doScan = false
 let scans = null
-let lastScanId = null
 let currentFilter = null
 
 const reset = () => {
@@ -59,7 +70,7 @@ let feedback = (id) => {
     return 'Joueur ' + (objects[id].name || 'inconnu')
   }
   if(objects[id].type === 'secret') {
-    return 'Secret '(objects[id].card || '?') + ' de ' + (objects[id].name || 'inconnu')
+    return 'Secret ' + (objects[id].card || ' ') + ' ' + (objects[id].name || 'inconnu')
   }
 }
 
