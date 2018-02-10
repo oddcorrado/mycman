@@ -80,14 +80,16 @@ const addPowerup = (powerup) => {
   if(powerup.available && powerup.cooldown <= 0) {
     $('#powerup-' + skipSpaces(powerup.name)).on('click', () => {
       if(!(game.getOptions().doScan > 0)) {
-        socket.emit('powerup-use', powerup.name, $('#powerup-target-' + skipSpaces(powerup.name)).val(), () => {
+        socket.emit('powerup-use', powerup.name, $('#powerup-target-' + skipSpaces(powerup.name)).val(), (result) => {
+          console.log(result)
           socket.emit('powerup-get-all', (powerups) => updatePowerups(powerups))
         })
       } else {
         scan.scan({allowCancel:false, message:'Scannez un personnage', filter:'user'})
         .then(id => {
           let name = objects[id].name
-          socket.emit('powerup-use', powerup.name, name, () => {
+          socket.emit('powerup-use', powerup.name, name, (result) => {
+            console.log(result)
             socket.emit('powerup-get-all', (powerups) => updatePowerups(powerups))
           })
         })
