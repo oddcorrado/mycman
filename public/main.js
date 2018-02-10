@@ -179,6 +179,25 @@ function updatePlayers (ids) {
   $('#check-name').html(playerOptions)
   $('#secret-share-name').html(playerOptions)
 
+  let checkHtml = players.reduce((a,p) =>  a + `
+    <div class="check-filter" id="check-filter-${skipSpaces(p)}">
+      <img class="check-filter-image" src="/img/pawns/${utils.getImgName(p)}.png">
+    </div>`, '')
+  checkHtml += `
+    <div class="check-filter" id="check-filter-all">
+      <img class="check-filter-image" src="/img/NotChosen.png">
+    </div>`
+  $('#check-filter').html(checkHtml)
+  players.forEach(p => {
+    $(`#check-filter-${skipSpaces(p)}`).on('click', () => {
+      $(`.revelation-card`).hide()
+      $(`.revelation-card-${skipSpaces(p)}`).show()
+    })
+  })
+  $(`#check-filter-all`).on('click', () => {
+    $(`.revelation-card`).show()
+  })
+
   mp.newPlayers(players, playerName)
   startup.newPlayers(players, playerName)
   powerup.newPlayers(players, playerName)
@@ -227,7 +246,7 @@ function addCheck(name, index, result) {
   let chosenHtml = isChosen ? ('<img class="icon" src="/img/NotChosen.png" />') : ''
 
   $('#check-result').prepend(`
-    <div class="revelation-card">
+    <div class="revelation-card revelation-card-${skipSpaces(name)}">
       <img class="revelation-card-image-player" class="mp-recipient-image" src="/img/pawns/${utils.getImgName(name)}.png" />
       <div class="clearfix">
         <div class="revelation-card-index">${index}</div>
@@ -277,7 +296,7 @@ function addRevelation(name, index, result) {
   let chosenHtml = isChosen ? ('<img class="icon" src="/img/NotChosen.png" />') : ''
 
   $('#revelationResult').prepend(`
-    <div class="revelation-card">
+    <div class="revelation-card revelation-card-${skipSpaces(name)}">
       <img class="revelation-card-image-player" class="mp-recipient-image" src="/img/pawns/${utils.getImgName(name)}.png" />
       <div class="clearfix">
         <div class="revelation-card-index">${index}</div>

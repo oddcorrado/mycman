@@ -152,6 +152,29 @@ button {
   letter-spacing: 2px;
 }
 
+#check-filter {
+  height: 64px;
+}
+
+.check-filter {
+  float: left;
+  padding: 3px;
+  margin: 3px;
+  background: #000000;
+  height:40px;
+  width:40px;
+  border-radius:50%;
+  color:#ffffff;
+  text-align:center;
+  font-size:1.5em;
+}
+
+.check-filter-image {
+  width:100%;
+  height:100%;
+  border-radius:50%;
+}
+
 #check-button {
   margin: 4px;
   padding: 12px;
