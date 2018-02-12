@@ -102,8 +102,8 @@ const addPowerup = (powerup) => {
 }
 
 const processResult = (result) => {
-  if(result) {
-    $('#spy-modal').show()
+  if (result) {
+    menu.modalShow('#spy-modal')
     let data = result.reduce((a, msg) => a +
       `<div class="outro-message">
         <img class="outro-message-from" src="${utils.getPlayerImg(msg.from)}"" />

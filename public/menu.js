@@ -33,7 +33,8 @@ const isLeftMenuActive = (v) => {
 }
 
 const checkLayout = () => {
-  if(activeModals.length > 0) {
+  if (activeModals.length > 0) {
+    $(activeModals[activeModals.length - 1]).show()
     $('#layout').hide()
   } else {
     $('#layout').show()
@@ -41,25 +42,35 @@ const checkLayout = () => {
 }
 
 const modalShow = (modal) => {
-  if(!activeModals.find(v => v === modal)) {
-    activeModals.push(modal)
+  // hide everything
+  activeModals.forEach(modal => $(modal).hide())
+
+  // push this modal to top
+  let index = activeModals.findIndex(v => v === modal)
+  if (index >= 0) {
+    activeModals.splice(index, 1)
   }
-  $(modal).show()
+  activeModals.push(modal)
+
   checkLayout()
 }
 
 const modalHide = (modal) => {
+  // hide everything
+  activeModals.forEach(modal => $(modal).hide())
+
+  // remove modal from list
   let index = activeModals.findIndex(v => v === modal)
-  if(index >= 0) {
+  if (index >= 0) {
     activeModals.splice(index, 1)
   }
-  $(modal).hide()
+
   checkLayout()
 }
 
 const modalHideAll = () => {
   activeModals.forEach(modal => $(modal).hide())
-  activeModals =[]
+  activeModals = []
   checkLayout()
 }
 
