@@ -12,7 +12,8 @@ const id2Username = [
   'Colonel Cat',
   'Professeur Poulpe',
   'Shah Thon',
-  'Sultan Sanglier'
+  'Sultan Sanglier',
+  'Marshal Mustang'
 ]
 
 let userName = null
