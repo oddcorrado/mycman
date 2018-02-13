@@ -192,10 +192,14 @@ function updatePlayers (ids) {
     $(`#check-filter-${skipSpaces(p)}`).on('click', () => {
       $(`.revelation-card`).hide()
       $(`.revelation-card-${skipSpaces(p)}`).show()
+      $(`.check-filter`).removeClass('check-filter-selected')
+      $(`#check-filter-${skipSpaces(p)}`).addClass('check-filter-selected')
     })
   })
   $(`#check-filter-all`).on('click', () => {
     $(`.revelation-card`).show()
+    $(`.check-filter`).removeClass('check-filter-selected')
+    $(`#check-filter-all`).addClass('check-filter-selected')
   })
 
   mp.newPlayers(players, playerName)

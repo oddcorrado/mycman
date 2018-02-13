@@ -175,6 +175,10 @@ button {
   border-radius:50%;
 }
 
+.check-filter-selected {
+  background: #ffffff;
+}
+
 #check-button {
   margin: 4px;
   padding: 12px;
