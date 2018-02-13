@@ -54,7 +54,9 @@ const skipSpaces = (s) => {
 
 const logMp = (player, message) => {
   $('#mp-select-' + skipSpaces(player)).html('*> '+player)
-  $('#mp-recipient-' + skipSpaces(player)).addClass('mp-recipient-unread')
+  if(mpSelected !== player) {
+    $('#mp-recipient-' + skipSpaces(player)).addClass('mp-recipient-unread')
+  }
   addMp(player, message, false)
 }
 
