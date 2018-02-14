@@ -885,6 +885,30 @@ button {
   font-size: 1.2em;
 }
 
+#scan-notification {
+  position: fixed;
+  top: 50px;
+  width: 100%;
+  padding-bottom: 20px;
+  padding-top: 10px;
+  background: #990000;
+}
+
+#scan-notification-title {
+    margin: auto;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+}
+
+.scan-notification-image {
+  margin: auto;
+  border-radius: 50%;
+  display: block;
+  width: 70%;
+}
+
 #intro_txt{
   margin-top: 80px;
   margin-left:auto;
