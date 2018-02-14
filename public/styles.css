@@ -283,6 +283,23 @@ button {
   text-align: center;
 }
 
+.general-button {
+  margin: 4px;
+  padding: 12px;
+  padding-top: 16px;
+  font-size: 1.5em;
+  left: 50px;
+  right: 50px;
+  background: #cccccc;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  text-shadow:0px 1px 0px #07526e;
+  background: linear-gradient(to top, rgba(31,36,47,1), rgba(42,48,66,1));
+  box-shadow: inset 0px 1px 0px #4e566d, 0px 5px 0px 0px #1F242F, 0px 10px 5px #000000;
+  letter-spacing: 2px;
+}
+
 .clearfix::after {
   content:"";
   display:table;
@@ -393,17 +410,18 @@ button {
 .powerup-card {
   margin: 4px;
   padding: 6px;
-  background: #cccccc;
+  background: #1f242f;
   color: #000000;
   font-size: 1em;
+  border-radius: 10px;
 }
 
 .powerup-card-value {
   margin: 4px;
   padding: 6px;
-  background: #990099;
+  background: #07526e;
   color: #ffffff;
-  float:left;
+  /* float:left; */
 }
 
 .powerup-card-emphasize {
@@ -417,7 +435,7 @@ button {
 .powerup-card-help {
   margin: 4px;
   padding: 6px;
-  background: #666666;
+  background: #4e566d;
   color: #ffffff;
 }
 
@@ -426,6 +444,7 @@ button {
   padding: 6px;
   background: #990000;
   color: #ffffff;
+  width: 150px;
   float:right;
 }
 

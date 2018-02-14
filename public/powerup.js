@@ -32,34 +32,45 @@ const updatePowerups = (powerups) => {
 }
 
 const addPowerup = (powerup) => {
-  let html = '<div class="powerup-card">'
-  html += '<div class="clearfix">'
-  html += '<div class="powerup-card-icon"><img src="/img/secrets/' + skipSpaces(powerup.name) + '.png" /></div>'
-  html += '<div class="powerup-card-value">' + powerup.name + '</div>'
+  let html = `
+    <div class="powerup-card">
+      <div class="clearfix">
+        <div class="powerup-card-value">${powerup.name}</div>
+        <div class="powerup-card-icon">
+          <img src="${utils.getSecretImg(powerup.name)}" />
+        </div>
+        `
+      //   <div class="powerup-card-value">TOUS LES ${powerup.cooldownPeriod} TOURS</div>
 
-  html += '<div class="powerup-card-value">TOUS LES ' + powerup.cooldownPeriod + ' TOURS</div>'
-  if( powerup.available) {
+  /* if( powerup.available) {
     html += '<div class="powerup-card-value">UTILISABLE</div>'
   } else {
     html += '<div class="powerup-card-value">NON REVELE</div>'
-  }
+  } */
 
   if(powerup.available) {
     if(powerup.cooldown <= 0) {
-      html += '<div id="powerup-' + skipSpaces(powerup.name) + '"class="powerup-card-use">UTILISER</div>'
+      html += '<div id="powerup-' + skipSpaces(powerup.name) + '"class="powerup-card-use general-button">UTILISER</div>'
     } else {
-      html += '<div class="powerup-card-use">ACTIVABLE DANS ' + powerup.cooldown + ' TOURS</div>'
+      html += `<div class="powerup-card-use">${powerup.cooldown} tours</div>`
     }
   }
 
-  if(powerup.inUse) {
+  /* if(powerup.inUse) {
     html += '<div class="powerup-card-value">ACTIF</div>'
-  }
+  } */
 
-  if(powerup.targetMax > 0) {
+/*   if(powerup.targetMax > 0) {
     if(powerup.inUse) {
       html += '<div class="powerup-card-value">CIBLE ' + powerup.targets[0] + '</div>'
-    } else {
+    }
+  } */
+
+
+  html += '</div>'
+  html += '<div class="powerup-card-help">' + powerup.help + '</div>'
+  if(powerup.targetMax > 0) {
+    if(!powerup.inUse) {
       if(!(game.getOptions().doScan > 0)) {
         html += '<select id="powerup-target-' + skipSpaces(powerup.name) + '">'
         if(powerup.targetNoSelf) {
@@ -72,9 +83,6 @@ const addPowerup = (powerup) => {
     }
   }
 
-
-  html += '</div>'
-  html += '<div class="powerup-card-help">' + powerup.help + '</div>'
   html += '</div>'
   $('#powerup').append(html)
 
