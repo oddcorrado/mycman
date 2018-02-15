@@ -4,7 +4,6 @@ html {
 
 body {
   color: #ffffff;
-  background-color: #000000;
   background-image: url("img/ui/fond.png");
   background-size: 100px;
   background-repeat: repeat;
@@ -12,10 +11,23 @@ body {
   margin-left: auto;
   margin-right: auto;
   margin-top: 0px;
+  background-color: RGBA(0,0,0,0);
 }
 
 a hover{
   cursor: alias;
+}
+
+h1 {
+  text-align: center;
+}
+
+#startup-players h1{
+  height: 50px;
+  line-height: 50px;
+  background-color: #1E222B;
+  box-shadow: inset 0px 0px 4px #000000;
+  margin-bottom: 30px;
 }
 
 h2 {
@@ -88,7 +100,7 @@ button {
   position:fixed;
   height:44px;
   z-index:1;
-  background-color: black;
+  background-color: #1E222B;
   top:0px !important;
 }
 
@@ -272,15 +284,24 @@ button {
 }
 
 .game-button {
-  margin: 14px;
+  margin: 24px;
   margin-left: auto;
   margin-right: auto;
   padding: 12px;
-  font-size: 1rem;
+  font-size: 1.5rem;
   background: #ffffff;
-  color: #000000;
+  color: #FFF;
   width: 120px;
   text-align: center;
+
+  border-radius: 5px;
+  text-shadow:0px 1px 0px #07526e;
+
+  background: linear-gradient(to top, rgba(31,36,47,1), rgba(42,48,66,1));
+
+  box-shadow: inset 0px 1px 0px #4e566d, 0px 5px 0px 0px #1F242F, 0px 10px 5px #000000;
+
+  letter-spacing: 2px;
 }
 
 .general-button {
@@ -612,7 +633,7 @@ button {
 }
 
 .mp-recipient-unread {
-  background:#ff0000;
+  background:#ffffff;
 }
 
 .vote-button {
@@ -665,7 +686,6 @@ button {
   /* height: 40px; */
   font-family: 'Oswald' sans-serif;
   font-size: 1.2rem;
-  line-height: 48px;
   height: 160px;
   text-align: center;
 }
@@ -685,7 +705,6 @@ button {
 }
 
 .vote-result-revealed-image-secret {
-  position: absolute;
     border-radius: 5px;
     height: 64px;
     margin: 8px;
@@ -866,11 +885,11 @@ button {
   margin: 24px;
   margin-left: auto;
   margin-right: auto;
-  padding: 12px;
+  padding: 8px;
   font-size: 1.5rem;
   background: #ffffff;
   color: #FFF;
-  width: 120px;
+  width: 90px;
   text-align: center;
 
   border-radius: 5px;
@@ -886,6 +905,7 @@ button {
 .startup-player-container {
   position: relative;
   width:33%;
+  max-width: 90px;
   float: left;
   height:100px;
 }
@@ -933,6 +953,7 @@ button {
 
 #intro_txt{
   margin-top: 80px;
+  margin-bottom: 40px;
   margin-left:auto;
   margin-right:auto;
   width: 300px;
