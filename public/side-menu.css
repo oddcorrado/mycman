@@ -25,12 +25,12 @@ This is the parent `<div>` that contains the menu and the content area.
     padding-left: 0;
 }
     #layout.active #menu {
-        left: 136px;
-        width: 136px;
+        left: 190px;
+        width: 190px;
     }
 
     #layout.active .menu-link {
-        left: 136px;
+        left: 190px;
     }
 /*
 The content `<div>` is where all your content goes.
@@ -78,16 +78,17 @@ appears on the left side of the page.
 */
 
 #menu {
-    margin-left: -136px; /* "#menu" width */
-    width: 136px;
+    margin-left: -190px; /* "#menu" width */
+    width: 190px;
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     z-index: 1000; /* so the menu or its navicon stays above all content */
-    background: #000000;
+    background: #1E222B;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    box-shadow: 2px 0 8px 0 rgba(0,0,0,0.50);
 }
     /*
     All anchors inside the menu should be styled like this.
@@ -112,7 +113,6 @@ appears on the left side of the page.
     */
     #menu .pure-menu ul,
     #menu .pure-menu .menu-item-divided {
-        border-top: 1px solid #ffffff;
     }
         /*
         Change color of the anchor links on hover/focus.
@@ -127,7 +127,7 @@ appears on the left side of the page.
     */
     #menu .pure-menu-selected,
     #menu .pure-menu-heading {
-        background: #000000;
+        background: #1E222B;
     }
         /*
         This styles a link within a selected menu item `<li>`.
@@ -138,8 +138,15 @@ appears on the left side of the page.
 
         #menu-list li{
           font-size: 1rem;
+          width: 100px;
+          height: 24px;
+          line-height: 24px;
           border-bottom: 1px solid #ffffff;
           cursor: alias;
+          margin-left: auto;
+          margin-right: auto;
+          padding: 10px;
+          padding-left: 40px;
         }
 
     /*
@@ -169,11 +176,10 @@ small screens.
 .menu-link {
     position: fixed;
     display: block; /* show this only on small screens */
-    top: 0;
-    left: 0; /* "#menu width" */
-    background: #000;
-    background: rgba(0,0,0,0.7);
-    font-size: 10px; /* change this value to increase/decrease button size */
+    top: 2px;
+    left: 2px; /* "#menu width" */
+    background: #1E222B;
+    font-size: 9px; /* change this value to increase/decrease button size */
     z-index: 10;
     width: 2em;
     height: auto;
@@ -253,4 +259,25 @@ Hides the menu at `48em`, but modify this based on your app's needs.
         position: relative;
         left: 136px;
     }
+}
+
+#nav-self {
+  background-image: url('img/ui/perso_icon.png');
+  background-repeat: no-repeat;
+  background-size: 32px;
+  background-position: left;
+}
+
+#nav-check {
+  background-image: url('img/ui/loupe_icon.png');
+  background-repeat: no-repeat;
+  background-size: 32px;
+  background-position: left;
+}
+
+.pure-menu-item.mp-messenger {
+  background-image: url('img/ui/bulle.png');
+  background-repeat: no-repeat;
+  background-size: 32px;
+  background-position: left;
 }
