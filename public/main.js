@@ -373,10 +373,11 @@ $.get('/options')
       mp.update(playerName)
       updatePendings()
       updatePlayers(o.ids)
+      powerup.check()
       if(o.gameStatus.state === 'idle') {
         menu.modalShow('#startup-modal')
       }
-      if(o.gameStatus.state === 'vote') {
+      if(o.gameStatus.state === 'vote') {  
         menu.modalShow('#vote-modal')
         voteStart()
       }
