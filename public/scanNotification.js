@@ -7,7 +7,7 @@ const notify = (scanner) => {
   $('#scan-notification-image-container').html(`
     <img class="scan-notification-image" src="${utils.getPlayerImg(scanner)}" />
     `)
-  setTimeout(() => $('#scan-notification').hide(), 4000)
+  setTimeout(() => $('#scan-notification').hide(), 2500)
 }
 
 module.exports = {
