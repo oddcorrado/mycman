@@ -10,6 +10,7 @@ let socket = null
 let players = null
 let playerName = null
 let objects = []
+let isAnyPowerUpAvailable = false
 
 const setSocket = (socketIn) => {
   socket = socketIn
@@ -25,10 +26,20 @@ $('#nav-self').on('click', function (e) {
   // $('#powerup').show()
 })
 
+const check = () => {
+  socket.emit('powerup-get-all', (powerups) => updatePowerups(powerups))
+}
+
 const updatePowerups = (powerups) => {
   console.log(powerups)
   $('#powerup').html('<h3>POWERUPS</h3>')
+  isAnyPowerUpAvailable = false
   powerups.forEach(powerup => addPowerup(powerup))
+  if(isAnyPowerUpAvailable) {
+    $('#nav-self-notification').show()
+  } else {
+    $('#nav-self-notification').hide()
+  }
 }
 
 const addPowerup = (powerup) => {
@@ -50,6 +61,7 @@ const addPowerup = (powerup) => {
 
   if(powerup.available) {
     if(powerup.cooldown <= 0) {
+      isAnyPowerUpAvailable = true
       html += '<div id="powerup-' + skipSpaces(powerup.name) + '"class="powerup-card-use general-button">UTILISER</div>'
     } else {
       html += `<div class="powerup-card-use">${powerup.cooldown} tours</div>`
@@ -136,6 +148,7 @@ const newObjects = (objectsIn) => {
 }
 
 module.exports = {
+  check,
   setSocket,
   newPlayers,
   newObjects,

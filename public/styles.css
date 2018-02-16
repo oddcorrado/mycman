@@ -951,6 +951,13 @@ button {
   width: 70%;
 }
 
+#nav-self-notification {
+  position:absolute;
+  left: 15px;
+  top: 10px;
+  height: 25px;
+}
+
 #intro_txt{
   margin-top: 80px;
   margin-bottom: 40px;

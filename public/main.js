@@ -610,6 +610,7 @@ function voteStop (log) {
   }
   $('#vote-result-log').html(htmlLog)
   mp.creditUpdate()
+  powerup.check()
 }
 
 function voteTick (timeLeft) {
