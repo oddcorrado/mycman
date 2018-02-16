@@ -16,6 +16,7 @@ const scan = require('./scan')
 const utils = require('./utils')
 const startup = require('./startup')
 const scanNotification = require('./scanNotification')
+const texts = require('./texts')
 
 // TODO bg color for revelation
 game.init(updateInfos, login.startLogin)
@@ -107,13 +108,19 @@ function updateInfos () {
       self.secrets.forEach(secret => {
         selfSecrets += '<div class="self-secret">' + highlightShared(secret.secret) + '</div>'
       })
-      $('#self-info').html(
-        '<h2>VOTRE PERSONNAGE</h2>'
-        + '<div class="self-team">' + self.team + '</div>'
-        // + '<h3>INDICES</h3>'
-        // + '<div id="self-hints">' + '</div>'
-      //   + '<h3>SECRETS</h3>'
-      //  + selfSecrets
+      $('#self-info').html(`
+        <h2>VOTRE PERSONNAGE</h2>
+        <div class="self-team">${self.team}</div>
+        <div class="self-text">${texts.intro[self.team] ? texts.intro[self.team] : ''}</div>
+        <div class="self-name">${playerName}</div>
+        <div class="self-image-team">
+          <img class="icon" src="/img/${self.team}.png" />
+        </div>
+        <div class="self-image-player">
+          <img class="revelation-card-image-secret" class="mp-recipient-image" src="${utils.getPlayerImg(playerName)}" />
+        </div>
+        <div class="self-text">${self.team}</div>
+       `
       )
       updateHints(self.knowledges)
     }
