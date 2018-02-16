@@ -188,7 +188,7 @@ function updatePlayers (ids) {
 
   let checkHtml = players.reduce((a,p) =>  a + `
     <div class="check-filter" id="check-filter-${skipSpaces(p)}">
-      <img class="check-filter-image" src="/img/pawns/${utils.getImgName(p)}.png">
+      <img class="check-filter-image" src="/img/pawns/${utils.getImgName(p)}.jpg">
     </div>`, '')
   checkHtml += `
     <div class="check-filter" id="check-filter-all">
@@ -258,7 +258,7 @@ function addCheck(name, index, result) {
 
   $('#check-result').prepend(`
     <div class="revelation-card revelation-card-${skipSpaces(name)}">
-      <img class="revelation-card-image-player" class="mp-recipient-image" src="/img/pawns/${utils.getImgName(name)}.png" />
+      <img class="revelation-card-image-player" class="mp-recipient-image" src="/img/pawns/${utils.getImgName(name)}.jpg" />
       <div class="clearfix">
         <div class="revelation-card-index">${index}</div>
         <div class="revelation-card-name">${name}</div>
@@ -308,7 +308,7 @@ function addRevelation(name, index, result) {
 
   $('#revelationResult').prepend(`
     <div class="revelation-card revelation-card-${skipSpaces(name)}">
-      <img class="revelation-card-image-player" class="mp-recipient-image" src="/img/pawns/${utils.getImgName(name)}.png" />
+      <img class="revelation-card-image-player" class="mp-recipient-image" src="/img/pawns/${utils.getImgName(name)}.jpg" />
       <div class="clearfix">
         <div class="revelation-card-index">${index}</div>
         <div class="revelation-card-name">${name}</div>
@@ -377,7 +377,7 @@ $.get('/options')
       if(o.gameStatus.state === 'idle') {
         menu.modalShow('#startup-modal')
       }
-      if(o.gameStatus.state === 'vote') {  
+      if(o.gameStatus.state === 'vote') {
         menu.modalShow('#vote-modal')
         voteStart()
       }
@@ -543,7 +543,7 @@ function voteStart () {
     h += ' style="background-color:' + getColor(u) + '">'
     h += '<div class="vote-count" id="vote-count-' + skipSpaces(u) + '">' + 0 + '</div>'
     h += '<img class="vote-image-player" id="vote-image-' + skipSpaces(u) + '" class="mp-recipient-image" src="/img/pawns/'
-            + utils.getImgName(u) + '.png" />'
+            + utils.getImgName(u) + '.jpg" />'
     h += '<div class="vote-name">' + u + '</div>'
     h += '</div>'
   })

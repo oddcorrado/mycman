@@ -135,7 +135,7 @@ const newPlayers = (playersIn, playerOptions) => {
       '<div class="mp-recipient" id="mp-recipient-' + skipSpaces(p) + '">' + p.slice(0,2) + '</div>') */
       $('#mp-recipients').append(
           `<div class="mp-recipient" id="mp-recipient-${skipSpaces(p)}">
-            <img class="mp-recipient-image" src="/img/pawns/${utils.getImgName(p)}.png">
+            <img class="mp-recipient-image" src="/img/pawns/${utils.getImgName(p)}.jpg">
           </div>`)
 
     }
