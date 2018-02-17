@@ -44,6 +44,8 @@ h2 {
 h3 {
   text-align: center;
   margin: 0.5 em;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
 }
 
 select {
@@ -52,6 +54,7 @@ select {
   padding: 8px;
   width: 45%;
   font-size: 1.5em;
+
 }
 
 select option{
@@ -102,6 +105,8 @@ button {
   z-index:1;
   background-color: #1E222B;
   top:0px !important;
+  box-shadow: 0px 2px 4px #000000;
+
 }
 
 .modal .headerbar{
@@ -172,13 +177,13 @@ button {
   float: left;
   padding: 3px;
   margin: 3px;
-  background: #000000;
   height:40px;
   width:40px;
   border-radius:50%;
   color:#ffffff;
   text-align:center;
   font-size:1.5em;
+  box-shadow: gameOptionsSetKey 0px 0px 6px #000000;
 }
 
 .check-filter-image {
@@ -235,60 +240,75 @@ button {
   margin-bottom: 40px;
 }
 
-.self-name{
-  position: absolute;
-  top: 42px;
-  margin-left: 90px;
-  padding-left: 10px;
-  left: 0px;
-  font-size: 1.5em;
-  background-color: black;
-  width: 160px;
-  margin-right: 20px;
-  border-radius: 5px;
+.self-name {
+	position: absolute;
+	top: 42px;
+	margin-left: 90px;
+	padding-left: 20px;
+	left: 0px;
+	font-size: 1.5em;
+	background-color: #1E222B;
+	/* width: 160px; */
+	margin-right: 20px;
+	border-radius: 5px;
+	padding-right: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	/* border-radius: 5px; */
+	/* text-shadow: 0px 1px 0px #07526e; */
+	box-shadow: inset 0px 0px 6px #000000;
 }
 
 .self-team {
-  text-align: right;
-  margin-bottom: 20px;
-  color: #ffffff;
-  font-family: 'Oswald' sans-serif;
-  font-size: 1.5em;
-  position: absolute;
-  top: 80px;
-  right: 80px;
-  width: 100px;
-  padding-right: 20px;
-  background-color: black;
+	text-align: right;
+	margin-bottom: 20px;
+	color: #ffffff;
+	font-family: 'Oswald' sans-serif;
+	font-size: 1.5em;
+	position: absolute;
+	top: 100px;
+	right: 80px;
+	/* width: 100px; */
+	padding-right: 20px;
+	background-color: #1E222B;
+	box-shadow: inset 0px 0px 6px #000000;
+	padding-left: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-radius: 5px;
 }
 
 .self-image-team {
-  width: 60px;
-  position: absolute;
-  right: 16px;
-  top: 56px;
-  border-radius: 50%;
-  border-width: 5px;
-  border-style: solid;
-  border-color: black;
+	width: 60px;
+	position: absolute;
+	right: 26px;
+	top: 86px;
+	border-radius: 50%;
+	border-width: 5px;
+	/* border-style: solid; */
+	/* border-color: black; */
+	box-shadow: 0px 0px 6px #000000;
+	background-color: #1E222B;
 }
 
 .self-image-player {
-  border-radius: 50%;
-  height: 80px;
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  border-style: solid;
-  border-color: black;
-  border-width: 5px;
+	border-radius: 50%;
+	height: 80px;
+	position: absolute;
+	left: 15px;
+	top: 15px;
+	border-style: solid;
+	/* border-color: black; */
+	/* border-width: 5px; */
+	box-shadow: 0px 0px 6px #000000;
 }
 
 .self-text {
-  padding-top: 140px;
+  padding-top: 160px;
   padding-left: 16px;
   padding-right: 16px;
   font-size: 1.2em;
+  text-align: center;
 }
 
 #self-hints{
@@ -350,20 +370,23 @@ button {
 }
 
 .general-button {
-  margin: 4px;
-  padding: 12px;
-  padding-top: 16px;
-  font-size: 1.5em;
-  left: 50px;
+	margin: 4px;
+	padding: 12px;
+	padding-top: 16px;
+	font-size: 1rem;
+	left: 50px;
   right: 50px;
-  background: #cccccc;
-  color: #fff;
-  text-align: center;
-  border-radius: 5px;
-  text-shadow:0px 1px 0px #07526e;
-  background: linear-gradient(to top, rgba(31,36,47,1), rgba(42,48,66,1));
-  box-shadow: inset 0px 1px 0px #4e566d, 0px 5px 0px 0px #1F242F, 0px 10px 5px #000000;
-  letter-spacing: 2px;
+	background: #cccccc;
+	color: #fff;
+	text-align: center;
+	border-radius: 5px;
+	text-shadow: 0px 1px 0px #07526e;
+	background: linear-gradient(to top, rgba(31,36,47,1), rgba(42,48,66,1));
+	box-shadow: 0px 0px 4px #000000;
+	letter-spacing: 2px;
+	border-style: solid;
+	border-color: #1E222B;
+	border-width: 5px;
 }
 
 .clearfix::after {
@@ -482,14 +505,15 @@ button {
 }
 
 .powerup-card-value {
-  margin: 4px;
-  padding: 6px;
-  padding-left: 80px;
-  background: black;
-  color: #ffffff;
-  padding-top: 5px;
-  border-radius: 5px;
-  font-size: 1.5em;
+	margin: 4px;
+	padding: 6px;
+	padding-left: 80px;
+	background: #1E222B;
+	color: #ffffff;
+	padding-top: 5px;
+	border-radius: 5px;
+	font-size: 1.5em;
+	box-shadow: inset 0px 0px 6px #000000;
 }
 
 .powerup-card-emphasize {
@@ -501,76 +525,87 @@ button {
 }
 
 .powerup-card-help {
-  margin-top: 4px;
-  padding: 6px;
-  background: black;
-  color: #ffffff;
-  border-radius: 5px;
+	margin-top: -42px;
+	padding: 6px;
+	background: #1E222B;
+	color: #ffffff;
+	border-radius: 5px;
+	margin-left: 76px;
+	margin-right: 90px;
+	box-shadow: inset 0px 0px 6px #000000;
+	margin-bottom: 20px;
+	min-height: 28px;
 }
 
 .powerup-card-use {
-  margin: 4px;
-  padding: 6px;
-  background: #990000;
-  color: #ffffff;
-  width: 150px;
-  float:right;
+	margin: 4px;
+	padding: 6px;
+	color: #ffffff;
+	width: 56px;
+	float: right;
+	letter-spacing: 1px;
+  margin-top: 0px;
 }
 
 .powerup-card-icon {
-  color: #ffffff;
-  float: left;
-  width: 70px;
-  border-style: solid;
-  border-color: black;
-  border-width: 10px;
-  border-radius: 5px;
+	color: #ffffff;
+	float: left;
+	width: 64px;
+	/* border-style: solid; */
+	/* border-color: black; */
+	/* border-width: 10px; */
+	border-radius: 5px;
+	background-color: #1E222B;
+	padding: 5px;
+	box-shadow: inset 5px 0px 6px #000000;
 }
 
 .revelation-card {
-  margin-top: 4px;
-  margin-left: 40px;
-  margin-bottom: 12px;
-  height: 48px;
-  background: #000000;
-  color: #ffffff;
-  font-size: 1em;
-  position: relative;
+	margin-top: 4px;
+	margin-left: 40px;
+	margin-bottom: 12px;
+	height: 48px;
+	background: #000000;
+	color: #ffffff;
+	font-size: 1em;
+	position: relative;
+	box-shadow: inset 4px 0px 4px #000000;
 }
 
 .revelation-card-name {
-  position: absolute;
-  font-family: 'Oswald' sans-serif;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  margin-left: 20px;
-  color: #ffffff;
-  float:left;
-  width: 48px;
-  height: 40px;
+	position: absolute;
+	font-family: 'Oswald' sans-serif;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	margin-left: 24px;
+	color: #ffffff;
+	float: left;
+	width: 48px;
+	height: 40px;
 }
 
 .revelation-card-short {
-  position: absolute;
-  font-family: 'Oswald' sans-serif;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  margin-left: 20px;
-  color: #ffffff;
-  right: 40px;
-  top: 15px;
-  text-align: right;
-  font-size: 1.2rem;
+	position: absolute;
+	font-family: 'Oswald' sans-serif;
+	padding-top: 12px;
+	padding-bottom: 4px;
+	color: #ffffff;
+	right: 8px;
+	top: 16px;
+	text-align: right;
+	font-size: 1.2rem;
 }
 
 .revelation-card-secret {
-  color: #ffffff;
-  position: absolute;
-  margin-left: 124px;
-  height: 40px;
-  font-family: 'Oswald' sans-serif;
-  font-size: 1.2rem;
-  line-height:48px
+	color: #ffffff;
+	position: absolute;
+	margin-left: 128px;
+	height: 48px;
+	font-family: 'Oswald' sans-serif;
+	font-size: 1.2rem;
+	padding-top: 4px;
+	margin-right: 30px;
+  text-indent: 12px;
 }
 
 .revelation-card-icon {
@@ -581,13 +616,13 @@ button {
 }
 
 .revelation-card-index {
-  position: absolute;
-  padding: 4px;
-  margin-left: 66px;
-  color: #ffffff;
-  float:left;
-  height: 16px;
-  /* z-index:10; */
+	position: absolute;
+	padding: 4px;
+	margin-left: 124px;
+	color: #ffffff;
+	float: left;
+	height: 16px;
+	font-size: 1.2rem;
 }
 
 .revelation-card-important {
@@ -599,13 +634,12 @@ button {
 }
 
 .revelation-card-image-player {
-  margin-top: 4px;
-  margin-bottom: 4px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  position : absolute;
-  left: -28px;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	position: absolute;
+	left: -28px;
+	box-shadow: 0px 0px 4px #000000;
 }
 
 .revelation-card-image-secret {
@@ -615,15 +649,15 @@ button {
   width: 36px;
   height: 36px;
   float: left;
-  margin-left:80px;
+  margin-left:84px;
 }
 
 .revelation-card .icon {
-  width: 24px;
-  height: 24px;
-  float: right;
-  margin-top: 12px;
-  margin-right: 8px;
+	width: 24px;
+	height: 24px;
+	float: right;
+	margin-top: 4px;
+	margin-right: 4px;
 }
 
 .mp-player{
@@ -732,15 +766,16 @@ button {
 }
 
 .vote-result-card {
-  margin: 2px;
-  padding: 6px;
-  background: #000000;
-  color: 0 0 0 80;
-  /* height: 40px; */
-  font-family: 'Oswald' sans-serif;
-  font-size: 1.2rem;
-  height: 160px;
-  text-align: center;
+	margin: 12px;
+	padding: 6px;
+	background: #1E222B;
+	color: 0 0 0 80;
+	font-family: 'Oswald' sans-serif;
+	font-size: 1.2rem;
+	height: 120px;
+	text-align: center;
+	box-shadow: 0px 0px 8px #000000;
+	border-radius: 10px;
 }
 
 .vote-result-uses-image {
