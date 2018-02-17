@@ -2,6 +2,7 @@
 const $ = require('jquery')
 const utils = require('./utils')
 const menu = require('./menu')
+const uuidv1 = require('uuid/v1')
 
 let players = []
 let socket = null
@@ -15,7 +16,7 @@ const newPlayers = (playersIn) => {
 
   players.forEach(p => {
     $('#startup-players').append(`
-      <div class="startup-player-container">
+      <div class="startup-player-container animated bounceInUp">
         <div><img class="startup-player-image" src="${utils.getPlayerImg(p)}" /></div>
         <div class="startup-player-name">${p} </div>
       </div>`)

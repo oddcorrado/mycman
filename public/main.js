@@ -17,6 +17,7 @@ const utils = require('./utils')
 const startup = require('./startup')
 const scanNotification = require('./scanNotification')
 const texts = require('./texts')
+const uuidv1 = require('uuid/v1')
 
 // TODO bg color for revelation
 game.init(updateInfos, login.startLogin)
@@ -585,28 +586,40 @@ function voteStop (log) {
   menu.modalHide('#vote-modal')
   menu.modalShow('#vote-result-modal')
   let htmlLog = ''
+  let delay = 0
+  let ids = []
   // let htmlLog = log.debug.split('\n').reduce((a, v) => a + '<div class="self-secret">' + v + '</div>', '')
   if(log.powerupLog.uses.length === 0) {
     htmlLog += '<div class="vote-result-card">pas de powerup ce tour</div>'
   } else {
-    htmlLog += log.powerupLog.uses.reduce((a, v) =>
-      a + `<div class="vote-result-card">
+    htmlLog += log.powerupLog.uses.reduce((a, v) => {
+      let id = uuidv1()
+      ids.push(id)
+      return a + `<div id="${id}" class="vote-result-card" style="display:none;">
             <div class="vote-result-uses-text">${v.log}</div>
             <img class="vote-result-uses-image" src="${utils.getSecretImg(v.secret)}" />
           </div>`
-      , '')
+    } , '')
   }
   if(log.gameLog.revelations.length === 0) {
     htmlLog += `<div class="vote-result-card">personne n'est révélé</div>`
   } else {
-    htmlLog += log.gameLog.revelations.reduce((a, v) =>
-      a + `<div class="vote-result-card">
+    htmlLog += log.gameLog.revelations.reduce((a, v) => {
+      let id = uuidv1()
+      ids.push(id)
+      return a + `<div id="${id}" class="vote-result-card" style="display:none;">
             <div class="vote-result-revealed-text">${v.name} a été révélé avec ${v.secret}</div>
             <img class="vote-result-revealed-image-player" src="${utils.getPlayerImg(v.name)}" />
             <img class="vote-result-revealed-image-secret" src="${utils.getSecretImg(v.secret)}" />
           </div>`
-      , '')
+    } , '')
   }
+  ids.forEach((id, i) => {
+    setTimeout(() => {
+      $(`#${id}`).show()
+      $(`#${id}`).addClass('animated bounceInUp flash')
+    }, i * 1500)
+  })
   $('#vote-result-log').html(htmlLog)
   mp.creditUpdate()
   powerup.check()
