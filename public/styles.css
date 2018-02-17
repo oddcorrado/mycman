@@ -531,11 +531,13 @@ button {
   margin-top: 4px;
   margin-left: 40px;
   margin-bottom: 12px;
-  height: 48px;
+  height: 46px;
   background: #000000;
   color: #ffffff;
   font-size: 1em;
   position: relative;
+  border-top-style: solid;
+  border-top-width: 2px;
 }
 
 .revelation-card-name {
@@ -604,8 +606,9 @@ button {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  position : absolute;
-  left: -28px;
+  position: absolute;
+  left: -20px;
+  top: -6px;
 }
 
 .revelation-card-image-secret {
@@ -984,7 +987,7 @@ button {
   position: fixed;
   top: 50px;
   width: 100%;
-  padding-bottom: 20px;
+  padding-bottom: 30px;
   padding-top: 10px;
   background: #990000;
 }
@@ -1000,8 +1003,9 @@ button {
 .scan-notification-image {
   margin: auto;
   border-radius: 50%;
+  margin-top: 20px;
   display: block;
-  width: 70%;
+  width: 45%;
 }
 
 #nav-self-notification {

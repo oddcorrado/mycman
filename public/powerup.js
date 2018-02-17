@@ -45,7 +45,7 @@ const updatePowerups = (powerups) => {
 const addPowerup = (powerup) => {
   let html = `
     <div class="powerup-card">
-      <div class="clearfix">
+      <div class="clearfix animated fadeInLeft">
           <img class="powerup-card-icon" src="${utils.getSecretImg(powerup.name)}" />
         <div class="powerup-card-value">${powerup.name}</div>
         `
@@ -78,11 +78,11 @@ const addPowerup = (powerup) => {
 
 
   html += '</div>'
-  html += '<div class="powerup-card-help">' + powerup.help + '</div>'
+  html += '<div class="powerup-card-help animated fadeInRight">' + powerup.help + '</div>'
   if(powerup.targetMax > 0) {
     if(!powerup.inUse) {
       if(!(game.getOptions().doScan > 0)) {
-        html += '<select id="powerup-target-' + skipSpaces(powerup.name) + '">'
+        html += '<select class="animated fadeInRight" id="powerup-target-' + skipSpaces(powerup.name) + '">'
         if(powerup.targetNoSelf) {
           html += players.filter(v => v !== playerName).reduce((a, v) => a + '<option value="' + v + '">' + v + '</option>', '')
         } else {
