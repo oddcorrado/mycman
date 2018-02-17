@@ -252,7 +252,7 @@ function addCheck(name, index, result) {
   let chosenHtml = isChosen ? ('<img class="icon" src="/img/NotChosen.png" />') : ''
 
   $('#check-result').prepend(`
-    <div class="revelation-card revelation-card-${skipSpaces(name)}">
+    <div class="revelation-card revelation-card-${skipSpaces(name)}" style="background-color:${getColor(name)}">
       <img class="revelation-card-image-player" class="mp-recipient-image" src="/img/pawns/${utils.getImgName(name)}.jpg" />
       <div class="clearfix">
         <div class="revelation-card-index">${index}</div>
@@ -302,7 +302,7 @@ function addRevelation(name, index, result) {
   let chosenHtml = isChosen ? ('<img class="icon" src="/img/NotChosen.png" />') : ''
 
   $('#revelationResult').prepend(`
-    <div class="revelation-card revelation-card-${skipSpaces(name)}">
+    <div class="revelation-card revelation-card-${skipSpaces(name)}" style="background-color:${getColor(name)}">
       <img class="revelation-card-image-player" class="mp-recipient-image" src="/img/pawns/${utils.getImgName(name)}.jpg" />
       <div class="clearfix">
         <div class="revelation-card-index">${index}</div>
