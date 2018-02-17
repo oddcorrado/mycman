@@ -70,11 +70,11 @@ const updateMps = () =>{
 
 const addMp = (player, message, isEcho) => {
   if(isEcho) {
-    $('#mp-result-' + skipSpaces(player)).append('<div class="clearfix"><div class="message-card-self">'
+    $('#mp-result-' + skipSpaces(player)).append('<div class="clearfix"><div class="message-card-self animated bounceInRight">'
     + $('<span>').text(message).html()
     + '</div></div>')
   } else {
-    $('#mp-result-' + skipSpaces(player)).append('<div class="clearfix"><div class="message-card-other">'
+    $('#mp-result-' + skipSpaces(player)).append('<div class="clearfix"><div class="message-card-other animated bounceInLeft">'
     + $('<span>').text(message).html()
     + '</div></div>')
   }

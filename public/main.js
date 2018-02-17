@@ -110,11 +110,11 @@ function updateInfos () {
       })
       $('#self-info').html(`
         <h2>VOTRE PERSONNAGE</h2>
-        <div class="self-name">${playerName}</div>
-        <img class="self-image-player" class="mp-recipient-image" src="${utils.getPlayerImg(playerName)}" />
-        <div class="self-team">${self.team}</div>
-        <img class="self-image-team" src="/img/${self.team}.png" />
-        <div class="self-text">${texts.intro[self.team] ? texts.intro[self.team] : ''}</div>
+        <div class="self-name animated fadeInLeft">${playerName}</div>
+        <img class="self-image-player animated fadeInLeft" class="mp-recipient-image" src="${utils.getPlayerImg(playerName)}" />
+        <div class="self-team animated fadeInRight">${self.team}</div>
+        <img class="self-image-team animated fadeInRight" src="/img/${self.team}.png" />
+        <div class="self-text animated fadeInDown">${texts.intro[self.team] ? texts.intro[self.team] : ''}</div>
        `
       )
       updateHints(self.knowledges)
@@ -252,7 +252,7 @@ function addCheck(name, index, result) {
   let chosenHtml = isChosen ? ('<img class="icon" src="/img/NotChosen.png" />') : ''
 
   $('#check-result').prepend(`
-    <div class="revelation-card revelation-card-${skipSpaces(name)}" style="background-color:${getColor(name)}">
+    <div class="revelation-card revelation-card-${skipSpaces(name)} animated fadeInUp" style="border-color:${getColor(name)}">
       <img class="revelation-card-image-player" class="mp-recipient-image" src="/img/pawns/${utils.getImgName(name)}.jpg" />
       <div class="clearfix">
         <div class="revelation-card-index">${index}</div>
@@ -302,7 +302,7 @@ function addRevelation(name, index, result) {
   let chosenHtml = isChosen ? ('<img class="icon" src="/img/NotChosen.png" />') : ''
 
   $('#revelationResult').prepend(`
-    <div class="revelation-card revelation-card-${skipSpaces(name)}" style="background-color:${getColor(name)}">
+    <div class="revelation-card revelation-card-${skipSpaces(name)} animated fadeInUp" style="border-color:${getColor(name)}">
       <img class="revelation-card-image-player" class="mp-recipient-image" src="/img/pawns/${utils.getImgName(name)}.jpg" />
       <div class="clearfix">
         <div class="revelation-card-index">${index}</div>
@@ -533,7 +533,7 @@ function voteStart () {
   $('#vote-buttons').html('')
   var h = ''
   players.forEach((u)=>{
-    h += '<div class="vote-button" data-player="' + u +'"'
+    h += '<div class="vote-button animated flipInX" data-player="' + u +'"'
     h += ' id="vote-button-' + u + '"'
     h += ' style="background-color:' + getColor(u) + '">'
     h += '<div class="vote-count" id="vote-count-' + skipSpaces(u) + '">' + 0 + '</div>'
@@ -545,6 +545,9 @@ function voteStart () {
 
   $('#vote-buttons').html(h)
   $('.vote-button').on('click', function() {
+    $(this).removeClass("animated").removeClass("tada").removeClass("flipInX")
+    $(this).addClass("animated tada")
+    setTimeout(() => $(this).removeClass("animated tada"), 1000)
     socket.emit('vote-select', $(this).data("player"))
   })
   $('#gameboard').hide()
