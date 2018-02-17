@@ -235,15 +235,60 @@ button {
   margin-bottom: 40px;
 }
 
+.self-name{
+  position: absolute;
+  top: 42px;
+  margin-left: 90px;
+  padding-left: 10px;
+  left: 0px;
+  font-size: 1.5em;
+  background-color: black;
+  width: 160px;
+  margin-right: 20px;
+  border-radius: 5px;
+}
+
 .self-team {
-  text-align: left;
-  margin-left: 33%;
-  margin-top: 14px;
+  text-align: right;
   margin-bottom: 20px;
-  padding-top: 24px;
   color: #ffffff;
   font-family: 'Oswald' sans-serif;
-  font-size: 2em;
+  font-size: 1.5em;
+  position: absolute;
+  top: 80px;
+  right: 80px;
+  width: 100px;
+  padding-right: 20px;
+  background-color: black;
+}
+
+.self-image-team {
+  width: 60px;
+  position: absolute;
+  right: 16px;
+  top: 56px;
+  border-radius: 50%;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black;
+}
+
+.self-image-player {
+  border-radius: 50%;
+  height: 80px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  border-style: solid;
+  border-color: black;
+  border-width: 5px;
+}
+
+.self-text {
+  padding-top: 140px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 1.2em;
 }
 
 #self-hints{

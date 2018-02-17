@@ -110,16 +110,11 @@ function updateInfos () {
       })
       $('#self-info').html(`
         <h2>VOTRE PERSONNAGE</h2>
-        <div class="self-team">${self.team}</div>
-        <div class="self-text">${texts.intro[self.team] ? texts.intro[self.team] : ''}</div>
         <div class="self-name">${playerName}</div>
-        <div class="self-image-team">
-          <img class="icon" src="/img/${self.team}.png" />
-        </div>
-        <div class="self-image-player">
-          <img class="revelation-card-image-secret" class="mp-recipient-image" src="${utils.getPlayerImg(playerName)}" />
-        </div>
-        <div class="self-text">${self.team}</div>
+        <img class="self-image-player" class="mp-recipient-image" src="${utils.getPlayerImg(playerName)}" />
+        <div class="self-team">${self.team}</div>
+        <img class="self-image-team" src="/img/${self.team}.png" />
+        <div class="self-text">${texts.intro[self.team] ? texts.intro[self.team] : ''}</div>
        `
       )
       updateHints(self.knowledges)
