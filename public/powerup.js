@@ -46,10 +46,8 @@ const addPowerup = (powerup) => {
   let html = `
     <div class="powerup-card">
       <div class="clearfix">
+          <img class="powerup-card-icon" src="${utils.getSecretImg(powerup.name)}" />
         <div class="powerup-card-value">${powerup.name}</div>
-        <div class="powerup-card-icon">
-          <img src="${utils.getSecretImg(powerup.name)}" />
-        </div>
         `
       //   <div class="powerup-card-value">TOUS LES ${powerup.cooldownPeriod} TOURS</div>
 
