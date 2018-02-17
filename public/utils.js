@@ -11,7 +11,7 @@ const getImgName = (name) => {
 
 
 module.exports = {
-  getSecretImg: secret => `/img/secrets/${getImgName(secret)}.png`,
+  getSecretImg: secret => `/img/secrets/${getImgName(secret)}.jpg`,
   getPlayerImg: name => `/img/pawns/${getImgName(name)}.jpg`,
   getImgName
 }
