@@ -164,6 +164,13 @@ function gameOver(data) {
     `<img class="outro-winner-image" src="${utils.getPlayerImg(name)}"" />`
   ))
 
+  data.scores.forEach(score => $('#outro-scores').append(`
+    <div><h1>${score.team}</h1></div>
+    <div><h3>secrets élus révélés: ${score.chosen}</h3></div>
+    <div><h3>secrets révélés au total: ${score.total}</h3></div>
+    `
+  ))
+
   $('#outro-messages').html('<div><h1>Messages</h1><div>')
   data.messages.forEach(message =>
      $('#outro-messages').append(`

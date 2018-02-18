@@ -2,7 +2,6 @@
 const $ = require('jquery')
 const utils = require('./utils')
 const menu = require('./menu')
-const uuidv1 = require('uuid/v1')
 
 let players = []
 let socket = null
