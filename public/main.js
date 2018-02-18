@@ -188,7 +188,7 @@ function updatePlayers (ids) {
     </div>`, '')
   checkHtml += `
     <div class="check-filter" id="check-filter-all">
-      <img class="check-filter-image" src="/img/NotChosen.png">
+      <img class="check-filter-image" src="/img/AllPlayers.png">
     </div>`
   $('#check-filter').html(checkHtml)
   players.forEach(p => {

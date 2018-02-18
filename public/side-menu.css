@@ -127,7 +127,6 @@ appears on the left side of the page.
     */
     #menu .pure-menu-selected,
     #menu .pure-menu-heading {
-        background: #1E222B;
     }
         /*
         This styles a link within a selected menu item `<li>`.
@@ -137,7 +136,7 @@ appears on the left side of the page.
         }
 
         #menu-list li{
-          font-size: 1rem;
+          font-size: 0.95rem;
           width: 100px;
           height: 24px;
           line-height: 24px;
@@ -270,6 +269,13 @@ Hides the menu at `48em`, but modify this based on your app's needs.
 
 #nav-check {
   background-image: url('img/ui/loupe_icon.png');
+  background-repeat: no-repeat;
+  background-size: 32px;
+  background-position: left;
+}
+
+#nav-speedup {
+  background-image: url('img/ui/accelerate.png');
   background-repeat: no-repeat;
   background-size: 32px;
   background-position: left;
