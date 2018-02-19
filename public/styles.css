@@ -206,9 +206,9 @@ button {
   margin: 4px;
   padding: 12px;
   font-size: 1.5em;
-  background: #cccccc;
-  color: #000000;
+  color: #ffffff;
   text-align: center;
+  background: linear-gradient(to top, rgb(75, 0, 10), rgb(150, 0, 20));
 }
 
 #check-scan {
@@ -546,13 +546,26 @@ button {
 .powerup-card-use {
 	margin: 4px;
 	padding: 6px;
-	color: rgb(200,0,20);
+  background: linear-gradient(to top, rgb(75, 0, 10), rgb(150, 0, 20));
 	width: 56px;
 	float: right;
 	letter-spacing: 1px;
 	margin-top: 0px;
 	text-shadow: none;
 }
+
+.powerup-card-used {
+	margin: 4px;
+	padding: 6px;
+  background: linear-gradient(to top, rgb(37, 41, 51), rgb(27, 31, 45));
+  color: white;
+	width: 56px;
+	float: right;
+	letter-spacing: 1px;
+	margin-top: 0px;
+	text-shadow: none;
+}
+
 
 .powerup-card-icon {
 	color: #ffffff;

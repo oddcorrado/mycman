@@ -62,7 +62,7 @@ const addPowerup = (powerup) => {
       isAnyPowerUpAvailable = true
       html += '<div id="powerup-' + skipSpaces(powerup.name) + '"class="powerup-card-use general-button">UTILISER</div>'
     } else {
-      html += `<div class="powerup-card-use">${powerup.cooldown} tours</div>`
+      html += `<div class="powerup-card-used general-button">${powerup.cooldown} tours</div>`
     }
   }
 
