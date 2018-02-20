@@ -109,11 +109,14 @@ function updateInfos () {
       self.secrets.forEach(secret => {
         selfSecrets += '<div class="self-secret">' + highlightShared(secret.secret) + '</div>'
       })
+      let role = self.team === 'Elu' ? 'Elu' : 'Adepte'
+      let team = self.team === 'Elu' ? '???' : self.team
+      let teamText = `<div>Rôle ${role}</div><div>Equipe ${team}</div>`
       $('#self-info').html(`
         <h2>VOTRE PERSONNAGE</h2>
         <div class="self-name animated fadeInLeft">${playerName}</div>
         <img class="self-image-player animated fadeInLeft" class="mp-recipient-image" src="${utils.getPlayerImg(playerName)}" />
-        <div class="self-team animated fadeInRight">${self.team}</div>
+        <div class="self-team animated fadeInRight">${teamText}</div>
         <img class="self-image-team animated fadeInRight" src="/img/${self.team}.png" />
         <div class="self-text animated fadeInDown">${texts.intro[self.team] ? texts.intro[self.team] : ''}</div>
        `

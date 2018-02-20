@@ -272,7 +272,7 @@ button {
 	font-family: 'Oswald' sans-serif;
 	font-size: 1.5em;
 	position: absolute;
-	top: 100px;
+	top: 86px;
 	right: 80px;
 	/* width: 100px; */
 	padding-right: 20px;
@@ -285,10 +285,10 @@ button {
 }
 
 .self-image-team {
-	width: 60px;
+	width: 80px;
 	position: absolute;
-	right: 26px;
-	top: 86px;
+	right: 16px;
+	top: 74px;
 	border-radius: 50%;
 	border-width: 5px;
 	/* border-style: solid; */
@@ -413,6 +413,10 @@ button {
   font-size: 1.3em;
   border-radius : 20px;
   border-top-left-radius: 0;
+  border-top-left-radius: 0;
+  border-width: 8px;
+  border-top-style: solid;
+  border-color: red;
 }
 
 .message-card-self {
@@ -616,6 +620,7 @@ button {
 	top: 16px;
 	text-align: right;
 	font-size: 1.2rem;
+  display: none;
 }
 
 .revelation-card-secret {
@@ -676,8 +681,8 @@ button {
 }
 
 .revelation-card .icon {
-	width: 24px;
-	height: 24px;
+	width: 40px;
+	height: 40px;
 	float: right;
 	margin-top: 4px;
 	margin-right: 4px;
@@ -743,7 +748,7 @@ button {
 }
 
 .mp-recipient-unread {
-  background:#ffffff;
+  background:#ff0000;
 }
 
 .vote-button {

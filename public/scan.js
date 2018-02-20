@@ -217,8 +217,13 @@ if (window.ARController && ARController.getUserMediaThreeScene) {
   ARThreeOnLoad()
 }
 
+function getColor(name) {
+  return objects.find(o => o.name === name).data.color
+}
+
 module.exports = {
   reset,
   newObjects,
-  scan
+  scan,
+  getColor
 }

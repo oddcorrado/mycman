@@ -2,8 +2,10 @@
 const $ = require('jquery')
 const menu = require('./menu')
 const utils = require('./utils')
+const scan = require('./scan')
 
 let socket = null
+
 
 let credit = 0
 
@@ -53,6 +55,8 @@ const skipSpaces = (s) => {
 }
 
 const logMp = (player, message) => {
+    console.log(scan.getColor(player))
+  console.log(player, message)
   $('#mp-select-' + skipSpaces(player)).html('*> '+player)
   if(mpSelected !== player) {
     $('#mp-recipient-' + skipSpaces(player)).addClass('mp-recipient-unread')
@@ -69,12 +73,15 @@ const updateMps = () =>{
 }
 
 const addMp = (player, message, isEcho) => {
+  console.log(scan.getColor(player))
+  let color = scan.getColor(player)
   if(isEcho) {
     $('#mp-result-' + skipSpaces(player)).append('<div class="clearfix"><div class="message-card-self animated bounceInRight">'
     + $('<span>').text(message).html()
     + '</div></div>')
   } else {
-    $('#mp-result-' + skipSpaces(player)).append('<div class="clearfix"><div class="message-card-other animated bounceInLeft">'
+    $('#mp-result-' + skipSpaces(player)).append(`<div class="clearfix">
+    <div class="message-card-other animated bounceInLeft style="border-color:#${color};">`
     + $('<span>').text(message).html()
     + '</div></div>')
   }
