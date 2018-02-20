@@ -55,11 +55,9 @@ const skipSpaces = (s) => {
 }
 
 const logMp = (player, message) => {
-    console.log(scan.getColor(player))
-  console.log(player, message)
   $('#mp-select-' + skipSpaces(player)).html('*> '+player)
   if(mpSelected !== player) {
-    $('#mp-recipient-' + skipSpaces(player)).addClass('mp-recipient-unread')
+    $('#mp-recipient-notification-' + skipSpaces(player)).show()
   }
   addMp(player, message, false)
 }
@@ -73,7 +71,6 @@ const updateMps = () =>{
 }
 
 const addMp = (player, message, isEcho) => {
-  console.log(scan.getColor(player))
   let color = scan.getColor(player)
   if(isEcho) {
     $('#mp-result-' + skipSpaces(player)).append(`
@@ -145,8 +142,9 @@ const newPlayers = (playersIn, playerOptions) => {
       $('#mp-recipients').append(
           `<div class="mp-recipient" id="mp-recipient-${skipSpaces(p)}">
             <img class="mp-recipient-image" src="/img/pawns/${utils.getImgName(p)}.jpg">
+            <div class="mp-recipient-notification" id="mp-recipient-notification-${skipSpaces(p)}"></div>
           </div>`)
-
+      $('#mp-recipient-notification-' + skipSpaces(p)).hide()
     }
   })
 
@@ -163,7 +161,7 @@ const newPlayers = (playersIn, playerOptions) => {
     $('#mp-select-' + skipSpaces(p)).addClass('pure-menu-selected')
     $('#mp-select-'+ skipSpaces(p)).html('> '+ p)
     $('html').scrollTop(document.getElementById("mp").scrollHeight)
-    $('#mp-recipient-' + skipSpaces(p)).removeClass('mp-recipient-unread')
+    $('#mp-recipient-notification-' + skipSpaces(p)).hide()
   }))
 
   players.forEach(p => $('#mp-recipient-' + skipSpaces(p)).on('click', function (e) {
@@ -179,7 +177,7 @@ const newPlayers = (playersIn, playerOptions) => {
     $('#mp-select-' + skipSpaces(p)).addClass('pure-menu-selected')
     $('#mp-select-'+ skipSpaces(p)).html('> '+ p)
     $('html').scrollTop(document.getElementById("mp").scrollHeight)
-    $('#mp-recipient-' + skipSpaces(p)).removeClass('mp-recipient-unread')
+    $('#mp-recipient-notification-' + skipSpaces(p)).hide()
   }))
 
   if(mpSelected === null) {

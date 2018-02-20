@@ -730,6 +730,7 @@ button {
 }
 
 .mp-recipient {
+  position:relative;
   float: left;
   padding: 3px;
   margin: 3px;
@@ -748,8 +749,24 @@ button {
   border-radius:50%;
 }
 
+.mp-recipient-notification {
+  position: absolute;
+  background-color: #cc0000;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  color: #ffffff;
+  text-align: center;
+  font-size: 1em;
+  top: 0px;
+  right: 0px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #cccccc;
+}
+
 .mp-recipient-selected {
-  background: #ffffff;
+  background: #cccccc;
 }
 
 .mp-recipient-unread {
