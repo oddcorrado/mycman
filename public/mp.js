@@ -76,12 +76,14 @@ const addMp = (player, message, isEcho) => {
   console.log(scan.getColor(player))
   let color = scan.getColor(player)
   if(isEcho) {
-    $('#mp-result-' + skipSpaces(player)).append('<div class="clearfix"><div class="message-card-self animated bounceInRight">'
+    $('#mp-result-' + skipSpaces(player)).append(`
+      <div class="clearfix">
+      <div class="message-card-self animated bounceInRight" style="border-color:${color};">`
     + $('<span>').text(message).html()
     + '</div></div>')
   } else {
     $('#mp-result-' + skipSpaces(player)).append(`<div class="clearfix">
-    <div class="message-card-other animated bounceInLeft style="border-color:#${color};">`
+    <div class="message-card-other animated bounceInLeft" style="border-color:${color};">`
     + $('<span>').text(message).html()
     + '</div></div>')
   }
