@@ -103,7 +103,7 @@ const update = (playerNameIn) => {
       $('#mp-message-text').val('')
     }
   })
-
+/*
   $('#mp-message-text').on('focus', function() {
     $('#mp-recipients').hide()
   })
@@ -111,6 +111,7 @@ const update = (playerNameIn) => {
   $('#mp-message-text').on('blur', function() {
     $('#mp-recipients').show()
   })
+  */
 
   updateMps()
 }

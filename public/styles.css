@@ -96,6 +96,7 @@ button {
   position:relative;
   top:44px;
   width:100%;
+  padding-bottom: 48px;
 }
 
 .headerbar{
@@ -171,6 +172,7 @@ button {
 
 #check-filter {
   height: 64px;
+  margin-bottom: 64px;
 }
 
 .check-filter {
@@ -694,7 +696,7 @@ button {
 }
 
 .mp-player{
-  padding-top: 50px;
+  padding-top: 90px;
 }
 
 #mp-select {
@@ -850,6 +852,11 @@ button {
 }
 
 #outro-content {
+  padding-bottom: 10px;
+}
+
+#outro-content h1{
+  line-height:2em;
 }
 
 .outro-winner-image {
@@ -1047,6 +1054,7 @@ button {
   max-width: 90px;
   float: left;
   height:100px;
+  margin-bottom: 16px;
 }
 
 .startup-player-image {
@@ -1106,4 +1114,11 @@ button {
   width: 300px;
   font-size: 1.25rem;
   text-align: center;
+}
+
+.intro_img{
+  width: 40px;
+  margin:16px;
+  margin-top: 0px;
+  margin-bottom: -16px;
 }
