@@ -111,6 +111,10 @@ function updateInfos () {
       })
       let role = self.team === 'Elu' ? 'Elu' : 'Adepte'
       let team = self.team === 'Elu' ? '???' : self.team
+      if(self.team.match(/solo/)) {
+        role = self.team
+        team = 'Aucune'
+      }
       let teamText = `<div>Rôle ${role}</div><div>Equipe ${team}</div>`
       $('#self-info').html(`
         <h2>VOTRE PERSONNAGE</h2>

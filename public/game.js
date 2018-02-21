@@ -145,7 +145,7 @@ $('#nav-game').on('click', function (e) {
   e.preventDefault()
   if(!menu.isLeftMenuActive()) { return }
   clickCnt++
-  if(clickCnt > 0) {
+  if(clickCnt > 2) {
     menu.hideAll()
     $('#game').show()
     clickCnt = 0
