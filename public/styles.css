@@ -1014,8 +1014,20 @@ button {
   margin-right: auto;
   margin-top: 120px;
   width: 280px;
-  height:280px;
+  height:210px;
   transform: rotate(270deg);
+}
+
+#scan-message{
+  font-size: 1.6rem;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+#scan-feedback{
+  font-size: 1.6rem;
+  text-align: center;
+  margin-bottom: 8px;
 }
 
 #game-options-set-modal{
