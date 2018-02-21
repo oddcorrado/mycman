@@ -8,6 +8,7 @@ let socket = null
 
 
 let credit = 0
+let unreadCount = {}
 
 const setSocket = (socketIn) => {
   socket = socketIn
@@ -57,6 +58,8 @@ const skipSpaces = (s) => {
 const logMp = (player, message) => {
   $('#mp-select-' + skipSpaces(player)).html('*> '+player)
   if(mpSelected !== player) {
+    unreadCount[skipSpaces(player)] = (unreadCount[skipSpaces(player)] || 0 ) + 1
+    $('#mp-recipient-notification-' + skipSpaces(player)).html(unreadCount[skipSpaces(player)])
     $('#mp-recipient-notification-' + skipSpaces(player)).show()
   }
   addMp(player, message, false)
@@ -161,6 +164,7 @@ const newPlayers = (playersIn, playerOptions) => {
     $('#mp-select-' + skipSpaces(p)).addClass('pure-menu-selected')
     $('#mp-select-'+ skipSpaces(p)).html('> '+ p)
     $('html').scrollTop(document.getElementById("mp").scrollHeight)
+    unreadCount[skipSpaces(p)] = 0
     $('#mp-recipient-notification-' + skipSpaces(p)).hide()
   }))
 
@@ -177,6 +181,7 @@ const newPlayers = (playersIn, playerOptions) => {
     $('#mp-select-' + skipSpaces(p)).addClass('pure-menu-selected')
     $('#mp-select-'+ skipSpaces(p)).html('> '+ p)
     $('html').scrollTop(document.getElementById("mp").scrollHeight)
+    unreadCount[skipSpaces(p)] = 0
     $('#mp-recipient-notification-' + skipSpaces(p)).hide()
   }))
 
