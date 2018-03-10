@@ -130,13 +130,13 @@ const newPlayers = (playersIn, playerOptions) => {
     }
   })
 
-  $(".mp-messenger").remove()
+/*   $(".mp-messenger").remove()
   players.forEach(p => {
     if(p !== playerName) {
       $('#menu-list').append( // FIXME
           '<li class="pure-menu-item mp-messenger" id="mp-select-' + skipSpaces(p) + '">' + '\> ' + p + '</li>')
     }
-  })
+  }) */
 
   $("#mp-recipients").html('')
   players.forEach(p => {

@@ -37,7 +37,7 @@
   <link href="https://fonts.googleapis.com/css?family=Oswald|Source+Sans+Pro&amp;subset=latin-ext" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
   <link rel="stylesheet" href="animate.min.css">
-  <link rel="stylesheet" href="/side-menu.css">
+  <!-- <link rel="stylesheet" href="/side-menu.css"> -->
   <link rel="stylesheet" href="/styles.css">
   <script>
     if ('serviceWorker' in navigator) {
@@ -71,11 +71,11 @@
       <!-- Hamburger icon -->
       <span></span>
     </a>
-    <div id="menu">
-      <div class="pure-menu">
-        <div id="nav-game" class="pure-menu-heading" href="#">
+    <div id="menu" class="headerbar">
+      <div class="pure-menu pure-menu-horizontal">
+        <!-- <div id="nav-game" class="pure-menu-heading" href="#">
           <img class="logo" src="/img/Logo.png" />
-        </div>
+        </div> -->
 
         <ul id="menu-list" class="pure-menu-list">
           <li id="nav-self" class="pure-menu-item menu-item-divided pure-menu-selected">
@@ -85,14 +85,15 @@
           <!-- <li id="nav-powerup" class="pure-menu-item">POWERUP</li> !-->
           <!-- <li id="nav-help" class="pure-menu-item">HELP</li> !-->
           <li id="nav-check" class="pure-menu-item">CHECK</li>
+          <li id="nav-mp" class="pure-menu-item">MPS</li>
           <li id="nav-speedup" class="pure-menu-item">ACCELERER</li>
+          <li id="phase-tick">120</div>
           <!-- <li id="nav-scan" class="pure-menu-item">SCAN TEST</li> !-->
         </ul>
       </div>
     </div>
 
     <div id="main">
-      <div class="headerbar"></div>
       <div id="content">
         <form id="login" style="display:block">
           <div id="login-name">
@@ -113,9 +114,6 @@
           </div>
         </form>
         <div>
-          <div id="phase-tick">
-            120
-          </div>
         </div>
         <div id="gameboard" style="display:none">
           <div id="game"  style="display:none">
@@ -188,7 +186,7 @@
             <div id="hack-list"></div>
           </div>
           <div id="mp" style="display:none">
-            <h2>MESSAGERIE</h2>
+            <!-- <h2>MESSAGERIE</h2> -->
             <div id="mp-recipients" class="clearfix">
               RECIPIENTS ARE HERE
             </div>

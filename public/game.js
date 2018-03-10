@@ -141,7 +141,7 @@ const init = (updateInfosIn, enableLoginIn) => {
   enableLogin = enableLoginIn
 }
 
-$('#nav-game').on('click', function (e) {
+$('#phase-tick').on('click', function (e) {
   e.preventDefault()
   if(!menu.isLeftMenuActive()) { return }
   clickCnt++

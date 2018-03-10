@@ -31,12 +31,12 @@ h1 {
 }
 
 h2 {
-  position: fixed;
+/*   position: fixed; */
   text-align: center;
   font-family: 'Oswald', sans-serif;
   font-size: 1.5rem;
   width: 100%;
-  z-index:2;
+  /* z-index:2; */
   top: -6px;
 }
 
@@ -94,7 +94,7 @@ button {
 
 #gameboard{
   position:relative;
-  top:44px;
+/*   top:44px; */
   width:100%;
   padding-bottom: 48px;
 }
@@ -103,7 +103,7 @@ button {
   width:100%;
   position:fixed;
   height:44px;
-  z-index:1;
+  z-index:4;
   background-color: #1E222B;
   top:0px !important;
   box-shadow: 0px 2px 4px #000000;
@@ -150,7 +150,7 @@ button {
 #login-name-button {
   position: absolute;
   margin: 4px;
-  bottom: -300px;
+  /* bottom: -300px; */
   padding: 12px;
   padding-top: 16px;
   font-size: 1.5em;
@@ -1134,3 +1134,50 @@ button {
   margin-top: 0px;
   margin-bottom: -16px;
 }
+
+
+.pure-menu-item {
+  z-index:8;
+  padding-left:40px;
+}
+
+#menu {
+  position:fixed;
+  top:0px;
+}
+
+#main {
+  margin-top:50px;
+}
+#nav-self {
+  background-image: url('img/ui/perso_icon.png');
+  background-repeat: no-repeat;
+  background-size: 32px;
+  background-position: left;
+}
+
+#nav-check {
+  background-image: url('img/ui/loupe_icon.png');
+  background-repeat: no-repeat;
+  background-size: 32px;
+  background-position: left;
+}
+
+#nav-mp {
+  background-image: url('img/ui/bulle.png');
+  background-repeat: no-repeat;
+  background-size: 32px;
+  background-position: left;
+}
+
+#nav-speedup {
+  background-image: url('img/ui/accelerate.png');
+  background-repeat: no-repeat;
+  background-size: 32px;
+  background-position: left;
+}
+
+.pure-menu-horizontal {
+    margin-top: 10px;
+    margin-left: 10px;
+  }
