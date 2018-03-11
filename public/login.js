@@ -20,6 +20,7 @@ let userName = null
 let userId = null
 
 const startLogin = () => {
+  $('#layout').hide()
   getName()
 }
 

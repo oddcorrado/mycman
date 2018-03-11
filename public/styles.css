@@ -1171,10 +1171,13 @@ button {
 }
 
 #nav-speedup {
-  background-image: url('img/ui/accelerate.png');
+  background-image: url(img/ui/accelerate.png);
   background-repeat: no-repeat;
   background-size: 32px;
   background-position: left;
+  margin: auto;
+  margin-bottom: 30px;
+  width: fit-content;
 }
 
 .pure-menu-horizontal {

@@ -36,8 +36,10 @@ const checkLayout = () => {
   if (activeModals.length > 0) {
     $(activeModals[activeModals.length - 1]).show()
     $('#layout').hide()
+    $('#main').hide()
   } else {
     $('#layout').show()
+    $('#main').show()
   }
 }
 
