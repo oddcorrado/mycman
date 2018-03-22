@@ -2,6 +2,8 @@
 const $ = require('jquery')
 const utils = require('./utils')
 const menu = require('./menu')
+const translate = require('./translate')
+
 
 let players = []
 let socket = null
@@ -10,14 +12,14 @@ const newPlayers = (playersIn) => {
   players = playersIn
 
   $('#startup-players').html(`
-    <h1>JOUEURS EN LIGNE</h1>
+    <h1>${translate.translateText('JOUEURS EN LIGNE')}</h1>
     `)
 
   players.forEach(p => {
     $('#startup-players').append(`
       <div class="startup-player-container animated bounceInUp">
         <div><img class="startup-player-image" src="${utils.getPlayerImg(p)}" /></div>
-        <div class="startup-player-name">${p} </div>
+        <div class="startup-player-name">${translate.translateText(p)} </div>
       </div>`)
   })
 

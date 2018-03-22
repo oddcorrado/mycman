@@ -79,8 +79,7 @@
 
         <ul id="menu-list" class="pure-menu-list">
           <li id="nav-self" class="pure-menu-item menu-item-divided pure-menu-selected">
-            PROFIL
-            <img id="nav-self-notification" src="img/ui/power_icon.png" />
+            <span>PROFIL</span><img id="nav-self-notification" src="img/ui/power_icon.png" />
           </li>
           <!-- <li id="nav-powerup" class="pure-menu-item">POWERUP</li> !-->
           <!-- <li id="nav-help" class="pure-menu-item">HELP</li> !-->
@@ -97,17 +96,17 @@
         <form id="login" style="display:block">
           <div id="login-name">
             <select name="author" id="login-name-input">
-              <option value="Baron Belier">Baron Belier</option>
-              <option value="Frère Faucon">Frère Faucon</option>
-              <option value="Lord Loris">Lord Loris</option>
-              <option value="Sir Souris">Sir Souris</option>
-              <option value="Capitaine Corbeau">Capitaine Corbeau</option>
-              <option value="Colonel Cat">Colonel Cat</option>
-              <option value="Professeur Poulpe">Professeur Poulpe</option>
-              <option value="Shah Thon">Shah Thon</option>
-              <option value="Sultan Sanglier">Sultan Sanglier</option>
-              <option value="Marshal Mustang">Marshal Mustang</<option>
-              <option value="CAN">SCAN</option>
+              <option id="tr-1" value="Baron Belier">Baron Belier</option>
+              <option id="tr-2" value="Frère Faucon">Frère Faucon</option>
+              <option id="tr-3" value="Lord Loris">Lord Loris</option>
+              <option id="tr-4" value="Sir Souris">Sir Souris</option>
+              <option id="tr-5" value="Capitaine Corbeau">Capitaine Corbeau</option>
+              <option id="tr-6" value="Colonel Cat">Colonel Cat</option>
+              <option id="tr-7" value="Professeur Poulpe">Professeur Poulpe</option>
+              <option id="tr-8" value="Shah Thon">Shah Thon</option>
+              <option id="tr-9" value="Sultan Sanglier">Sultan Sanglier</option>
+              <option id="tr-10" value="Marshal Mustang">Marshal Mustang</<option>
+              <option id="tr-11" value="SCAN">SCAN</option>
             </select>
             <div id="login-name-button">ENTRER DANS LA SALLE</div>
           </div>
@@ -148,10 +147,10 @@
           <div id="help" style="display:none"></div>
           <div id="check" style="display:none">
             <h2>ENQUÊTE</h2>
-                          <div id="nav-speedup" class="pure-menu-item">ACCELERER</div>
-            <h3>Les indices à votre disposition :</h3>
+            <div id="nav-speedup" class="pure-menu-item">ACCELERER</div>
+            <h3 id="tr-12">Les indices à votre disposition :</h3>
             <div id="check-hints"></div>
-            <h3>Les complots découverts :</h3>
+            <h3 id="tr-13">Les complots découverts :</h3>
             <div id="check-submit" style="display:none">
               <div id="check-direct" style="display:none">
                 <select id="check-name"><option value="none">none</option></select>
@@ -165,7 +164,7 @@
             </div>
             <div id="check-filter" clas="clearfix"></div>
             <div id="check-result"></div>
-            <h3>REVELATIONS</h3>
+            <h3 id="tr-14">REVELATIONS</h3>
             <div id="revelationResult"></div>
           </div>
           <div id="hack" style="display:none">
@@ -201,7 +200,7 @@
             </div>
           </div>
           <div id="gameover" style="display:none">
-            <h2>GAME OVER</h2>
+            <h2 id="tr-15">GAME OVER</h2>
             <h2>GAGNANT</h2>
             <div id="gameover-winner"></div>
             <h2>VOTES</h2>
@@ -230,7 +229,7 @@
   <div id="game-options-set-modal" class="overlay">
     <a class="cancel" href="#"></a>
       <div class="modal">
-        <h2>REGLER UNE OPTION</h2>
+        <h2 id="tr-16">REGLER UNE OPTION</h2>
         <div class="content">
           <select id="game-options-set-key"><option value="none">none</option></select>
           <input id="game-options-set-value" type="text" name="author">
@@ -257,7 +256,7 @@
     <a class="cancel" href="#"></a>
       <div class="modal">
         <div id="outro-content" class="content">
-          <h1>La partie est terminée!!!</h1>
+          <h1 id="tr-17">La partie est terminée!!!</h1>
           <div id="outro-winners"></div>
           <div id="outro-scores"></div>
           <div id="outro-messages"></div>
@@ -279,7 +278,7 @@
   <div id="vote-result-modal" class="overlay">
     <a class="cancel" href="#"></a>
       <div class="modal">
-        <h2>RESULTATS DU VOTE</h2>
+        <h2 id="tr-18">RESULTATS DU VOTE</h2>
         <div class="content">
           <div id="vote-result-log"></div>
           <div id="vote-result-ok" class="game-button">OK</div>
@@ -313,15 +312,15 @@
 
   <div id="startup-modal" style="display:none">
     <div class="headerbar">
-      <h2>Bienvenue dans Secret Societies</h2>
+      <h2 id="tr-19">Bienvenue dans Secret Societies</h2>
     </div>
     <div id="intro_txt">
-      <p>Dans ce jeu, chaque joueur est membre d'une société secrète.</p>
-      <p>Il y a deux sociétés qui s'affrontent pour la conquête du monde, les Templars et les Illuminatis.</p>
-      <p>Dans chaque équipe, un joueur est "l'élu", il ne connait pas son équipe et doit la découvrir.</p>
-      <p>Les autres sont des adeptes, qui connaissent leur appartenance.</p>
-      <p>Pour gagner, une équipe doit révéler les 3 secrets de l'élu de l'équipe adverse.</p>
-      <p>Pour vous aider, vous pourrez scanner les cartes "secrets" des autres joueurs et avoir des indices sur leur appartenance.</p>
+      <p id="tr-20">Dans ce jeu, chaque joueur est membre d'une société secrète.</p>
+      <p id="tr-21">Il y a deux sociétés qui s'affrontent pour la conquête du monde, les Templars et les Illuminatis.</p>
+      <p id="tr-22">Dans chaque équipe, un joueur est "l'élu", il ne connait pas son équipe et doit la découvrir.</p>
+      <p id="tr-23">Les autres sont des adeptes, qui connaissent leur appartenance.</p>
+      <p id="tr-24">Pour gagner, une équipe doit révéler les 3 secrets de l'élu de l'équipe adverse.</p>
+      <p id="tr-25">Pour vous aider, vous pourrez scanner les cartes "secrets" des autres joueurs et avoir des indices sur leur appartenance.</p>
       <img class="intro_img" src="img/Illuminati.png"></img>
       <img class="intro_img" src="img/Templar.png"></img>
       <img class="intro_img" src="img/NotChosen.png"></img>

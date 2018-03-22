@@ -18,6 +18,8 @@ const startup = require('./startup')
 const scanNotification = require('./scanNotification')
 const texts = require('./texts')
 const uuidv1 = require('uuid/v1')
+const translate = require('./translate')
+translate.translate()
 
 // TODO bg color for revelation
 game.init(updateInfos, login.startLogin)
