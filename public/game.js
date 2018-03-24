@@ -4,6 +4,7 @@ const menu = require('./menu')
 const mp = require('./mp')
 const utils = require('./utils')
 const scan = require('./scan')
+const translate = require('./translate')
 
 let socket = null
 let updateInfos = null
@@ -159,15 +160,15 @@ $('#phase-tick').on('click', function (e) {
 function gameOver(data) {
   menu.modalShow('#outro-modal')
 
-  $('#outro-winners').html(`<div><h1>Les ${data.winnerTeams}s ont gagné</h1><div>`)
+  $('#outro-winners').html(`<div><h1>Les ${translate.translateText(data.winnerTeams)}(s) ${translate.translateText('ont gagné')}</h1><div>`)
   data.winners.forEach(name => $('#outro-winners').append(
     `<img class="outro-winner-image" src="${utils.getPlayerImg(name)}"" />`
   ))
 
   data.scores.forEach(score => $('#outro-scores').append(`
     <div><h1>${score.team}</h1></div>
-    <div><h3>secrets élus révélés: ${score.chosen}</h3></div>
-    <div><h3>secrets révélés au total: ${score.total}</h3></div>
+    <div><h3>${translate.translateText('secrets élus révélés:')} ${score.chosen}</h3></div>
+    <div><h3>${translate.translateText('secrets révélés au total:')} ${score.total}</h3></div>
     `
   ))
 

@@ -117,14 +117,15 @@ function updateInfos () {
         role = self.team
         team = 'Aucune'
       }
-      let teamText = `<div>Rôle ${role}</div><div>Equipe ${team}</div>`
+      let teamText = `<div>${translate.translateText('Rôle')} ${translate.translateText(role)}</div>
+      <div>${translate.translateText('Equipe')} ${translate.translateText(team)}</div>`
       $('#self-info').html(`
-        <h2>VOTRE PERSONNAGE</h2>
-        <div class="self-name animated fadeInLeft">${playerName}</div>
+        <h2>${translate.translateText('VOTRE PERSONNAGE')}</h2>
+        <div class="self-name animated fadeInLeft">${translate.translateText(playerName)}</div>
         <img class="self-image-player animated fadeInLeft" class="mp-recipient-image" src="${utils.getPlayerImg(playerName)}" />
-        <div class="self-team animated fadeInRight">${teamText}</div>
+        <div class="self-team animated fadeInRight">${translate.translateText(teamText)}</div>
         <img class="self-image-team animated fadeInRight" src="/img/${self.team}.png" />
-        <div class="self-text animated fadeInDown">${texts.intro[self.team] ? texts.intro[self.team] : ''}</div>
+        <div class="self-text animated fadeInDown">${texts.intro[self.team] ? translate.translateText(texts.intro[self.team]) : ''}</div>
        `
       )
       updateHints(self.knowledges)
@@ -174,7 +175,6 @@ function updateRevelations () {
     if(revelationsIn) {
       revelations = revelationsIn
       dashboard.update(players, hints, checks, revelations)
-      //revelations.sort((a, b) => a.name + a.card < b.name + b.card).forEach(item=>addRevelation(item.name, item.card, item.secret))
       revelations.forEach(item => addRevelation(item.name, item.card, item.secret))
     }
   })
@@ -244,7 +244,6 @@ function addCheck(name, index, result) {
     })
   }
   let team = teamHints.reduce((a,v) => (!a && v.secret === result.secret.secret) ? v.team : a, null)
-  // let teamHtml = team ? ('<div class="revelation-card-important">' + team + '</div>') : ''
   let teamHtml = team ? ('<img class="icon" src="/img/' + team + '.png" />') : ''
 
   let hasNotRegex = /^les élus n'ont pas (.*)/i
@@ -266,11 +265,11 @@ function addCheck(name, index, result) {
       <img class="revelation-card-image-player" class="mp-recipient-image" src="/img/pawns/${utils.getImgName(name)}.jpg" />
       <div class="clearfix">
         <div class="revelation-card-index">${index}</div>
-        <div class="revelation-card-name">${name}</div>
+        <div class="revelation-card-name">${translate.translateText(name)}</div>
         <div class="revelation-card-short">${result.secret.short}</div>
         ${teamHtml}
         ${chosenHtml}
-        <div class="revelation-card-secret">${result.secret.secret}</div>
+        <div class="revelation-card-secret">${translate.translateText(result.secret.secret)}</div>
         <img class="revelation-card-image-secret" class="mp-recipient-image" src="${utils.getSecretImg(result.secret.secret)}" />
       </div>
     </div>`)
@@ -316,11 +315,11 @@ function addRevelation(name, index, result) {
       <img class="revelation-card-image-player" class="mp-recipient-image" src="/img/pawns/${utils.getImgName(name)}.jpg" />
       <div class="clearfix">
         <div class="revelation-card-index">${index}</div>
-        <div class="revelation-card-name">${name}</div>
-        <div class="revelation-card-short">${result.secret.short}</div>
+        <div class="revelation-card-name">${translate.translateText(name)}</div>
+        <div class="revelation-card-short">${translate.translateText(result.secret.short)}</div>
         ${teamHtml}
         ${chosenHtml}
-        <div class="revelation-card-secret">${result.secret.secret}</div>
+        <div class="revelation-card-secret">${translate.translateText(result.secret.secret)}</div>
         <img class="revelation-card-image-secret" class="mp-recipient-image" src="${utils.getSecretImg(result.secret.secret)}" />
       </div>
     </div>`)
@@ -549,7 +548,7 @@ function voteStart () {
     h += '<div class="vote-count" id="vote-count-' + skipSpaces(u) + '">' + 0 + '</div>'
     h += '<img class="vote-image-player" id="vote-image-' + skipSpaces(u) + '" class="mp-recipient-image" src="/img/pawns/'
             + utils.getImgName(u) + '.jpg" />'
-    h += '<div class="vote-name">' + u + '</div>'
+    h += `<div class="vote-name">${translate.translateText(u)}</div>`
     h += '</div>'
   })
 
@@ -599,25 +598,27 @@ function voteStop (log) {
   let ids = []
   // let htmlLog = log.debug.split('\n').reduce((a, v) => a + '<div class="self-secret">' + v + '</div>', '')
   if(log.powerupLog.uses.length === 0) {
-    htmlLog += '<div class="vote-result-card">pas de powerup ce tour</div>'
+    htmlLog += `<div class="vote-result-card">${translate.translateText('pas de powerup ce tour')}</div>`
   } else {
     htmlLog += log.powerupLog.uses.reduce((a, v) => {
       let id = uuidv1()
       ids.push(id)
       return a + `<div id="${id}" class="vote-result-card" style="display:none;">
-            <div class="vote-result-uses-text">${v.log}</div>
+            <div class="vote-result-uses-text">${translate.translateText(v.log)}</div>
             <img class="vote-result-uses-image" src="${utils.getSecretImg(v.secret)}" />
           </div>`
     } , '')
   }
   if(log.gameLog.revelations.length === 0) {
-    htmlLog += `<div class="vote-result-card">personne n'est révélé</div>`
+    htmlLog += `<div class="vote-result-card">${translate.translateText('personne n\'est révélé')}</div>`
   } else {
     htmlLog += log.gameLog.revelations.reduce((a, v) => {
       let id = uuidv1()
       ids.push(id)
       return a + `<div id="${id}" class="vote-result-card" style="display:none;">
-            <div class="vote-result-revealed-text">${v.name} a été révélé avec ${v.secret}</div>
+            <div class="vote-result-revealed-text">
+              ${translate.translateText(v.name)} ${translate.translateText('a été révélé avec')} ${translate.translateText(v.secret)}
+            </div>
             <img class="vote-result-revealed-image-player" src="${utils.getPlayerImg(v.name)}" />
             <img class="vote-result-revealed-image-secret" src="${utils.getSecretImg(v.secret)}" />
           </div>`

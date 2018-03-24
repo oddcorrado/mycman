@@ -5,6 +5,7 @@ const skipSpaces = require('./skipSpaces')
 const scan = require('./scan')
 const game = require('./game')
 const utils = require('./utils')
+const translate = require('./translate')
 
 let socket = null
 let players = null
@@ -47,7 +48,7 @@ const addPowerup = (powerup) => {
     <div class="powerup-card">
       <div class="clearfix animated fadeInLeft">
           <img class="powerup-card-icon" src="${utils.getSecretImg(powerup.name)}" />
-        <div class="powerup-card-value">${powerup.name}</div>
+        <div class="powerup-card-value">${translate.translateText(powerup.name)}</div>
         `
       //   <div class="powerup-card-value">TOUS LES ${powerup.cooldownPeriod} TOURS</div>
 
@@ -60,9 +61,12 @@ const addPowerup = (powerup) => {
   if(powerup.available) {
     if(powerup.cooldown <= 0) {
       isAnyPowerUpAvailable = true
-      html += '<div id="powerup-' + skipSpaces(powerup.name) + '"class="powerup-card-use general-button">UTILISER</div>'
+      html += `
+        <div id="powerup-${skipSpaces(powerup.name)}" class="powerup-card-use general-button">
+          ${translate.translateText('UTILISER')}
+        </div>`
     } else {
-      html += `<div class="powerup-card-used general-button">${powerup.cooldown} tours</div>`
+      html += `<div class="powerup-card-used general-button">${powerup.cooldown} ${translate.translateText('tours')}</div>`
     }
   }
 
@@ -78,15 +82,15 @@ const addPowerup = (powerup) => {
 
 
   html += '</div>'
-  html += '<div class="powerup-card-help animated fadeInRight">' + powerup.help + '</div>'
+  html += `<div class="powerup-card-help animated fadeInRight">${translate.translateText(powerup.help)}</div>`
   if(powerup.targetMax > 0) {
     if(!powerup.inUse) {
       if(!(game.getOptions().doScan > 0)) {
         html += '<select class="animated fadeInRight" id="powerup-target-' + skipSpaces(powerup.name) + '">'
         if(powerup.targetNoSelf) {
-          html += players.filter(v => v !== playerName).reduce((a, v) => a + '<option value="' + v + '">' + v + '</option>', '')
+          html += players.filter(v => v !== playerName).reduce((a, v) => a + '<option value="' + v + '">' + translate.translateText(v) + '</option>', '')
         } else {
-          html += players.reduce((a, v) => a + '<option value="' + v + '">' + v + '</option>', '')
+          html += players.reduce((a, v) => a + '<option value="' + v + '">' + translate.translateText(v) + '</option>', '')
         }
         html += '<select>'
       }
