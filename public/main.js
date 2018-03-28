@@ -18,11 +18,14 @@ const startup = require('./startup')
 const scanNotification = require('./scanNotification')
 const texts = require('./texts')
 const uuidv1 = require('uuid/v1')
-const translate = require('./translate')
-translate.translate()
+
+
 
 // TODO bg color for revelation
+console.log(game)
 game.init(updateInfos, login.startLogin)
+const translate = require('./translate')
+translate.translate()
 
 require('moment/locale/fr')
 moment.locale('fr')
@@ -149,7 +152,7 @@ function updateHints (hintsIn) {
         hint = hint.slice(0, index) + hint.slice(index, index + 1).toUpperCase() + hint.slice (index + 1)
       }
     }
-    hintsHtml += '<div class="self-hint-separator"><div class="self-hint">' + hint + '</div></div>'
+    hintsHtml += '<div class="self-hint-separator"><div class="self-hint">' + translate.translateSub(hint) + '</div></div>'
   })
 
 //  $('#self-hints').html(hintsHtml)

@@ -16,6 +16,22 @@ let clickCnt = 0
 const setSocket = (socketIn) => {
   socket = socketIn
 
+  $('#game-options-result').html('')
+  socket.emit('game-options-get', (result) => {
+    var out = ''
+    let options = ''
+    gameOptions = Object.assign({}, result)
+
+    Object.keys(result).forEach(k => {
+      out += '<div>['+k+']=>'+result[k]+'</div>'
+      options += '<option value="' + k + '">' + k + '</option>'
+    })
+    $('#game-options-result').html(out)
+    $('#game-options-set-key').html(options)
+    translate.setLanguage(gameOptions.lg)
+  })
+
+
   socket.on('game-reset', () => {
     $('#self').html('')
     $('#check-result').html('')
@@ -99,6 +115,7 @@ const setSocket = (socketIn) => {
       })
       $('#game-options-result').html(out)
       $('#game-options-set-key').html(options)
+      translate.setLanguage(gameOptions.lg)
     })
   })
 
