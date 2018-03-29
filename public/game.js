@@ -68,6 +68,11 @@ const setSocket = (socketIn) => {
     socket.emit('game-start')
   })
 
+  $('#pause').on('click', function (e) {
+    e.preventDefault()
+    socket.emit('game-pause')
+  })
+
   $('#start-decision').on('click', function (e) {
     e.preventDefault()
     socket.emit('decision-start')
