@@ -145,14 +145,17 @@ function updateHints (hintsIn) {
     return
   }
   hints.forEach(hint => {
-    if(hint.slice(0, 1) === "!") {
-      hint = hint.slice(1)
+    let text = hint.text
+    if(text.slice(0, 1) === "!") {
+      text = hint.text.slice(1)
       if(Math.random() < glitchRatio) {
-        let index = Math.trunc(Math.random() * hint.length)
-        hint = hint.slice(0, index) + hint.slice(index, index + 1).toUpperCase() + hint.slice (index + 1)
+        let index = Math.trunc(Math.random() * text.length)
+        text = text.slice(0, index) + text.slice(index, index + 1).toUpperCase() + text.slice (index + 1)
       }
     }
-    hintsHtml += '<div class="self-hint-separator"><div class="self-hint">' + translate.translateSub(hint) + '</div></div>'
+    let id = hint.id ? hint.id + ' : ' : ''
+    hintsHtml +=
+     `<div class="self-hint-separator"><div class="self-hint">${id}${translate.translateSub(text)}</div></div>`
   })
 
 //  $('#self-hints').html(hintsHtml)

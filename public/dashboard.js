@@ -35,7 +35,7 @@ const update = (playersIn, hintsIn, checks, revelations) => {
   let hasRegex = /^les (.*) ont (.*)/i
   if(hintsIn) {
     hintsIn.forEach(hint => {
-      let r = hint.match(hasRegex)
+      let r = hint.text.match(hasRegex)
       if(r) {
         let team = r[1]
         let secret = r[2]
@@ -47,7 +47,7 @@ const update = (playersIn, hintsIn, checks, revelations) => {
   let hasNotRegex = /^les élus n'ont pas (.*)/i
   if(hintsIn) {
     hintsIn.forEach(hint => {
-      let r = hint.match(hasNotRegex)
+      let r = hint.text.match(hasNotRegex)
       if(r) {
         chosenHints.push(r[1])
       }
