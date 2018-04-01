@@ -241,7 +241,7 @@ function addCheck(name, index, result) {
   let teamHints = []
   if(hints) {
     hints.forEach(hint => {
-      let r = hint.match(hasRegex)
+      let r = hint.text.match(hasRegex)
       if(r) {
         let team = r[1]
         let secret = r[2]
@@ -256,7 +256,7 @@ function addCheck(name, index, result) {
   let chosenHints = []
   if(hints) {
     hints.forEach(hint => {
-      let r = hint.match(hasNotRegex)
+      let r = hint.text.match(hasNotRegex)
       if(r) {
         chosenHints.push(r[1])
       }
@@ -290,7 +290,7 @@ function addRevelation(name, index, result) {
   let teamHints = []
   if(hints) {
     hints.forEach(hint => {
-      let r = hint.match(hasRegex)
+      let r = hint.text.match(hasRegex)
       if(r) {
         let team = r[1]
         let secret = r[2]
@@ -306,7 +306,7 @@ function addRevelation(name, index, result) {
   let chosenHints = []
   if(hints) {
     hints.forEach(hint => {
-      let r = hint.match(hasNotRegex)
+      let r = hint.text.match(hasNotRegex)
       if(r) {
         chosenHints.push(r[1])
       }
@@ -427,6 +427,45 @@ function setupNavigation () {
   } else {
     $('#check-direct').hide()
   }
+
+  $('#hint-button').on('click', function (e) {
+    e.preventDefault()
+
+    if(!(game.getOptions().doScan > 0)) {
+      $('#hint-direct').show()
+      socket.emit('game-get-data', ['hint', Number($('#hint-index').val())], (result) => {
+        if(!result) {
+          return
+        }
+        /* if (result.doHide) {
+          $('#menuLink').show()
+          $('#check-submit').hide()
+          menu.isLeftMenuActive(true)
+        } */
+        updateInfos()
+        updateChecks()
+        updateRevelations()
+      })
+    }
+    else {
+      scan.scan({allowCancel:false, message:'Scannez un secret', filter:'secret'})
+      .then(id => {
+        let name = objects[id].name
+        let index = objects[id].card - 1
+        socket.emit('game-get-data', ['card', name, index], (result) => {
+          if (result.doHide) {
+            $('#menuLink').show()
+            $('#check-submit').hide()
+            menu.isLeftMenuActive(true)
+          }
+          updateInfos()
+          updateChecks()
+          updateRevelations()
+        })
+
+      })
+    }
+  })
 
   $('#check-button').on('click', function (e) {
     e.preventDefault()

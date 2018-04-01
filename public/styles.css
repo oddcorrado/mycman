@@ -230,6 +230,10 @@ button {
   border-bottom: solid #ffffff 1px;
 }
 
+#hint-index {
+  width: 90%;
+}
+
 .help-title {
   margin: 2px;
   padding: 6px;
