@@ -448,21 +448,22 @@ function setupNavigation () {
       })
     }
     else {
-      scan.scan({allowCancel:false, message:'Scannez un secret', filter:'secret'})
+      scan.scan({allowCancel:false, message:'Scannez un indice', filter:'hint'})
       .then(id => {
-        let name = objects[id].name
         let index = objects[id].card - 1
-        socket.emit('game-get-data', ['card', name, index], (result) => {
-          if (result.doHide) {
+        socket.emit('game-get-data', ['hint', index], (result) => {
+          if(!result) {
+            return
+          }
+          /* if (result.doHide) {
             $('#menuLink').show()
             $('#check-submit').hide()
             menu.isLeftMenuActive(true)
-          }
+          } */
           updateInfos()
           updateChecks()
           updateRevelations()
         })
-
       })
     }
   })
