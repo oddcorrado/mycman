@@ -72,6 +72,9 @@ let feedback = (id) => {
   if(objects[id].type === 'secret') {
     return 'Secret ' + (objects[id].card || ' ') + ' ' + (objects[id].name || 'inconnu')
   }
+  if(objects[id].type === 'hint'){
+    return 'Indice ' + (objects[id].card) 
+  }
 }
 
 let cameraFound = (videoParams) => {
@@ -176,6 +179,7 @@ $('#nav-scan').on('click', function (e) {
 
 const newObjects = (objectsIn) => {
   objects = objectsIn
+  console.log(objects)
 }
 
 const scan = ({allowCancel, message, filter}) => {

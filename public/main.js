@@ -447,10 +447,10 @@ function setupNavigation () {
         updateRevelations()
       })
     }
-    else {
+     else {
       scan.scan({allowCancel:false, message:'Scannez un indice', filter:'hint'})
       .then(id => {
-        let index = objects[id].card - 1
+        let index = objects[id].card //- 1
         socket.emit('game-get-data', ['hint', index], (result) => {
           if(!result) {
             return
