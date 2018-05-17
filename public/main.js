@@ -153,7 +153,7 @@ function updateHints (hintsIn) {
         text = text.slice(0, index) + text.slice(index, index + 1).toUpperCase() + text.slice (index + 1)
       }
     }
-    let id = hint.id ? hint.id + ' : ' : ''
+    let id = hint.id ? (hint.id + 1) + ' : ' : ''
     hintsHtml +=
      `<div class="self-hint-separator"><div class="self-hint">${id}${translate.translateSub(text)}</div></div>`
   })
