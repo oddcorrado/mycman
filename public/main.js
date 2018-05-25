@@ -630,7 +630,7 @@ function voteSelect (votes) {
 }
 
 function voteStop (log) {
-  menu.isLeftMenuActive(false)
+  // menu.isLeftMenuActive(false)
   // $('#vote-quit').show()
   menu.hideAll()
   $('#check').show()
