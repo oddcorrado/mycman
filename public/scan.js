@@ -97,6 +97,7 @@ let cameraFound = (videoParams) => {
           }
 
           if(founds.length > 0) {
+            // console.log('FOUNDS', founds)
             scans = founds
           }
           if(scans.length >= 1) {
@@ -150,6 +151,7 @@ let cameraFound = (videoParams) => {
 function cameraSetup (arController) {
   document.body.className = arController.orientation
   arController.setPatternDetectionMode(artoolkit.AR_TEMPLATE_MATCHING_MONO_AND_MATRIX)
+  arController.setMatrixCodeType(artoolkit.AR_MATRIX_CODE_4x4_BCH_13_9_3)
   renderer = new THREE.WebGLRenderer({antialias: true})
   /* if (arController.orientation === 'portrait') */ {
     var w = 280
