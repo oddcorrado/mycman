@@ -1,5 +1,6 @@
 const getImgName = (name) => {
-  return name.replace(/ /g, '')
+  return name.toLowerCase()
+            .replace(/ /g, '')
             .replace(/[éèêë]/g, 'e')
             .replace(/[à]/g, 'a')
             .replace(/[']/g, '')

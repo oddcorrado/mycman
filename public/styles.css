@@ -210,7 +210,16 @@ button {
   font-size: 1.5em;
   color: #ffffff;
   text-align: center;
-  background: linear-gradient(to top, rgb(75, 0, 10), rgb(150, 0, 20));
+  background: linear-gradient(to top, rgb(28, 0, 47), rgb(90, 0, 150));
+}
+
+#hint-button {
+  margin: 4px;
+  padding: 12px;
+  font-size: 1.5em;
+  color: #ffffff;
+  text-align: center;
+  background: linear-gradient(to top, rgb(28, 0, 47), rgb(90, 0, 150));
 }
 
 #check-scan {
